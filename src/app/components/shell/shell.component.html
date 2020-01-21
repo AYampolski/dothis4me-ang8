@@ -1,6 +1,28 @@
 <div class="container">
-    <div class="intro">Video</div>
+    <div class="intro">
+        <div class="intro__video">
+            Video
+        </div>
+        <div class="intro__description">
+            <a >How dothis4me works? </a>
+        </div>
+    </div>
+
+    <div class="requestor">
+        <mat-form-field>
+           <input matInput placeholder="Enter motion id..." [(ngModel)]="motionId"  />
+          </mat-form-field>
+        <button [routerLink]="['/requestor']" routerLinkActive="router-link-active" class="btn btn--info" >Join</button>
+
+    </div>
+    <div class="devider">
+         - or -
+    </div>
     <div class="creator">
-        <button [routerLink]="['/motion']" routerLinkActive="router-link-active" >I mote</button>
+        <button [routerLink]="['/motion']" routerLinkActive="router-link-active" class="btn btn--primary" >I mote</button>
+    </div>
+
+    <div class="sub-info">
+        <button (click)="logOut()" class="btn btn--sub-primary">Log out</button>
     </div>
 </div>

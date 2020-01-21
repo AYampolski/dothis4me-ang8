@@ -1,15 +1,20 @@
-<header >Do it for me</header>
+<div class="container">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>{{ "do it for me" | titlecase }}</mat-card-title>
+    </mat-card-header>
 
-<router-outlet></router-outlet>
+    <mat-card-content>
+      <router-outlet></router-outlet>
+    </mat-card-content>
 
-<footer>
-  <div>
-    <p>Privete policy</p>
-    <p>Terms and Services</p>
-    <p>About us</p>
+    <mat-card-actions>
+      <button mat-button>Privacy policy</button>
+      <button mat-button>Terms and Services</button>
+      <button mat-button>About us</button>
+    </mat-card-actions>
+  </mat-card>
+  <div class="loading__container" *ngIf="loading">
+    <div class="lds-hourglass loading__content"></div>
   </div>
-  <!-- TEST -->
-  <h4>TEST</h4>
-  <button (click)="createMotion()">create motion</button>
-  <button (click)="createAuction()">create auction</button>
-</footer>
+</div>

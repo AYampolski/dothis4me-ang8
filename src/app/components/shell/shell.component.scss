@@ -1,0 +1,41 @@
+@import "../../shared/variables.scss";
+
+.btn {
+    color: #fff;
+    &--primary {
+        background-color: $primaryColor;
+    }
+    &--info {
+        background-color: $infoColor;
+        margin-left: 2em;
+    }
+    &--sub-primary {
+        background-color: $subPrimaryColor;
+        color: black;
+    }
+}
+
+.container {
+    justify-content: center;
+}
+
+.requestor, .creator, .sub-info, .devider, .intro {
+    display: flex;
+    justify-content: center;
+}
+
+.intro {
+    flex-direction: column;
+    align-items: center;
+    &__video {
+        margin-bottom: 1.2em;
+    }
+}
+
+.requestor, .devider, .creator, .intro {
+    margin-bottom: 1.2em;
+}
+
+.creator {
+
+}

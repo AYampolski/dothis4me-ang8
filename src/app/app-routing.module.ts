@@ -4,6 +4,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { ShellComponent } from './components/shell/shell.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 
+import { LoginComponent } from './components/login/login.component';
+
+import { LogedInGuard } from '@services-cust/guards/loged-in.guard';
+import { HomeGuard } from '@services-cust/guards/home.guard';
+
 const routes: Routes = [
   {
     path: '',
@@ -11,12 +16,23 @@ const routes: Routes = [
     redirectTo: '/home'
   },
   {
+    path: 'login',
+    canActivate: [LogedInGuard],
+    component: LoginComponent,
+
+  },
+  {
     path: 'home',
+    canActivate: [HomeGuard],
     component: ShellComponent
   },
   {
     path: 'motion',
     loadChildren: () => import('./modules/creator/creator.module').then( mod => { console.log('lazy loading'); return mod.CreatorModule;})
+  },
+  {
+    path: 'requestor',
+    loadChildren: () => import('./modules/requestor/requestor.module').then( mod => mod.RequestorModule)
   },
   {
     path: '**',
