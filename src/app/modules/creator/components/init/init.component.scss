@@ -1,0 +1,19 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .example-container > * {
+    width: 100%;
+  }
+
+.container {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.container-super {
+    display: flex;
+    justify-content: center;
+}
