@@ -20,6 +20,7 @@ import { environment } from '../environments/environment';
 import { LoginComponent } from './components/login/login.component';
 
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { LoadingComponent } from './components/loading/loading.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     AppComponent,
     ShellComponent,
     NotfoundComponent,
-    LoginComponent
+    LoginComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

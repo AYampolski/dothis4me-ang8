@@ -15,7 +15,5 @@
       <button mat-button>About us</button>
     </mat-card-actions>
   </mat-card>
-  <div class="loading__container" *ngIf="loading">
-    <div class="lds-hourglass loading__content"></div>
-  </div>
+  <app-loading [loading]="loading"></app-loading>
 </div>
