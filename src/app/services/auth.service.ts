@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase';
 
+import { StateService } from '@services-cust/state.service';
+
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -12,14 +14,19 @@ export class AuthService {
 
   constructor(
     public afAuth: AngularFireAuth,
-    private router: Router
+    private router: Router,
+    private stateService: StateService,
   ) {
     this.afAuth.authState.subscribe(user => {
       if(user) {
         this.currentUser = user;
         console.log('[AUTH_SERVICE] you are logged in');
+        console.log('[AUTH_SERVICE] set user common property to [STATE_SERVICE] ');
+        this.stateService.userInfo = user.email;
+        console.log('[AUTH_SERVICE] user: ', user);
       } else {
         this.currentUser = null;
+        this.stateService.userInfo = null;
         console.log('[AUTH_SERVICE] you are not logged in');
       }
     });

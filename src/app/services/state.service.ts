@@ -10,6 +10,7 @@ export class StateService {
   auction: MotionAuctionItem;
   motionId: string;
   auctionsGroup: MotionAuctionItem[];
+  userInfo: string;
   constructor() { }
 
   setMotion(motion: MotionInstance){

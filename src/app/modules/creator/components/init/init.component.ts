@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CreatorActionsService } from '@services-cust/creator-actions.service'
+import { CreatorActionsService } from '@services-cust/creator-actions.service';
+
+import { FirestoreCreatorActionsService } from '@services-cust/fireStore/firestore-creator-actions.service';
 
 import * as moment from 'moment';
 
@@ -12,11 +14,21 @@ export class InitComponent implements OnInit {
   selectedDate;
   title;
   proposal;
-  constructor(private creatorServices: CreatorActionsService) { }
+  constructor(
+    private creatorServices: CreatorActionsService,
+    private firebaseCreatorService: FirestoreCreatorActionsService
+    ) { }
 
   ngOnInit() {
 
   }
+  // +++++++++++
+
+  firestoreCreateMotion(){
+    this.firebaseCreatorService.addMotion();
+  }
+
+  // ===========
 
   createMotion() {
     const lastCall =  moment.utc(this.selectedDate).format('x');

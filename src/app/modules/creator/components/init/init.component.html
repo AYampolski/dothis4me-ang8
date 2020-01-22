@@ -16,7 +16,7 @@
       [(ngModel)]="selectedDate"
     >
     </dl-date-time-picker>
-    <button mat-raised-button color="primary" (click)="createMotion()">Create motion</button>
+    <button mat-raised-button color="primary" (click)="firestoreCreateMotion()">Create motion</button>
     <h4>last call time until user can bid</h4>
 
     <h3>Date: {{ selectedDate | date: "short" }}</h3>

@@ -19,6 +19,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { environment } from '../environments/environment';
 import { LoginComponent } from './components/login/login.component';
 
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import { LoginComponent } from './components/login/login.component';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
+    AngularFirestoreModule,
     MatCardModule,
     MatInputModule,
     MatFormFieldModule,

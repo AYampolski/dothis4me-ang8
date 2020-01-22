@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 import { CreatorActionsService } from '@services-cust/creator-actions.service';
 import { RequestorActionsService } from '@services-cust/requestor-actions.service';
-import {  AuthService } from '@services-cust/auth.service';
+import { AuthService } from '@services-cust/auth.service';
 import { RouterEvent, NavigationStart, NavigationCancel, NavigationEnd, NavigationError, Router } from '@angular/router';
 
+import { StateService } from '@services-cust/state.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,10 +15,12 @@ export class AppComponent implements OnInit {
   title = 'dothis4me-ang8';
   loading = false;
   constructor(
+    public stateService: StateService,
     private creatorService: CreatorActionsService,
     private requestorService: RequestorActionsService,
     private authService: AuthService,
     private router: Router,
+
   ){
     this.router.events.subscribe( (routerEvent: RouterEvent) => {
       this.checkRouterEvent(routerEvent);
