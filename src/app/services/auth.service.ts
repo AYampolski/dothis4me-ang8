@@ -23,6 +23,7 @@ export class AuthService {
         console.log('[AUTH_SERVICE] you are logged in');
         console.log('[AUTH_SERVICE] set user common property to [STATE_SERVICE] ');
         this.stateService.userInfo = user.email;
+        this.stateService.user = user;
         console.log('[AUTH_SERVICE] user: ', user);
       } else {
         this.currentUser = null;

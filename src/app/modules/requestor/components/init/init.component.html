@@ -1,16 +1,17 @@
 <div class="container-super">
-    <mat-card class="container">
-      <mat-form-field>
-        <!-- <input matInput placeholder="I plan to motion soon..."  [(ngModel)]="title"/> -->
-      </mat-form-field>
+  <mat-card class="container">
+  <app-motion-input [userInfo]="this.stateService.motionInfo" [motionInfo]="this.stateService.motion"></app-motion-input>
+    <mat-form-field>
+      <input matInput placeholder="I plan to motion soon..."  [(ngModel)]="title"/>
+    </mat-form-field>
 
-      <mat-form-field>
-        <!-- <textarea matInput placeholder="What I can do for the people" [(ngModel)]="proposal"></textarea> -->
-      </mat-form-field>
+    <mat-form-field>
+      <textarea matInput placeholder="What I can do for the people" [(ngModel)]="proposal"></textarea>
+    </mat-form-field>
 
-      <!-- <button mat-raised-button color="primary" (click)="createMotion()">Create motion</button> -->
-      <h4>last call time until user can bid</h4>
 
-      <!-- <h3>Date: {{ selectedDate | date: "short" }}</h3> -->
-    </mat-card>
-  </div>
+
+    <h4>last call time until user can bid</h4>
+
+  </mat-card>
+</div>

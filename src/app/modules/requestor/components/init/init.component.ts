@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { StateService } from '@services-cust/state.service';
+
 @Component({
   selector: 'app-init',
   templateUrl: './init.component.html',
@@ -7,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InitComponent implements OnInit {
 
-  constructor() { }
+  title
+  proposal
+  constructor(
+    public stateService: StateService
+  ) { }
 
   ngOnInit() {
   }

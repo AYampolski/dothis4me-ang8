@@ -10,6 +10,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 
+import { SharedModule } from '../shared/shared.module';
+
 
 @NgModule({
   declarations: [InitComponent],
@@ -20,7 +22,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    SharedModule,
   ]
 })
 export class RequestorModule { }

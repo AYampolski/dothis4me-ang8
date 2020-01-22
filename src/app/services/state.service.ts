@@ -9,11 +9,15 @@ export class StateService {
   motion: MotionInstance;
   auction: MotionAuctionItem;
   motionId: string;
+  user: any;
   auctionsGroup: MotionAuctionItem[];
   userInfo: string;
+  motionInfo = 'Some Guy'
+  // motionObject: MotionInstance;
   constructor() { }
 
   setMotion(motion: MotionInstance){
+    console.log('motion set')
     this.motion = motion;
   }
 
