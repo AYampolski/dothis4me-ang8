@@ -1,6 +1,11 @@
 <div class="container-super">
   <mat-card class="container">
-  <app-motion-input [userInfo]="this.stateService.motionInfo" [motionInfo]="this.stateService.motion"></app-motion-input>
+  <app-motion-input
+    [userInfo]="this.stateService.motionInfo"
+    [motionInfo]="this.stateService.motionInfo"
+    [motionId]="this.stateService.motionId"
+    >
+  </app-motion-input>
     <mat-form-field>
       <input matInput placeholder="I plan to motion soon..."  [(ngModel)]="title"/>
     </mat-form-field>

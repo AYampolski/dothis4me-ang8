@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@services-cust/auth.service';
+import { FirestoreCommonActionsService } from '@services-cust/fireStore/firestore-common-actions.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shell',
@@ -9,7 +11,9 @@ import { AuthService } from '@services-cust/auth.service';
 export class ShellComponent implements OnInit {
   motionId;
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private commonActions: FirestoreCommonActionsService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -17,6 +21,23 @@ export class ShellComponent implements OnInit {
 
   logOut(){
     this.authService.logOut();
+  }
+
+  checkJoin(id ) {
+    // import { Router } from '@angular/router';
+    this.router.navigate(['/requestor', this.motionId]);
+    // [routerLink]="['/requestor', motionId]"
+    // this.commonActions.getMotionById(id).subscribe(
+    //   doc => {
+    //     console.log('[SHELL COMPONENT] NEXT', doc);
+    //   },
+    //   err => {
+    //     console.log('[SHELL COMPONENT] errors ', err);
+    //   },
+    //   () => {
+    //     console.log('[SHELL COMPONENT]  complete')
+    //   }
+    // )
   }
 
 }

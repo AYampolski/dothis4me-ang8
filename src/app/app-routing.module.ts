@@ -8,6 +8,7 @@ import { LoginComponent } from './components/login/login.component';
 
 import { LogedInGuard } from '@services-cust/guards/loged-in.guard';
 import { HomeGuard } from '@services-cust/guards/home.guard';
+import { JoinGuard } from '@services-cust/guards/join.guard';
 
 const routes: Routes = [
   {
@@ -31,7 +32,8 @@ const routes: Routes = [
     loadChildren: () => import('./modules/creator/creator.module').then( mod => { console.log('lazy loading'); return mod.CreatorModule;})
   },
   {
-    path: 'requestor',
+    path: 'requestor/:id',
+    canActivate: [JoinGuard],
     loadChildren: () => import('./modules/requestor/requestor.module').then( mod => mod.RequestorModule)
   },
   {

@@ -12,7 +12,7 @@ export class StateService {
   user: any;
   auctionsGroup: MotionAuctionItem[];
   userInfo: string;
-  motionInfo = 'Some Guy'
+  motionInfo: any;
   // motionObject: MotionInstance;
   constructor() { }
 

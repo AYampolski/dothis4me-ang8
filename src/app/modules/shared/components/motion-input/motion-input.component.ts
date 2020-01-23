@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material/icon';
@@ -8,14 +8,16 @@ import { take, map, takeWhile } from 'rxjs/operators';
 
 import { Timer } from '@models-cust/timer.model';
 
+import { StateService } from '@services-cust/state.service';
+
 @Component({
   selector: 'app-motion-input',
   templateUrl: './motion-input.component.html',
   styleUrls: ['./motion-input.component.scss']
 })
-export class MotionInputComponent implements OnInit {
+export class MotionInputComponent implements OnInit, AfterViewInit  {
 
-  expTime = 1579700700000;
+  expTime;
   endSeconds;
   timerTime: Timer;
 
@@ -30,24 +32,36 @@ export class MotionInputComponent implements OnInit {
 
   @Input() userInfo;
   @Input() motionInfo;
+  @Input() motionId;
 
-  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+  constructor(
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer,
+    public stateService: StateService
+    ) {
     iconRegistry.addSvgIcon(
       'thumbs-up',
       sanitizer.bypassSecurityTrustResourceUrl('assets/copy.svg'));
 
-    this.timerTime = { time: +(moment.utc(new Date()).format('x'))};
-    this.endSeconds = (this.expTime - this.timerTime.time) / 1000;
-    if(this.endSeconds > 0 ){
-      this.coutDown$.subscribe();
-    }
-
-    console.log('LOOOK', this.motionInfo);
-
+    this.timerTime = Object.assign({}, {time: parseInt(moment.utc(new Date()).format('x')) })
 
   }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit(){
+    console.log('!!!!!!!!')
+    console.log('[motion object] some', this.motionInfo);
+    this.expTime = this.motionInfo.lastCall;
+    // this.timerTime = { time: +(moment.utc(new Date()).format('x'))};
+    this.endSeconds = (this.expTime - this.timerTime.time) / 1000;
+    console.log('[MOTINO INPUT] endSeconds', this.endSeconds)
+    if(this.endSeconds > 0 ){
+      this.coutDown$.subscribe();
+    }
+
+    // console.log('LOOOK', this.motionInfo.lastCall);
   }
 
   //Number of seconds

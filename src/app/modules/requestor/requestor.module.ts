@@ -11,10 +11,11 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 
 import { SharedModule } from '../shared/shared.module';
+import { TestComponent } from './components/test/test.component';
 
 
 @NgModule({
-  declarations: [InitComponent],
+  declarations: [InitComponent, TestComponent],
   imports: [
     CommonModule,
     RequestorRoutingModule,

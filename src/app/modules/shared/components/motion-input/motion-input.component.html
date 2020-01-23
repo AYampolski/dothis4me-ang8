@@ -1,10 +1,10 @@
 <div class="container">
 
 
-  <form class="motion__container">
+  <div class="motion__container">
     <div>motion #</div>
     <mat-form-field>
-      <input matInput #userinput />
+      <input matInput #userinput  [(ngModel)]="motionId" />
     </mat-form-field>
     <div>
       <mat-icon
@@ -16,12 +16,12 @@
 
       ></mat-icon>
     </div>
-  </form>
+  </div>
 
   <div class="title">
 
     <span class="title__user-info">
-      {{userInfo}}
+      {{this.motionInfo.lastCall}}
     </span>
 
     <span class="title__common">

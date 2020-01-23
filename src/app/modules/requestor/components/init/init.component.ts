@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { StateService } from '@services-cust/state.service';
+// import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-init',
@@ -12,10 +13,12 @@ export class InitComponent implements OnInit {
   title
   proposal
   constructor(
-    public stateService: StateService
+    public stateService: StateService,
+    // private router: Router,
   ) { }
 
   ngOnInit() {
+    console.log('[REQUESTOR MODULE INIT COMPONENT]' , );
   }
 
 }

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { InitComponent } from './components/init/init.component';
-
+import { TestComponent } from './components/test/test.component';
 
 const routes: Routes = [
   {
@@ -11,7 +11,11 @@ const routes: Routes = [
       {
         path: '',
         component: InitComponent
-      }
+      },
+      // {
+      //   path: '',
+      //   component: TestComponent
+      // }
     ]
   }
 ];

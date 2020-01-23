@@ -7,6 +7,7 @@ import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -15,6 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   imports: [
     CommonModule,
     HttpClientModule,
+    FormsModule,
     MatIconModule,
     MatInputModule,
     MatButtonModule,
