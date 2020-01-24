@@ -3,8 +3,8 @@ import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material/icon';
 import { timer } from 'rxjs';
-import * as moment from "moment";
-import { take, map, takeWhile } from 'rxjs/operators';
+import * as moment from 'moment';
+import { map, takeWhile } from 'rxjs/operators';
 
 import { Timer } from '@models-cust/timer.model';
 
@@ -43,31 +43,29 @@ export class MotionInputComponent implements OnInit, AfterViewInit  {
       'thumbs-up',
       sanitizer.bypassSecurityTrustResourceUrl('assets/copy.svg'));
 
-    this.timerTime = Object.assign({}, {time: parseInt(moment.utc(new Date()).format('x')) })
+    this.timerTime = Object.assign({}, {time: +(moment.utc(new Date()).format('x')) });
 
   }
 
   ngOnInit() {
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.expTime = this.motionInstance.lastCall;
     this.endSeconds = (this.expTime - this.timerTime.time) / 1000;
-    console.log('[MOTINO INPUT] endSeconds', this.endSeconds)
-    if(this.endSeconds > 0 ){
+    console.log('[MOTINO INPUT] endSeconds', this.endSeconds);
+    if (this.endSeconds > 0 ) {
       this.coutDown$.subscribe();
     }
-
-    // console.log('LOOOK', this.motionInfo.lastCall);
   }
 
-  //Number of seconds
-  timerSettings(expireTime: number):number {
-    return ((expireTime - parseInt(moment.utc(new Date()).format('x'))) / 1000);
+  // Number of seconds
+  timerSettings(expireTime: number): number {
+    return ((expireTime - +(moment.utc(new Date()).format('x'))) / 1000);
 
   }
 
-  copyInputMessage(inputElement){
+  copyInputMessage(inputElement) {
     inputElement.select();
     document.execCommand('copy');
     inputElement.setSelectionRange(0, 0);

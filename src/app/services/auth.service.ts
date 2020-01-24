@@ -39,10 +39,10 @@ export class AuthService {
     private toastr: ToastrService,
   ) { }
 
-  showSuccess(message){
+  showSuccess(message) {
     this.toastr.success(message);
   }
-  showError(message){
+  showError(message) {
     this.toastr.error(message);
   }
 
@@ -59,7 +59,7 @@ export class AuthService {
       }
     }, err => {
       console.log(`${AuthConsts.name} check err => ${err}`);
-    }, () => {console.log(AuthConsts.name, ' check it . it is complete')})
+    }, () => {console.log(AuthConsts.name, ' check it . it is complete'); });
   }
 
   getCurrentUser() {

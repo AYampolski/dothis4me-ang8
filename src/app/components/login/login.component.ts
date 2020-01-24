@@ -20,48 +20,38 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  showError(err){
+  showError(err) {
     this.toastr.error(err);
   }
 
-  loginGoogle(){
+  loginGoogle() {
     this.authService.googleAuthLogin().subscribe(
       item => console.log('!!!!!!!!!!!!', item),
       err => {
         console.log('error in component check it pls', err);
         this.showError(err);
       }
-    )
-
-    // .then(checkIt => {
-    //   console.log('checkit ', checkIt);
-    // });
+    );
   }
 
-  loginEmail(){
+  loginEmail() {
     this.authService.emailPasswordLogin(this.email, this.password)
     .subscribe( next => {
       console.log('!???!?!?!?!?', next);
     },
     err => {
       console.log('EROR ....', err);
-    })
-    // .then(checkIt => {
-    //   console.log('checkit ', checkIt);
-    // });
+    });
+
   }
 
-  logupEmail(){
+  logupEmail() {
     this.authService.emailPasswordLogup(this.email, this.password, this.displayName).subscribe( next => {
       console.log('!???!?!?!?!?', next);
     },
     err => {
       console.log('EROR ....', err);
-    })
-
-    // .then(checkIt => {
-    //   console.log('checkit ', checkIt);
-    // });
+    });
   }
 
 }

@@ -19,8 +19,8 @@ export class StateService {
   // motionObject: MotionInstance;
   constructor() { }
 
-  setMotion(motion: MotionInstance){
-    console.log('motion set')
+  setMotion(motion: MotionInstance) {
+    console.log('motion set');
     this.motion = motion;
   }
 
@@ -31,7 +31,7 @@ export class StateService {
   getMotionId() {
     return this.motionId;
   }
-  setAuction(auction: MotionAuctionItem){
+  setAuction(auction: MotionAuctionItem) {
     this.auction = auction;
   }
 
@@ -39,7 +39,7 @@ export class StateService {
     this.auctionsGroup.push(auction);
   }
 
-  clearAuction(){
+  clearAuction() {
     this.auctionsGroup = [];
   }
 }
