@@ -17,6 +17,7 @@ import { StateService } from '@services-cust/state.service';
 })
 export class MotionInputComponent implements OnInit, AfterViewInit  {
 
+  @Input() motionInstance;
   expTime;
   endSeconds;
   timerTime: Timer;
@@ -30,9 +31,8 @@ export class MotionInputComponent implements OnInit, AfterViewInit  {
     takeWhile(x => x > 0)
   );
 
-  @Input() userInfo;
-  @Input() motionInfo;
-  @Input() motionId;
+
+
 
   constructor(
     iconRegistry: MatIconRegistry,
@@ -51,10 +51,7 @@ export class MotionInputComponent implements OnInit, AfterViewInit  {
   }
 
   ngAfterViewInit(){
-    console.log('!!!!!!!!')
-    console.log('[motion object] some', this.motionInfo);
-    this.expTime = this.motionInfo.lastCall;
-    // this.timerTime = { time: +(moment.utc(new Date()).format('x'))};
+    this.expTime = this.motionInstance.lastCall;
     this.endSeconds = (this.expTime - this.timerTime.time) / 1000;
     console.log('[MOTINO INPUT] endSeconds', this.endSeconds)
     if(this.endSeconds > 0 ){

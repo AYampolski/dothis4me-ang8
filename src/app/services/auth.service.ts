@@ -1,10 +1,29 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase';
+import { Router } from '@angular/router';
+import { from, Observable, throwError, of } from 'rxjs';
+import { switchMap, catchError, tap } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 import { StateService } from '@services-cust/state.service';
+import { ApiService } from '@services-cust/fireStore/api.service';
+import { User } from '@models-cust/user.model';
 
-import { Router } from '@angular/router';
+
+enum AuthConsts {
+  name = '[AUTH_SERVICE]',
+  logOutError = 'Sign out with error',
+  logOutSuccess = 'Sign out successed!',
+  emailSignUpSuccessed = 'Sign up email successed',
+  emailSignUpError = 'Sign up email error',
+  emailSignInSuccessed = 'Sign in email successed',
+  emailSignInError = 'Sign in email error',
+  logInSuccess = 'Sign in success',
+  logInError = 'Sign in erorr',
+  loggedInUserPath = '/home',
+  loggedOutPath = '/login'
+}
 
 @Injectable({
   providedIn: 'root'
@@ -16,99 +35,96 @@ export class AuthService {
     public afAuth: AngularFireAuth,
     private router: Router,
     private stateService: StateService,
-  ) {
-    this.afAuth.authState.subscribe(user => {
-      if(user) {
-        this.currentUser = user;
-        console.log('[AUTH_SERVICE] you are logged in');
-        console.log('[AUTH_SERVICE] set user common property to [STATE_SERVICE] ');
-        this.stateService.userInfo = user.email;
-        this.stateService.user = user;
-        console.log('[AUTH_SERVICE] user: ', user);
+    private apiService: ApiService,
+    private toastr: ToastrService,
+  ) { }
+
+  showSuccess(message){
+    this.toastr.success(message);
+  }
+  showError(message){
+    this.toastr.error(message);
+  }
+
+  checkUserStatus() {
+    this.afAuth.auth.onAuthStateChanged(user => {
+      if (user) {
+        this.stateService.user = this.createUserObject(user);
+        this.showSuccess('You are logged in!');
+        this.router.navigate([AuthConsts.loggedInUserPath]);
       } else {
-        this.currentUser = null;
-        this.stateService.userInfo = null;
-        console.log('[AUTH_SERVICE] you are not logged in');
+        this.showSuccess('You are logged out!');
+        this.stateService.user = null;
+        this.router.navigate([AuthConsts.loggedOutPath]);
       }
-    });
+    }, err => {
+      console.log(`${AuthConsts.name} check err => ${err}`);
+    }, () => {console.log(AuthConsts.name, ' check it . it is complete')})
   }
 
   getCurrentUser() {
     return this.currentUser;
   }
 
-
-    logOut() {
-      this.afAuth.auth.signOut().then( res => {
-        console.log('You are logged out! ', res);
-        this.router.navigate(['/login']);
-      })
-      .catch( err => {
-        console.log('some errors, ', err);
-      })
+  createUserObject(user: firebase.User, name?: string): User {
+    const { email, uid, emailVerified } = user;
+    let { displayName } = user;
+    if (!displayName && name) {
+      displayName = name;
     }
-
-
-
-  // detectionLoging(){
-    isLogedIn() {
-     this.afAuth.auth.onAuthStateChanged(user => {
-
-     })
+    const userObj = Object.assign({}, {uid, email, displayName, emailVerified});
+    return userObj;
   }
 
-  // isLogedIn() {
-  //   const logIn = this.afAuth.auth.currentUser;
-  //   if(logIn){
-  //     console.log('You loged in!', logIn);
-  //     return true;
-  //   }
-  //   console.log('You need to log in!', logIn);
-  //   return false;
+  authLogin(provider): Observable<void> {
+    return from(this.afAuth.auth.signInWithPopup(provider)).pipe(
+      switchMap( (userResponse: auth.UserCredential) => {
+        if (userResponse.additionalUserInfo.isNewUser) {
+          return this.apiService.addUserToDb(this.createUserObject(userResponse.user));
+        }
+        // need Observable<void>; this.apiService.addUserToDb return undefined
+        return of(undefined);
+      }),
+      catchError( e => {
+        return throwError(e);
+      })
+    );
+  }
 
-  // }
+  emailPasswordLogup(email, password, displayName): Observable<void> {
+    return from(this.afAuth.auth.createUserWithEmailAndPassword(email, password)).pipe(
+      tap( (userResponse: auth.UserCredential) => { userResponse.user.updateProfile({displayName}); }),
+      switchMap( (userResponse: auth.UserCredential) => {
+        return this.apiService.addUserToDb(this.createUserObject(userResponse.user, displayName));
+      }),
+      catchError( e => {
+        return throwError(e);
+      })
+    );
+  }
 
+  emailPasswordLogin(email, password): Observable<auth.UserCredential> {
+    return from(this.afAuth.auth.signInWithEmailAndPassword(email, password)).pipe(
+      tap( (logResponse) => {
+        console.warn(`${AuthConsts.name} | ${AuthConsts.emailSignInSuccessed} | ${logResponse}`);
+      }),
+      catchError(e => {
+        return throwError(e);
+      })
+    );
+  }
 
-  googleAuthLogin() {
+  logOut(): void {
+    this.afAuth.auth.signOut().then( logResponse => {
+      console.warn(`${AuthConsts.name} | ${AuthConsts.logOutSuccess} | ${logResponse}`);
+    })
+    .catch( err => {
+      console.warn(`${AuthConsts.name} | ${AuthConsts.logOutError} | ${err}`);
+    });
+  }
+
+  googleAuthLogin(): Observable<void> {
     return this.authLogin(new auth.GoogleAuthProvider());
   }
-
-  mailAuthLogin(){
-    return this.authLogin(new auth.EmailAuthProvider() )
-  }
-
-  authLogin(provider) {
-    return this.afAuth.auth.signInWithPopup(provider)
-      .then( result => {
-        console.log('You have been successfully logged in');
-        this.router.navigate(['/home']);
-      } )
-      .catch( err => {
-        console.log('Error: ', err);
-      })
-  }
-
-  emailPasswordLogup(email, password){
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-      .then( res => {
-        console.log('You are signed up!', res);
-        this.router.navigate(['/home']);
-      })
-      .catch( err => {
-        console.log('errors: ', err);
-      });
-  }
-
-  emailPasswordLogin(email, password){
-    return this.afAuth.auth.signInWithEmailAndPassword(email, password)
-      .then( res => {
-        console.log('You are signed in! ', res);
-        this.router.navigate(['/home']);
-      })
-      .catch( err => {
-        console.log('errors', err);
-      })
-  }
-
 
 }

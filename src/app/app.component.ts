@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
     this.router.events.subscribe( (routerEvent: RouterEvent) => {
       this.checkRouterEvent(routerEvent);
     });
+    this.authService.checkUserStatus();
   }
 
   ngOnInit(){

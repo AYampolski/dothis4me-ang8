@@ -1,22 +1,25 @@
 <div class="container-super">
   <mat-card class="container">
-  <app-motion-input
-    [userInfo]="this.stateService.motionInfo"
-    [motionInfo]="this.stateService.motionInfo"
-    [motionId]="this.stateService.motionId"
+    <app-motion-input
+      [motionInstance]="this.stateService.motionInfo"
     >
-  </app-motion-input>
+    </app-motion-input>
     <mat-form-field>
-      <input matInput placeholder="I plan to motion soon..."  [(ngModel)]="title"/>
+      <input
+        matInput
+        placeholder="I plan to motion soon..."
+        [(ngModel)]="title"
+      />
     </mat-form-field>
 
     <mat-form-field>
-      <textarea matInput placeholder="What I can do for the people" [(ngModel)]="proposal"></textarea>
+      <textarea
+        matInput
+        placeholder="What I can do for the people"
+        [(ngModel)]="proposal"
+      ></textarea>
     </mat-form-field>
-
-
 
     <h4>last call time until user can bid</h4>
-
   </mat-card>
 </div>

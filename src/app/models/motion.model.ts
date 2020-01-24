@@ -4,6 +4,7 @@ export interface MotionInstance {
     title: string;
     proposal: string;
     lastCall: number;
+    ownerInfo?: string;
 }
 
 export interface MotionAuctionItem {

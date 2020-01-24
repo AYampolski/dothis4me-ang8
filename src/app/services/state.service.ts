@@ -6,6 +6,9 @@ import { MotionAuctionItem, MotionInstance } from '@models-cust/motion.model';
 })
 export class StateService {
 
+  newMotionInstance: MotionInstance;
+
+
   motion: MotionInstance;
   auction: MotionAuctionItem;
   motionId: string;

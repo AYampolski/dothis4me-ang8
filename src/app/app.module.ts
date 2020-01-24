@@ -11,6 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
 
 import { FormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material';
@@ -36,6 +37,8 @@ import { LoadingComponent } from './components/loading/loading.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    ToastrModule.forRoot({ positionClass: 'toast-top-right'	 }),
+    ToastContainerModule,
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFirestoreModule,

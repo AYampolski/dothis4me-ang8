@@ -21,7 +21,7 @@
   <div class="title">
 
     <span class="title__user-info">
-      {{this.motionInfo.lastCall}}
+      {{this.motionInstance.ownerInfo}}
     </span>
 
     <span class="title__common">
@@ -32,7 +32,7 @@
 
   <div class="description">
     <div class="description__text">
-      {{motionDescription}}
+      {{this.motionInstance.proposal}}
     </div>
     <div class="description__timer" *ngIf="timerTime">
       <!-- {{(timerTime.time*1000) | date:'H:mm:ss'}} -->

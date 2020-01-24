@@ -18,7 +18,7 @@ export class JoinGuard implements CanActivate {
     // return true;
     const motionId = next.paramMap.get('id');
     console.log('[JOIN GUARD] motionId', motionId);
-    return this.commonActions.getMotionById(motionId)
+    return this.commonActions.getMotionById(motionId);
 
     // .subscribe(val => {
     //   return val;

@@ -10,8 +10,8 @@ import { StateService } from '@services-cust/state.service';
 })
 export class InitComponent implements OnInit {
 
-  title
-  proposal
+  title;
+  proposal;
   constructor(
     public stateService: StateService,
     // private router: Router,
