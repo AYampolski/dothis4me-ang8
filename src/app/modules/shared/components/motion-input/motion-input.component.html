@@ -4,7 +4,7 @@
   <div class="motion__container">
     <div>motion #</div>
     <mat-form-field>
-      <input matInput #userinput  [(ngModel)]="motionId" />
+      <input matInput #userinput  [(ngModel)]="this.stateService.newMotionInstance.key" />
     </mat-form-field>
     <div>
       <mat-icon
@@ -21,7 +21,7 @@
   <div class="title">
 
     <span class="title__user-info">
-      {{this.motionInstance.ownerInfo}}
+      {{this.stateService.newMotionInstance.ownerInfo}}
     </span>
 
     <span class="title__common">
@@ -32,11 +32,11 @@
 
   <div class="description">
     <div class="description__text">
-      {{this.motionInstance.proposal}}
+      {{this.stateService.newMotionInstance.proposal}}
     </div>
     <div class="description__timer" *ngIf="timerTime">
       <!-- {{(timerTime.time*1000) | date:'H:mm:ss'}} -->
-      {{(timerTime.time*1000) | date:'H:mm:ss':'UTC'}} left
+      {{(timerTime.time * 1000) | date:'H:mm:ss':'UTC'}} left
     </div>
   </div>
 

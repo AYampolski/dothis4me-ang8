@@ -9,13 +9,20 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
+import {MatExpansionModule} from '@angular/material/expansion';
+
 import { DlDateTimeDateModule, DlDateTimePickerModule } from 'angular-bootstrap-datetimepicker';
 
+import { SharedModule } from '../shared/shared.module';
+import { AccordionComponent } from './components/accordion/accordion.component';
+
 @NgModule({
-  declarations: [InitComponent, ProcessingComponent],
+  declarations: [InitComponent, ProcessingComponent, AccordionComponent],
   imports: [
     CommonModule,
     FormsModule,
+    SharedModule,
+    MatExpansionModule,
     CreatorRoutingModule,
     MatFormFieldModule,
     MatInputModule,

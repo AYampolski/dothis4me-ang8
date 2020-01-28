@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { AuthService } from '@services-cust/auth.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -8,18 +10,29 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  registerForm: FormGroup;
+  submitted = false;
+
   email = '03email@winemail.net';
   password = '111111';
   displayName = 'John Sina';
 
   constructor(
     private authService: AuthService,
+    private formBuilder: FormBuilder,
     private toastr: ToastrService
   ) { }
 
   ngOnInit() {
+    this.registerForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      displayName: ['', [Validators.required, Validators.maxLength(20)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      // confirmPassword: ['', [Validators.required, Validators.minLength(6)]]
+    });
   }
 
+  get f() { return this.registerForm.controls; }
   showError(err) {
     this.toastr.error(err);
   }
@@ -53,5 +66,17 @@ export class LoginComponent implements OnInit {
       console.log('EROR ....', err);
     });
   }
+
+  onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.registerForm.invalid) {
+        return;
+    }
+
+    // display form values on success
+    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value, null, 4));
+}
 
 }

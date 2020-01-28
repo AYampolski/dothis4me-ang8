@@ -4,6 +4,8 @@ import { FbApiService } from '@services-cust/fb-api.service';
 import { MotionInstance, MotionAuctionItem } from '@models-cust/motion.model';
 import { StateService } from '@services-cust/state.service';
 
+import { Router } from '@angular/router';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,7 +22,8 @@ export class CreatorActionsService {
   auctions: MotionAuctionItem[]
   constructor(
     private db: FbApiService,
-    private stateService: StateService
+    private stateService: StateService,
+    private router: Router
   ) { }
 
   createFullMotion(motionObj = this.mockData) {

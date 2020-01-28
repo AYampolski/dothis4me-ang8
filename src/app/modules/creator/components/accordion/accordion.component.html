@@ -1,0 +1,46 @@
+<div class="container">
+    <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{title}}
+            </mat-panel-title>
+            <mat-panel-description>
+              {{icon}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+
+          <div class="content">
+              <div class="content__header"></div>
+              <div class="content__main">
+                  <div class="content__ask">
+                      <div class="content__title">I ask</div>
+                      <div class="content__ask-input">
+                        <mat-form-field class="example-full-width">
+                            <input matInput value="ask">
+                          </mat-form-field>
+                      </div>
+                  </div>
+                  <div class="content__bid">
+                      <div class="content__title">
+                          Maximum bid
+                      </div>
+                      <div class="content__bid-value">
+                          {{bid}}
+                      </div>
+                  </div>
+              </div>
+              <div class="content__actions">
+                  <div class="content__reject">
+                    <button mat-raised-button color="warn">Reject</button>
+                  </div>
+                  <div class="content__accept">
+                    <button mat-raised-button color="primary">Accept</button>
+                  </div>
+              </div>
+          </div>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+</div>

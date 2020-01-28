@@ -21,24 +21,24 @@ export class AppComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
 
-  ){
+  ) {
     this.router.events.subscribe( (routerEvent: RouterEvent) => {
       this.checkRouterEvent(routerEvent);
     });
     this.authService.checkUserStatus();
   }
 
-  ngOnInit(){
-
+  ngOnInit() {
+    console.log('this user>',this.stateService.user)
   }
 
 
-  logOut(){
+  logOut() {
     this.authService.logOut();
   }
 
-  createAuction(){
-    this.requestorService.addAuction()
+  createAuction() {
+    this.requestorService.addAuction();
   }
 
   checkRouterEvent(routerEvent: RouterEvent): void {

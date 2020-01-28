@@ -1,9 +1,18 @@
 <div class="container">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <div>{{ "do it for me" | titlecase }}</div>
+      <div class="edit-info" *ngIf="this.stateService.user">
+        <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+        <mat-menu #menu="matMenu" >
+          <div mat-menu-item class="not-active">User Name: <span>{{this.stateService.user.displayName}}</span></div>
+          <div mat-menu-item class="not-active">User Email: <span>{{this.stateService.user.email}}</span></div>
+          <button mat-menu-item (click)="logOut()">Log out</button>
+        </mat-menu>
+      </div>
+    </mat-toolbar-row>
+  </mat-toolbar>
   <mat-card class="example-card">
-    <mat-card-header>
-      <mat-card-title>{{ "do it for me" | titlecase }}</mat-card-title>
-      <mat-card-subtitle *ngIf="this.stateService.userInfo"> <span class="text-bold">User info:</span> {{this.stateService.userInfo}}</mat-card-subtitle>
-    </mat-card-header>
 
     <mat-card-content>
       <router-outlet></router-outlet>

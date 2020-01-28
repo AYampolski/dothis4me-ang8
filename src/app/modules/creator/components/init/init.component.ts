@@ -45,23 +45,23 @@ export class InitComponent implements OnInit {
 
   // ===========
 
-  createMotion() {
-    const lastCall =  moment.utc(this.selectedDate).format('x');
-    const title = this.title || '[DEFAULT TITLE]';
-    const proposal = this.proposal || '[DEFAULT PROPOSAL]';
+  // createMotion() {
+  //   const lastCall =  moment.utc(this.selectedDate).format('x');
+  //   const title = this.title || '[DEFAULT TITLE]';
+  //   const proposal = this.proposal || '[DEFAULT PROPOSAL]';
 
-    const motion = {
-      key: '',
-      owner: '454587ewerwe5478548',
-      title: title,
-      proposal: proposal,
-      lastCall: +lastCall
-    }
-    this.creatorServices.createFullMotion(motion);
-    // console.log('[THIS] ', lastCall)
-    // console.log('title', this.title);
-    // console.log('selectedDate', moment.utc(this.selectedDate).format('x') );
-    // console.log('proposal', this.proposal);
-  }
+  //   const motion = {
+  //     key: '',
+  //     owner: '454587ewerwe5478548',
+  //     title,
+  //     proposal,
+  //     lastCall: +lastCall
+  //   }
+  //   this.creatorServices.createFullMotion(motion);
+  //   // console.log('[THIS] ', lastCall)
+  //   // console.log('title', this.title);
+  //   // console.log('selectedDate', moment.utc(this.selectedDate).format('x') );
+  //   // console.log('proposal', this.proposal);
+  // }
 
 }
