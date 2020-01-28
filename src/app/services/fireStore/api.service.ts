@@ -15,6 +15,7 @@ enum ApiConsts {
   addMotionSuccessed = 'Add motions successed',
   addMotionError = 'Add motions with error',
   addMotionStart = 'Add motion starts',
+  auctionList = 'auctions'
 }
 
 @Injectable({
@@ -113,13 +114,8 @@ export class ApiService {
     )
   }
 
-
-
-
   auctionSepListener(aucId, motionId){
     return this.auctionRef.doc(motionId).collection('auctionsList').doc(aucId).snapshotChanges();
-
-
   }
 
 
@@ -159,5 +155,96 @@ export class ApiService {
           });
         })
     }
+
+
+
+  //  **************
+
+  testMotionObj(motionId){
+    return {
+      key: motionId,
+      owner: `test-user-${Math.floor(Math.random() * 100000 )}`,
+      title: `test=title=${Math.floor(Math.random() * 1000)}`,
+      proposal: `test+propposal+${Math.floor(Math.random() * 100)}`,
+      lastCall:  1580205750242
+    }
+  }
+
+  testAuctionObj(auctionId){
+    return {
+      key: auctionId,
+      owner: `test-user-${Math.floor(Math.random() * 100000 )}`,
+      requirement: `do this for me --- ${Math.floor(Math.random() * 1000)}`,
+      bid: `${Math.floor(Math.random() * 100)}`,
+      ask: 0,
+      deal: null
+    }
+  }
+
+  doCreateMotion(motionObj){
+    const motionId = this.db.createId();
+    if(!motionObj) {
+      motionObj = this.testMotionObj(motionId);
+    }
+    this.motionRef.doc(motionId).set(motionObj);
+    this.doCreateMotionAuctionList(motionId).then( v => {
+      let activeSessions = [];
+      this.doListenerForCreator(motionId).subscribe(next => {
+        // const auctionId = next[values].values().next().value.payload.doc.id;
+        // const auctionId = next[next.length - 1].payload.doc.id;
+        const unique = next.filter( el => {
+          const here = !activeSessions.includes(el.payload.doc.id);
+          return here;
+        })
+        if(unique.length){
+          const idToSave = unique[0].payload.doc.id;
+          activeSessions.push(idToSave);
+          console.log('Array of auction subsciption', activeSessions);
+          this.yoListenerForAuction(motionId, unique).subscribe(val => {
+            console.log('inner listener from creator ==== ', unique);
+          })
+        }
+        console.log('### it is listener; val = ', next);
+        console.log('motion Id ', motionId);
+
+      }, err => {
+        console.log('### it is listener with error : ', err);
+      })
+    });
+  }
+
+  doCreateMotionAuctionList(motionId){
+    return this.motionRef.doc(motionId).collection(ApiConsts.auctionList).doc('status').set({status: 'pending'});
+  }
+
+  doCreateRequestor(motionId){
+    const auctionId = this.db.createId();
+    const auctionObj = this.testAuctionObj(auctionId);
+    this.doRequestorAdd(motionId, auctionId, auctionObj).then( v => {
+      console.log('??????? add?');
+      this.yoListenerForAuction(motionId, auctionId).subscribe(val => {
+        console.log('requestor is updated', val);
+        console.log('!!!!', val.payload.data());
+      });
+      this.doCreateRequestorMotionAuctionList(motionId, auctionId);
+    }, err => {console.log(err)});
+  }
+
+  doCreateRequestorMotionAuctionList(motionId, auctionId){
+    this.motionRef.doc(motionId).collection(ApiConsts.auctionList).doc(auctionId).set({status: 'pending'});
+  }
+
+  doRequestorAdd(motionId, auctionId, auctionObj) {
+    console.log('auctionId ',  auctionId);
+    return this.auctionRef.doc(motionId).collection('auctionList').doc(auctionId).set(auctionObj);
+  }
+
+  yoListenerForAuction(motionId, auctionId){
+    return this.auctionRef.doc(motionId).collection('auctionList').doc(auctionId).snapshotChanges()
+  }
+
+  doListenerForCreator(motionId){
+    return this.motionRef.doc(motionId).collection(ApiConsts.auctionList).snapshotChanges();
+  }
 
 }

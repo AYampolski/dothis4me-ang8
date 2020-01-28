@@ -10,7 +10,11 @@ export class FirestoreRequestorActionsService {
     private apiService: ApiService
   ) { }
 
+  // createRequest(motionId){
+  //   this.apiService.createRequest(motionId);
+  // }
+
   createRequest(motionId){
-    this.apiService.createRequest(motionId);
+    this.apiService.doCreateRequestor(motionId);
   }
 }

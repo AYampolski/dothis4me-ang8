@@ -24,7 +24,8 @@ export class InitComponent implements OnInit {
   }
 
   createRequest(){
-    this.api.createRequest(this.stateService.newMotionInstance.key);
+    console.log('### key= ', this.stateService.motionId);
+    this.api.createRequest(this.stateService.motionId);
   }
 
 }

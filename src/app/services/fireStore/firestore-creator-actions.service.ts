@@ -42,4 +42,13 @@ export class FirestoreCreatorActionsService {
       }
     );
   }
+
+
+  // =====================
+
+  doMotion(){
+    this.apiService.doCreateMotion({test: 1});
+  }
+
+
 }

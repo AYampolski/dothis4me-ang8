@@ -28,18 +28,7 @@ export class InitComponent implements OnInit {
   // +++++++++++
 
   firestoreCreateMotion(){
-    const lastCall =  moment.utc(this.selectedDate).format('x');
-    const title = this.title || '[DEFAULT TITLE]';
-    const proposal = this.proposal || '[DEFAULT PROPOSAL]';
-    const motion = {
-      key: '',
-      owner: this.stateService.user.uid,
-      title,
-      proposal,
-      lastCall: +lastCall
-    }
-    console.log('[CREATOR MODULE - INIT COMPONENT] MOTION? ', motion)
-    this.firebaseCreatorService.addMotion(motion);
+    this.firebaseCreatorService.doMotion();
 
   }
 

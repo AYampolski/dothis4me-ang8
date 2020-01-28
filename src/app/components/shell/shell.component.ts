@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@services-cust/auth.service';
+import { StateService } from '@services-cust/state.service';
 import { FirestoreCommonActionsService } from '@services-cust/fireStore/firestore-common-actions.service';
 import { Router } from '@angular/router';
 
@@ -12,6 +13,7 @@ export class ShellComponent implements OnInit {
   motionId;
   constructor(
     private authService: AuthService,
+    private stateService: StateService,
     private commonActions: FirestoreCommonActionsService,
     private router: Router
   ) { }
@@ -23,9 +25,10 @@ export class ShellComponent implements OnInit {
     this.authService.logOut();
   }
 
-  checkJoin(id ) {
+  checkJoin( ) {
     // import { Router } from '@angular/router';
     this.router.navigate(['/requestor', this.motionId]);
+    this.stateService.motionId = this.motionId;
     // [routerLink]="['/requestor', motionId]"
     // this.commonActions.getMotionById(id).subscribe(
     //   doc => {
