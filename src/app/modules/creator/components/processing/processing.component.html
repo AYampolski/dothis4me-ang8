@@ -1,4 +1,7 @@
 <p>processing works!</p>
 <div class="container">
     <app-motion-input></app-motion-input>
+    <div class="accordion-container" *ngFor="let accordion of accordions">
+        <app-accordion [data]="accordion"></app-accordion>
+    </div>
 </div>

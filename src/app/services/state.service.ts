@@ -10,7 +10,8 @@ export class StateService {
 
   newMotionInstance: MotionInstance;
 
-
+  activeSessionsIds = [];
+  activeSessionsObjects = [];
   motion: MotionInstance;
   auction: MotionAuctionItem;
   motionId: string;

@@ -3,22 +3,24 @@
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
-              {{title}}
+              <!-- {{title}} -->
+              {{data.displayName}}
             </mat-panel-title>
             <mat-panel-description>
-              {{icon}}
+              <!-- {{icon}} -->
+              ert
             </mat-panel-description>
           </mat-expansion-panel-header>
 
 
           <div class="content">
-              <div class="content__header"></div>
+              <div class="content__header"> {{data.requirement}}</div>
               <div class="content__main">
                   <div class="content__ask">
                       <div class="content__title">I ask</div>
                       <div class="content__ask-input">
                         <mat-form-field class="example-full-width">
-                            <input matInput value="ask">
+                            <input matInput [value]="data.ask">
                           </mat-form-field>
                       </div>
                   </div>
@@ -27,7 +29,8 @@
                           Maximum bid
                       </div>
                       <div class="content__bid-value">
-                          {{bid}}
+                          <!-- {{bid}} -->
+                          <input matInput [value]="data.bid">
                       </div>
                   </div>
               </div>

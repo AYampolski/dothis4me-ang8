@@ -4,8 +4,8 @@ import { CreatorActionsService } from '@services-cust/creator-actions.service';
 import { FirestoreCreatorActionsService } from '@services-cust/fireStore/firestore-creator-actions.service';
 import { StateService } from '@services-cust/state.service';
 
-import * as moment from 'moment';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-init',
@@ -19,6 +19,7 @@ export class InitComponent implements OnInit {
   constructor(
     public stateService: StateService,
     private creatorServices: CreatorActionsService,
+    private router: Router,
     private firebaseCreatorService: FirestoreCreatorActionsService
     ) { }
 

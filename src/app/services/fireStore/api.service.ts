@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, Action, DocumentSnapshot } from '@angular/fire/firestore';
 
-import { MotionInstance } from '@models-cust/motion.model';
+import { MotionInstance, MotionAuctionItem} from '@models-cust/motion.model';
 import { User } from '@models-cust/user.model';
 import { switchMap, catchError } from 'rxjs/operators';
 import { from, Observable } from 'rxjs';
 import { throwError } from 'rxjs';
+
+import { Router } from '@angular/router';
 
 import { StateService } from '@services-cust/state.service';
 
@@ -42,7 +44,8 @@ export class ApiService {
 
   constructor(
     private db: AngularFirestore,
-    private stateService: StateService
+    private stateService: StateService,
+    private router: Router,
     ) { }
 
   addUserToDb(user: User): Observable<void> {
@@ -174,6 +177,7 @@ export class ApiService {
     return {
       key: auctionId,
       owner: `test-user-${Math.floor(Math.random() * 100000 )}`,
+      displayName: `Ted-${Math.floor(Math.random()*200)}`,
       requirement: `do this for me --- ${Math.floor(Math.random() * 1000)}`,
       bid: `${Math.floor(Math.random() * 100)}`,
       ask: 0,
@@ -183,29 +187,53 @@ export class ApiService {
 
   doCreateMotion(motionObj){
     const motionId = this.db.createId();
-    if(!motionObj) {
+    // if(!motionObj) {
       motionObj = this.testMotionObj(motionId);
-    }
+      this.stateService.newMotionInstance = motionObj;
+    // }
+    this.router.navigate([`/motion/${motionId}`]);
+    console.log(motionId);
     this.motionRef.doc(motionId).set(motionObj);
     this.doCreateMotionAuctionList(motionId).then( v => {
-      let activeSessions = [];
       this.doListenerForCreator(motionId).subscribe(next => {
-        // const auctionId = next[values].values().next().value.payload.doc.id;
-        // const auctionId = next[next.length - 1].payload.doc.id;
-        const unique = next.filter( el => {
-          const here = !activeSessions.includes(el.payload.doc.id);
-          return here;
-        })
-        if(unique.length){
-          const idToSave = unique[0].payload.doc.id;
-          activeSessions.push(idToSave);
-          console.log('Array of auction subsciption', activeSessions);
-          this.yoListenerForAuction(motionId, unique).subscribe(val => {
-            console.log('inner listener from creator ==== ', unique);
-          })
-        }
-        console.log('### it is listener; val = ', next);
-        console.log('motion Id ', motionId);
+        next.forEach( el => {
+          const id = el.payload.doc.id;
+          if(id == 'status'){
+            return;
+          }
+          if (!this.stateService.activeSessionsIds.includes(id)) {
+            this.stateService.activeSessionsIds.push(id);
+            // const dataPr = el.payload.doc.data();
+            // this.stateService.activeSessionsObjects.push(dataPr);
+            console.log(this.stateService.activeSessionsObjects);
+            this.yoListenerForAuction(motionId, id).subscribe(val => {
+              // if (!this.stateService.activeSessionsIds.includes(id)) {
+              if(!this.stateService.activeSessionsObjects.find(el => el.key == id )){
+                this.stateService.activeSessionsObjects.push(val.payload.data())
+              } else {
+                const data = val.payload.data() as MotionAuctionItem;
+                if(!data) return;
+                this.stateService.activeSessionsObjects = [...this.stateService.activeSessionsObjects.map( (ob: MotionAuctionItem) => {
+                  if(ob.key == id){
+                    return data;
+                  } else {
+                    return ob;
+                  }
+                })]
+
+              }
+
+
+              // console.log('Check it pls', data);
+              // if(data && this.stateService.activeSessionsIds.includes(data.key)){
+              //   const ob = this.stateService.activeSessionsObjects.find(obj => obj.key == data.key);
+              // } else {
+
+              // }
+              console.log('inner listener from creator ==== ', id);
+            });
+          }
+        });
 
       }, err => {
         console.log('### it is listener with error : ', err);

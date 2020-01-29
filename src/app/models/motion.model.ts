@@ -10,6 +10,7 @@ export interface MotionInstance {
 export interface MotionAuctionItem {
     key: string;
     owner: string;
+    displayName: string;
     requirement: string;
     bid: string;
     ask: string;
