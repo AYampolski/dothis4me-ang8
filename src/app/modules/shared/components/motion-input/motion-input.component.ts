@@ -1,12 +1,10 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material/icon';
 import { timer } from 'rxjs';
 import * as moment from 'moment';
 import { map, takeWhile } from 'rxjs/operators';
-
-import { Timer } from '@models-cust/timer.model';
 
 import { StateService } from '@services-cust/state.service';
 
@@ -15,24 +13,15 @@ import { StateService } from '@services-cust/state.service';
   templateUrl: './motion-input.component.html',
   styleUrls: ['./motion-input.component.scss']
 })
-export class MotionInputComponent implements OnInit, AfterViewInit  {
+export class MotionInputComponent implements OnInit  {
 
-  // @Input() motionInstance;
-  expTime;
-  endSeconds;
-  timerTime: Timer;
 
-  coutDown$ = timer(0, 1000).pipe(
-    map(second => {
-        const remainTime = this.endSeconds - second;
-        this.timerTime = {time:  remainTime };
-        return remainTime;
-        }),
-    takeWhile(x => x > 0)
+  endSeconds: number;
+
+  coutDown$ = timer(1000, 1000).pipe(
+    map(second => { console.log(second); return  this.endSeconds - second * 1000; }),
+    takeWhile(remain => remain > 0)
   );
-
-
-
 
   constructor(
     iconRegistry: MatIconRegistry,
@@ -42,31 +31,13 @@ export class MotionInputComponent implements OnInit, AfterViewInit  {
     iconRegistry.addSvgIcon(
       'thumbs-up',
       sanitizer.bypassSecurityTrustResourceUrl('assets/copy.svg'));
-
-    this.timerTime = Object.assign({}, {time: +(moment.utc(new Date()).format('x')) });
-
   }
 
   ngOnInit() {
-
+    this.endSeconds = this.stateService.newMotionInstance.lastCall - Number(moment.utc(new Date()).format('x'));
   }
 
-  ngAfterViewInit() {
-    this.expTime = this.stateService.newMotionInstance.lastCall;
-    this.endSeconds = (this.expTime - this.timerTime.time) / 1000;
-    console.log('[MOTINO INPUT] endSeconds', this.endSeconds);
-    if (this.endSeconds > 0 ) {
-      this.coutDown$.subscribe();
-    }
-  }
-
-  // Number of seconds
-  timerSettings(expireTime: number): number {
-    return ((expireTime - +(moment.utc(new Date()).format('x'))) / 1000);
-
-  }
-
-  copyInputMessage(inputElement) {
+  copyInputMessage(inputElement): void {
     inputElement.select();
     document.execCommand('copy');
     inputElement.setSelectionRange(0, 0);

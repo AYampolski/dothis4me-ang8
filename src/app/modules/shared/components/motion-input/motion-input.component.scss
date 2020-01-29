@@ -1,18 +1,23 @@
 .motion {
-    &__container {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-    }
+  &__container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
 
-    &__icon:hover {
-        cursor: pointer;
-    }
+  &__icon:hover {
+    cursor: pointer;
+  }
 }
 
 .title {
-    &__user-info {
-        font-weight: 900;
-    }
+  &__user-info {
+    font-weight: 900;
+  }
 }
 
+.description {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

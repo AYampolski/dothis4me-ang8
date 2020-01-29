@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, Action, DocumentSnapshot } from '@angular/fire/firestore';
 
+import { AngularFireAuth } from '@angular/fire/auth';
+
 import { MotionInstance, MotionAuctionItem} from '@models-cust/motion.model';
 import { User } from '@models-cust/user.model';
 import { switchMap, catchError } from 'rxjs/operators';
@@ -47,6 +49,7 @@ export class ApiService {
     private db: AngularFirestore,
     private stateService: StateService,
     private router: Router,
+    private auth: AngularFireAuth
     ) { }
 
   addUserToDb(user: User): Observable<void> {
@@ -194,12 +197,24 @@ export class ApiService {
     }
   }
 
-  doCreateMotion(motionObj){
+  createMotionInstance(motionId, {uid, displayName}, {title, proposal, lastCall }){
+    return {
+      key: motionId,
+      owner: uid,
+      displayName,
+      title,
+      proposal,
+      lastCall
+    }
+  }
+
+  createMotion(motionForm){
     const motionId = this.db.createId();
-    // if(!motionObj) {
-      motionObj = this.testMotionObj(motionId);
-      this.stateService.newMotionInstance = motionObj;
-    // }
+    const currentUser = this.auth.auth.currentUser;
+    const motionObj = this.createMotionInstance(motionId, currentUser, motionForm);
+
+    this.stateService.newMotionInstance = motionObj;
+
     this.router.navigate([`/motion/${motionId}`]);
     console.log(motionId);
     this.motionRef.doc(motionId).set(motionObj);

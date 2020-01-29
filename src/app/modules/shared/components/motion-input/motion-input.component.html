@@ -1,11 +1,9 @@
 <div class="container">
-
-
   <div class="motion__container">
     <div>motion #</div>
-    <mat-form-field>
-      <input matInput #userinput  [(ngModel)]="this.stateService.newMotionInstance.key" />
-    </mat-form-field>
+
+    <span #userinput>{{ this.stateService.newMotionInstance.key }}</span>
+
     <div>
       <mat-icon
         svgIcon="thumbs-up"
@@ -13,34 +11,26 @@
         aria-label="Example thumbs up SVG icon"
         class="motion__icon"
         (click)="copyInputMessage(userinput)"
-
       ></mat-icon>
     </div>
   </div>
 
   <div class="title">
-
     <span class="title__user-info">
-      {{this.stateService.newMotionInstance.ownerInfo}}
+      {{ this.stateService.newMotionInstance.displayName }}
     </span>
 
     <span class="title__common">
       launch delivery
     </span>
-
   </div>
 
   <div class="description">
     <div class="description__text">
-      {{this.stateService.newMotionInstance.proposal}}
+      {{ this.stateService.newMotionInstance.proposal }}
     </div>
-    <div class="description__timer" *ngIf="timerTime">
-      <!-- {{(timerTime.time*1000) | date:'H:mm:ss'}} -->
-      {{(timerTime.time * 1000) | date:'H:mm:ss':'UTC'}} left
+    <div class="description__timer">
+      {{ coutDown$ | async | date: "H:mm:ss":"UTC" }}
     </div>
   </div>
-
-
 </div>
-
-

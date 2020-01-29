@@ -18,20 +18,6 @@ export class FirestoreCreatorActionsService {
     private router: Router
     ) { }
 
-  addMotion(motionObject: MotionInstance ) {
-      this.apiService.newCreateMotion(motionObject);
-    // this.apiService.addMotion(motionObject).subscribe(motionRes => {
-    //   console.log(motionObject);
-    //   let motionId = null;
-    //   if(this.stateService.newMotionInstance){
-    //     motionId = this.stateService.newMotionInstance.key;
-    //   }
-    //   console.warn(`check it`, `/motion/${motionId}`);
-    //   this.stateService.setMotion(motionObject);
-    //   this.addListener(motionId);
-    //   this.router.navigate([`/motion/${motionId}`]);
-    // });
-  }
 
   addListener(motionId) {
     return this.apiService.motionListener(motionId).subscribe(val => {
@@ -46,8 +32,10 @@ export class FirestoreCreatorActionsService {
 
   // =====================
 
-  doMotion(){
-    this.apiService.doCreateMotion({test: 1});
+  createMotion(motionForm){
+    console.log(1111111);
+    this.apiService.createMotion(motionForm)
+    // this.apiService.createMotion(motionForm);
   }
 
 

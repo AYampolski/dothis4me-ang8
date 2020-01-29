@@ -5,7 +5,7 @@ import { FirestoreCreatorActionsService } from '@services-cust/fireStore/firesto
 import { StateService } from '@services-cust/state.service';
 
 import { Router } from '@angular/router';
-
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-init',
@@ -26,32 +26,24 @@ export class InitComponent implements OnInit {
   ngOnInit() {
 
   }
-  // +++++++++++
 
   firestoreCreateMotion(){
-    this.firebaseCreatorService.doMotion();
+    if(!this.title || !this.proposal || !this.selectedDate){
+      console.log('FILL FORM!!!')
+      return;
+    } else {
+      console.log('$$$$$$$');
+    }
+
+
+    const filledForm = {
+      title: this.title,
+      proposal: this.proposal,
+      lastCall: +moment.utc(this.selectedDate).format('x')
+    };
+
+    this.firebaseCreatorService.createMotion(filledForm);
 
   }
-
-  // ===========
-
-  // createMotion() {
-  //   const lastCall =  moment.utc(this.selectedDate).format('x');
-  //   const title = this.title || '[DEFAULT TITLE]';
-  //   const proposal = this.proposal || '[DEFAULT PROPOSAL]';
-
-  //   const motion = {
-  //     key: '',
-  //     owner: '454587ewerwe5478548',
-  //     title,
-  //     proposal,
-  //     lastCall: +lastCall
-  //   }
-  //   this.creatorServices.createFullMotion(motion);
-  //   // console.log('[THIS] ', lastCall)
-  //   // console.log('title', this.title);
-  //   // console.log('selectedDate', moment.utc(this.selectedDate).format('x') );
-  //   // console.log('proposal', this.proposal);
-  // }
 
 }
