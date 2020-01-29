@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { StateService } from '@services-cust/state.service';
 import { FirestoreRequestorActionsService } from '@services-cust/fireStore/firestore-requestor-actions.service';
+
 // import { Router } from '@angular/router';
 
 @Component({
@@ -12,7 +13,8 @@ import { FirestoreRequestorActionsService } from '@services-cust/fireStore/fires
 export class InitComponent implements OnInit {
 
   title;
-  proposal;
+  requirement;
+  bid;
   constructor(
     public stateService: StateService,
     // private router: Router,
@@ -25,7 +27,13 @@ export class InitComponent implements OnInit {
 
   createRequest(){
     console.log('### key= ', this.stateService.motionId);
-    this.api.createRequest(this.stateService.motionId);
+    // this.api.createRequest(this.stateService.motionId);
+    this.api.newCreateRequest({requirement: this.requirement, bid: this.bid});
+  }
+
+  updateRequest() {
+    console.log('UPDATE BID > ');
+    this.api.updateBid();
   }
 
 }

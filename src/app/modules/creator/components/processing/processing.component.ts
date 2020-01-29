@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ɵCompiler_compileModuleSync__POST_R3__ } from '@angular/core';
+import { Component, OnInit, AfterViewInit} from '@angular/core';
 
 import { StateService } from '@services-cust/state.service';
 
@@ -8,7 +8,7 @@ import { StateService } from '@services-cust/state.service';
   styleUrls: ['./processing.component.scss']
 })
 export class ProcessingComponent implements OnInit, AfterViewInit {
-  accordions;
+  // accordions;
   constructor(
     public stateServive: StateService
   ) {
@@ -17,12 +17,16 @@ export class ProcessingComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     console.log('check motion instance', this.stateServive.newMotionInstance);
-    this.accordions = this.stateServive.activeSessionsObjects;
+    // this.accordions = this.stateServive.activeSessionsObjects;
     // this.stateServive.auctionUpdated.emit
   }
 
   ngAfterViewInit() {
     console.log('check motion instance', this.stateServive.newMotionInstance);
   }
+
+
+
+
 
 }

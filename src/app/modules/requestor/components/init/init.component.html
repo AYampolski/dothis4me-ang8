@@ -9,7 +9,7 @@
         matInput
         placeholder="What I can do for the people"
         rows="5"
-        [(ngModel)]="proposal"
+        [(ngModel)]="requirement"
       ></textarea>
     </mat-form-field>
     <div class="bid-actions">
@@ -17,10 +17,12 @@
         I bid
       </div>
       <mat-form-field>
-        <input matInput>
+        <input matInput [(ngModel)]="bid">
       </mat-form-field>
       <div class="bid-actions__btn">
         <button mat-raised-button color="accent" (click)="createRequest()">My bid</button>
+        <button mat-raised-button color="accent" (click)="updateRequest()">Try update</button>
+
       </div>
     </div>
 

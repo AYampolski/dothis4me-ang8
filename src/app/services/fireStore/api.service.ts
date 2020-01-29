@@ -10,6 +10,7 @@ import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { StateService } from '@services-cust/state.service';
+import * as firebase from 'firebase';
 
 enum ApiConsts {
   name = '[API_SERVICE]',
@@ -173,6 +174,14 @@ export class ApiService {
     }
   }
 
+  updatedAction(){
+    return {
+
+      bid: '00',
+
+    }
+  }
+
   testAuctionObj(auctionId){
     return {
       key: auctionId,
@@ -213,24 +222,16 @@ export class ApiService {
               } else {
                 const data = val.payload.data() as MotionAuctionItem;
                 if(!data) return;
-                this.stateService.activeSessionsObjects = [...this.stateService.activeSessionsObjects.map( (ob: MotionAuctionItem) => {
+                this.stateService.activeSessionsObjects =  [].concat(this.stateService.activeSessionsObjects.map( (ob: MotionAuctionItem) => {
                   if(ob.key == id){
                     return data;
                   } else {
                     return ob;
                   }
-                })]
+                }))
 
               }
 
-
-              // console.log('Check it pls', data);
-              // if(data && this.stateService.activeSessionsIds.includes(data.key)){
-              //   const ob = this.stateService.activeSessionsObjects.find(obj => obj.key == data.key);
-              // } else {
-
-              // }
-              console.log('inner listener from creator ==== ', id);
             });
           }
         });
@@ -243,6 +244,28 @@ export class ApiService {
 
   doCreateMotionAuctionList(motionId){
     return this.motionRef.doc(motionId).collection(ApiConsts.auctionList).doc('status').set({status: 'pending'});
+  }
+
+
+
+  doUpdateBid(motionId, aucitonId, bid) {
+
+      const ref = this.auctionRef.doc(motionId).collection('auctionList').doc(aucitonId);
+
+      const newRef = firebase.database().ref(`auction/${motionId}/auctionList/${aucitonId}`);
+
+      // newRef.transaction(currentValue => {
+      //   if(!currentValue){
+      //     console.log('no current value');
+      //   }
+      //   return (currentValue || 0) + 1;
+      // }, err => {
+      //   console.log('transaction error : ', err);
+      // });
+
+      // newRef.update(this.updatedAction()).then( (val) => console.log('updated >>> ', val)).catch( err => console.log('not updated', err))
+      // ref.update(this.updatedAction()).then( (val) => console.log('updated >>> ', val)).catch( err => console.log('not updated', err)); //seems works
+      newRef.transaction( an => { console.log('look1', an); return this.updatedAction() }, onComplete => {console.log('look2 > complete', onComplete)}).then( val => console.log('it is a final coutdouw ', val));
   }
 
   doCreateRequestor(motionId){

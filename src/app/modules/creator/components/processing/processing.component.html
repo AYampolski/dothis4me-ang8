@@ -1,7 +1,11 @@
 <p>processing works!</p>
 <div class="container">
     <app-motion-input></app-motion-input>
-    <div class="accordion-container" *ngFor="let accordion of accordions">
-        <app-accordion [data]="accordion"></app-accordion>
+    <div *ngIf="this.stateServive.activeSessionsObjects.length">
+
+        <!-- <div class="accordion-container" *ngFor="let accordion of this.stateServive.activeSessionsObjects; trackBy: trackByFn"> -->
+        <!-- <div class="accordion-container" *ngFor="let accordion of this.stateServive.activeSessionsObjects"> -->
+            <app-accordion [data]="this.stateServive.activeSessionsObjects"></app-accordion>
+        <!-- </div> -->
     </div>
 </div>

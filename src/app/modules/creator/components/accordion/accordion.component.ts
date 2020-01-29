@@ -23,4 +23,5 @@ export class AccordionComponent implements OnInit {
 
   }
 
+  identifyer = (index:number, item: any) => item.bid;
 }
