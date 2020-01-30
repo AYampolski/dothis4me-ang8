@@ -293,7 +293,6 @@ export class ApiService {
         if(typeof updatedAuction === 'number') {
           return from([0]);
         }
-
         return of(updatedAuction.payload.data());
 
         }

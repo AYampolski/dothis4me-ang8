@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ApiService } from '@services-cust/fireStore/api.service';
-import { } from '@services-cust/auth.service';
 import { AuctionForm, AuctionInstance } from '@models-cust/auction.model';
 
 @Injectable({

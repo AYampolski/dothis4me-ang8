@@ -41,7 +41,7 @@ export class InitComponent implements OnInit {
       lastCall: +moment.utc(this.selectedDate).format('x')
     };
 
-    this.firebaseCreatorService.createMotion(this.filledForm).subscribe((updatedAuction: number | AuctionInstance) => {
+    const sumSubsciption = this.firebaseCreatorService.createMotion(this.filledForm).subscribe((updatedAuction: number | AuctionInstance) => {
       console.log('from component:: ', updatedAuction);
       if(typeof updatedAuction === 'number') {
         console.log('NO VALUE');
@@ -50,6 +50,10 @@ export class InitComponent implements OnInit {
       this.stateService.activeSessionsObjects = this.stateService.activeSessionsObjects.filter( ( auction: AuctionInstance ) => {
         return auction.key !== updatedAuction.key;
       });
+      const flag = false;
+      if(updatedAuction.deal){
+        sumSubsciption.unsubscribe();
+      }
       this.stateService.activeSessionsObjects.push(updatedAuction);
     });
 
