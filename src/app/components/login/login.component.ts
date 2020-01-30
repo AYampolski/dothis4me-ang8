@@ -14,8 +14,12 @@ export class LoginComponent implements OnInit {
   submitted = false;
 
   email = '03email@winemail.net';
+  email2 = 'bigYolo@winemail.net';
   password = '111111';
   displayName = 'John Sina';
+
+  password2 = '111111';
+  displayName2 = 'Andrew Jackman';
 
   constructor(
     private authService: AuthService,
@@ -47,7 +51,7 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  loginEmail() {
+  login1Email() {
     this.authService.emailPasswordLogin(this.email, this.password)
     .subscribe( next => {
       console.log('!???!?!?!?!?', next);
@@ -58,8 +62,28 @@ export class LoginComponent implements OnInit {
 
   }
 
-  logupEmail() {
+  login2Email() {
+    this.authService.emailPasswordLogin(this.email2, this.password2)
+    .subscribe( next => {
+      console.log('!???!?!?!?!?', next);
+    },
+    err => {
+      console.log('EROR ....', err);
+    });
+
+  }
+
+  logup1Email() {
     this.authService.emailPasswordLogup(this.email, this.password, this.displayName).subscribe( next => {
+      console.log('!???!?!?!?!?', next);
+    },
+    err => {
+      console.log('EROR ....', err);
+    });
+  }
+
+  logup2Email() {
+    this.authService.emailPasswordLogup(this.email2, this.password2, this.displayName2).subscribe( next => {
       console.log('!???!?!?!?!?', next);
     },
     err => {

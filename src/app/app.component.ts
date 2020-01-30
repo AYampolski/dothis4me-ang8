@@ -37,10 +37,6 @@ export class AppComponent implements OnInit {
     this.authService.logOut();
   }
 
-  createAuction() {
-    this.requestorService.addAuction();
-  }
-
   checkRouterEvent(routerEvent: RouterEvent): void {
     if (routerEvent instanceof NavigationStart ) {
       this.loading = true;

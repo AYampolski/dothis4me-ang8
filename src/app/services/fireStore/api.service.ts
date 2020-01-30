@@ -6,13 +6,14 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { MotionInstance, MotionAuctionItem, MotionForm } from '@models-cust/motion.model';
 import { User } from '@models-cust/user.model';
 import { switchMap, catchError, mergeMap, tap, map } from 'rxjs/operators';
-import { from, Observable } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { throwError } from 'rxjs';
 
 import { Router } from '@angular/router';
 
 import { StateService } from '@services-cust/state.service';
 import * as firebase from 'firebase';
+import { AuctionInstance } from '@models-cust/auction.model';
 
 enum ApiConsts {
   name = '[API_SERVICE]',
@@ -22,6 +23,7 @@ enum ApiConsts {
   addMotionStart = 'Add motion starts',
   auctionList = 'auctions',
   defaultStatus = 'pending',
+  relatedAuctions = 'relatedAuctions',
 }
 
 @Injectable({
@@ -156,13 +158,13 @@ export class ApiService {
     };
   }
 
-  testAuctionObj(auctionId) {
+  testAuctionObj(auctionId): AuctionInstance {
     return {
       key: auctionId,
       owner: `test-user-${Math.floor(Math.random() * 100000 )}`,
       displayName: `Ted-${Math.floor(Math.random() * 200)}`,
       requirement: `do this for me --- ${Math.floor(Math.random() * 1000)}`,
-      bid: `${Math.floor(Math.random() * 100)}`,
+      bid: Math.floor(Math.random() * 100),
       ask: 0,
       deal: null
     };
@@ -182,7 +184,7 @@ export class ApiService {
 
   doUpdateBid(motionId, aucitonId, bid) {
 
-      const ref = this.auctionRef.doc(motionId).collection('auctionList').doc(aucitonId);
+      const ref = this.auctionRef.doc(motionId).collection(ApiConsts.relatedAuctions).doc(aucitonId);
 
       const newRef = firebase.database().ref(`auction/${motionId}/auctionList/${aucitonId}`);
       newRef.transaction( an => {
@@ -191,18 +193,7 @@ export class ApiService {
       onComplete => {console.log('look2 > complete', onComplete); }).then( val => console.log('it is a final coutdouw ', val));
   }
 
-  doCreateRequestor(motionId) {
-    const auctionId = this.db.createId();
-    const auctionObj = this.testAuctionObj(auctionId);
-    this.doRequestorAdd(motionId, auctionId, auctionObj).then( v => {
-      console.log('??????? add?');
-      this.listenerForAuction(motionId, auctionId).subscribe(val => {
-        console.log('requestor is updated', val);
-        console.log('!!!!', val.payload.data());
-      });
-      this.doCreateRequestorMotionAuctionList(motionId, auctionId);
-    }, err => {console.log(err); });
-  }
+
 
   doCreateRequestorMotionAuctionList(motionId, auctionId) {
     this.motionRef.doc(motionId).collection(ApiConsts.auctionList).doc(auctionId).set({status: 'pending'});
@@ -216,14 +207,52 @@ export class ApiService {
                   .set({status: 'pending'});
   }
 
-  doRequestorAdd(motionId, auctionId, auctionObj) {
-    console.log('auctionId ',  auctionId);
-    return this.auctionRef.doc(motionId).collection('auctionList').doc(auctionId).set(auctionObj);
+
+  /**
+   * Adds event listener to particular auction to determine the changes
+   * @param { string } motionId
+   * @param { string } auctionId
+   */
+  listenerForAuction(motionId: string, auctionId: string): Observable<Action<DocumentSnapshot<AuctionInstance>>> {
+    return this.auctionRef.doc(motionId).collection(ApiConsts.relatedAuctions).doc<AuctionInstance>(auctionId).snapshotChanges();
   }
 
 
-  listenerForAuction(motionId, auctionId): Observable<Action<DocumentSnapshot<unknown>>> {
-    return this.auctionRef.doc(motionId).collection('auctionList').doc(auctionId).snapshotChanges();
+  /**
+   * Add an auction to root level of db.
+   *
+   * @param { string } motionId
+   * @param { AuctionInstance } auctionObj
+   */
+  addAuction(motionId: string, auctionObj: AuctionInstance): Observable<Action<DocumentSnapshot<AuctionInstance>>> {
+    const auctionId = this.db.createId();
+    auctionObj.key = auctionId;
+
+    return this.addAuctionCommon(motionId, auctionObj).pipe(
+      switchMap( () => {
+        return this.addAuctionIdToList(motionId, auctionObj.key);
+      }),
+
+      switchMap( () => {
+        return this.listenerForAuction(motionId, auctionId);
+      }),
+
+      switchMap( (changes) => {
+        console.log('there is some changes');
+        return of(changes);
+      })
+    )
+  }
+
+
+  /**
+   * Saves a auction instance to db;
+   * It will be listening for bid/ask changes in this path
+   * @param { string } motionId
+   * @param { AuctionInstance } auctionObj
+   */
+  addAuctionCommon(motionId: string, auctionObj: AuctionInstance): Observable<void> {
+    return from(this.auctionRef.doc(motionId).collection(ApiConsts.relatedAuctions).doc(auctionObj.key).set(auctionObj));
   }
 
   /**
@@ -252,17 +281,21 @@ export class ApiService {
         });
 
         if (newAuction) {
-          const { id, data } = newAuction.payload.doc;
+          const { id } = newAuction.payload.doc;
           this.stateService.activeSessionsIds.push(id);
-          this.stateService.activeSessionsObjects.push(data());
           return this.listenerForAuction(motionId, id);
         }
         return from([0]);
       }),
 
-      mergeMap( next => {
-        console.log('[!!!] step 3 > ', next);
-        return from([1]);
+      mergeMap( (updatedAuction: number | Action<DocumentSnapshot<AuctionInstance>>) => {
+
+        if(typeof updatedAuction === 'number') {
+          return from([0]);
+        }
+
+        return of(updatedAuction.payload.data());
+
         }
       ),
 
@@ -271,7 +304,16 @@ export class ApiService {
 
 
   /**
-   * Adds to selected motion (id) a collection of all related available auctions and leter the motion's creator
+   * Adds id of created auction to motion list of auctions
+   * @param { string } motionId
+   * @param { string } auctionId
+   */
+  addAuctionIdToList(motionId: string, auctionId: string) {
+    return from(this.motionRef.doc(motionId).collection(ApiConsts.auctionList).doc(auctionId).set({auctionId: true}));
+  }
+
+  /**
+   * Adds a collection of all related available auctions to selected motion (id)  and leter the motion's creator
    * will be available to recieve updates when a new auction will be added to this motion
    * @param {string} motionId
    */

@@ -1,8 +1,6 @@
 <div class="container-super">
   <mat-card class="container">
-    <app-motion-input>
-    </app-motion-input>
-
+    <app-motion-input> </app-motion-input>
 
     <mat-form-field class="proposal">
       <textarea
@@ -17,15 +15,16 @@
         I bid
       </div>
       <mat-form-field>
-        <input matInput [(ngModel)]="bid">
+        <input matInput [(ngModel)]="bid" />
       </mat-form-field>
       <div class="bid-actions__btn">
-        <button mat-raised-button color="accent" (click)="createRequest()">My bid</button>
-        <button mat-raised-button color="accent" (click)="updateRequest()">Try update</button>
-
+        <button mat-raised-button color="accent" (click)="createRequest()">
+          My bid
+        </button>
+        <button mat-raised-button color="accent" (click)="updateRequest()">
+          Try update
+        </button>
       </div>
     </div>
-
-
   </mat-card>
 </div>

@@ -3,10 +3,11 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '@services-cust/fireStore/api.service';
 
 import { StateService } from '@services-cust/state.service';
-import { MotionInstance, MotionForm } from '@models-cust/motion.model';
+import { MotionForm } from '@models-cust/motion.model';
 
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AuctionInstance } from '@models-cust/auction.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,6 @@ export class FirestoreCreatorActionsService {
 
   constructor(
     private apiService: ApiService,
-    private stateService: StateService,
-    private router: Router
     ) { }
 
 
@@ -33,7 +32,7 @@ export class FirestoreCreatorActionsService {
 
   // =====================
 
-  createMotion(motionForm: MotionForm): Observable<number> {
+  createMotion(motionForm: MotionForm): Observable<number | AuctionInstance> {
     return this.apiService.createMotionRefacted(motionForm); //.subscribe(res => console.log(res));
     // this.apiService.createMotion(motionForm);
   }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { StateService } from '@services-cust/state.service';
 import { FirestoreRequestorActionsService } from '@services-cust/fireStore/firestore-requestor-actions.service';
+import { AuctionForm } from '@models-cust/auction.model';
 
 // import { Router } from '@angular/router';
 
@@ -12,12 +13,11 @@ import { FirestoreRequestorActionsService } from '@services-cust/fireStore/fires
 })
 export class InitComponent implements OnInit {
 
-  title;
-  requirement;
-  bid;
+  title: string;
+  requirement: string;
+  bid: number;
   constructor(
     public stateService: StateService,
-    // private router: Router,
     private api: FirestoreRequestorActionsService
   ) { }
 
@@ -25,10 +25,29 @@ export class InitComponent implements OnInit {
     console.log('[REQUESTOR MODULE INIT COMPONENT]' , );
   }
 
+  /**
+   * Creates an instance of auction form;
+   * @param { string } requirement
+   * @param { number } bid
+   */
+  createAucitonFormInstance(requirement: string, bid: number): AuctionForm {
+    return {
+      requirement,
+      bid
+    };
+  }
+
+  // HERE!!!
   createRequest(){
     console.log('### key= ', this.stateService.motionId);
-    // this.api.createRequest(this.stateService.motionId);
-    this.api.newCreateRequest({requirement: this.requirement, bid: this.bid});
+
+    if (!this.requirement || !this.bid) {
+      console.log('fill the form of auction');
+      return;
+    }
+    const motionId = this.stateService.newMotionInstance.key;
+    const auctionData = this.createAucitonFormInstance(this.requirement, this.bid);
+    this.api.newCreateRequest(motionId, auctionData);
   }
 
   updateRequest() {

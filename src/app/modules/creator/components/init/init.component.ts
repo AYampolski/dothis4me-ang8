@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { FirestoreCreatorActionsService } from '@services-cust/fireStore/firestore-creator-actions.service';
 import { StateService } from '@services-cust/state.service';
 import { MotionForm } from '@models-cust/motion.model';
+import { AuctionInstance } from '@models-cust/auction.model';
 
 @Component({
   selector: 'app-init',
@@ -40,7 +41,17 @@ export class InitComponent implements OnInit {
       lastCall: +moment.utc(this.selectedDate).format('x')
     };
 
-    this.firebaseCreatorService.createMotion(this.filledForm).subscribe(res => console.log('from component:: ', res));
+    this.firebaseCreatorService.createMotion(this.filledForm).subscribe((updatedAuction: number | AuctionInstance) => {
+      console.log('from component:: ', updatedAuction);
+      if(typeof updatedAuction === 'number') {
+        console.log('NO VALUE');
+        return ;
+      }
+      this.stateService.activeSessionsObjects = this.stateService.activeSessionsObjects.filter( ( auction: AuctionInstance ) => {
+        return auction.key !== updatedAuction.key;
+      });
+      this.stateService.activeSessionsObjects.push(updatedAuction);
+    });
 
   }
 
