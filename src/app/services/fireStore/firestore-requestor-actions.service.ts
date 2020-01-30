@@ -39,8 +39,10 @@ export class FirestoreRequestorActionsService {
     }
   }
 
+  //CREATE REQUEST
   newCreateRequest(requestorOptions) {
     const reqObj = this.createRequestObj(requestorOptions);
+
     console.log(reqObj);
   }
 

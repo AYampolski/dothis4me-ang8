@@ -1,3 +1,9 @@
+export interface MotionForm {
+    title: string;
+    proposal: string;
+    lastCall: number;
+}
+
 export interface MotionInstance {
     key: string;
     owner: string;

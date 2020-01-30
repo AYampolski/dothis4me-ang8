@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CreatorActionsService } from '@services-cust/creator-actions.service';
+import * as moment from 'moment';
 
 import { FirestoreCreatorActionsService } from '@services-cust/fireStore/firestore-creator-actions.service';
 import { StateService } from '@services-cust/state.service';
-
-import { Router } from '@angular/router';
-import * as moment from 'moment';
+import { MotionForm } from '@models-cust/motion.model';
 
 @Component({
   selector: 'app-init',
@@ -13,13 +11,14 @@ import * as moment from 'moment';
   styleUrls: ['./init.component.scss']
 })
 export class InitComponent implements OnInit {
-  selectedDate;
-  title;
-  proposal;
+
+  selectedDate: string;
+  title: string;
+  proposal: string;
+  filledForm: MotionForm;
+
   constructor(
     public stateService: StateService,
-    private creatorServices: CreatorActionsService,
-    private router: Router,
     private firebaseCreatorService: FirestoreCreatorActionsService
     ) { }
 
@@ -27,22 +26,21 @@ export class InitComponent implements OnInit {
 
   }
 
-  firestoreCreateMotion(){
-    if(!this.title || !this.proposal || !this.selectedDate){
-      console.log('FILL FORM!!!')
+  firestoreCreateMotion() {
+    if (!this.title || !this.proposal || !this.selectedDate) {
+      console.log('FILL FORM!!!');
       return;
     } else {
       console.log('$$$$$$$');
     }
 
-
-    const filledForm = {
+    this.filledForm = {
       title: this.title,
       proposal: this.proposal,
       lastCall: +moment.utc(this.selectedDate).format('x')
     };
 
-    this.firebaseCreatorService.createMotion(filledForm);
+    this.firebaseCreatorService.createMotion(this.filledForm).subscribe(res => console.log('from component:: ', res));
 
   }
 
