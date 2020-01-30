@@ -1,10 +1,15 @@
 <div class="container">
   <div class="motion__container">
-    <div>motion #</div>
+    <div class="motion__common-text">motion #</div>
 
-    <span #userinput>{{ this.stateService.newMotionInstance.key }}</span>
+    <input
+      class="motion__input"
+      #userinput
+      matInput
+      [value]="this.stateService.newMotionInstance.key"
+    />
 
-    <div>
+    <div class="motion__icon-container">
       <mat-icon
         svgIcon="thumbs-up"
         aria-hidden="false"

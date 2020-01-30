@@ -34,7 +34,7 @@ export class FirestoreCreatorActionsService {
 
   createMotion(motionForm){
     console.log(1111111);
-    this.apiService.createMotion(motionForm)
+    this.apiService.createMotionRefacted(motionForm).subscribe(res => console.log(res));
     // this.apiService.createMotion(motionForm);
   }
 
