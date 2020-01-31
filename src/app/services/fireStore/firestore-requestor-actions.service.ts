@@ -35,16 +35,11 @@ export class FirestoreRequestorActionsService {
     };
   }
 
-  //CREATE REQUEST
   newCreateRequest(motionId: string, auctionForm: AuctionForm) {
     const auctionWithoutKey = this.createRequestObj(auctionForm);
 
     return this.apiService.addAuction(motionId, auctionWithoutKey);
 
-  }
-
-  updateBid(motionId = '0vMC3VCUbGEmg0qY10lq', aucitonId="W8lXtquuHwSAiFNZ37PZ", bid = 1488){
-    this.apiService.doUpdateBid(motionId, aucitonId, bid);
   }
 
   updateAuction(motionId, auctionId, obj){

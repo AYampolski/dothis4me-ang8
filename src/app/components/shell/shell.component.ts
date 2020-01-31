@@ -26,21 +26,8 @@ export class ShellComponent implements OnInit {
   }
 
   checkJoin( ) {
-    // import { Router } from '@angular/router';
     this.router.navigate(['/requestor', this.motionId]);
     this.stateService.motionId = this.motionId;
-    // [routerLink]="['/requestor', motionId]"
-    // this.commonActions.getMotionById(id).subscribe(
-    //   doc => {
-    //     console.log('[SHELL COMPONENT] NEXT', doc);
-    //   },
-    //   err => {
-    //     console.log('[SHELL COMPONENT] errors ', err);
-    //   },
-    //   () => {
-    //     console.log('[SHELL COMPONENT]  complete')
-    //   }
-    // )
   }
 
 

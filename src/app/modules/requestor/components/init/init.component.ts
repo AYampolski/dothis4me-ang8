@@ -64,10 +64,7 @@ export class InitComponent implements OnInit {
     });
   }
 
-  updateRequest() {
-    console.log('UPDATE BID > ');
-    this.api.updateBid();
-  }
+
   onNewBid(bid){
     console.log('Check bid', bid, this.stateService.newMotionInstance.key, this.stateService.selectedAuction.key);
     this.api.updateAuction( this.stateService.newMotionInstance.key, this.stateService.selectedAuction.key ,{bid})

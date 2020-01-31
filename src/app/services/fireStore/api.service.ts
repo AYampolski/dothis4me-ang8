@@ -31,16 +31,6 @@ enum ApiConsts {
 })
 export class ApiService {
 
-  requestorObj = {
-    key: '322Solo',
-    owner: 'testOnwer',
-    requirement: 'buy something',
-    bid: 12,
-    ask: null,
-    deal: null
-  };
-
-
   private readonly motionCollectionName = 'motions';
   private readonly usersCollectionName = 'users';
   private readonly auctionCollecitonName = 'auction';
@@ -71,140 +61,8 @@ export class ApiService {
   }
 
 
-  motionListener(motionId): Observable<Action<DocumentSnapshot<any>>> {
-    return this.motionRef.doc(motionId).snapshotChanges();
-  }
-
-  createAuction(motionId) {
-    return this.motionRef.doc(motionId)
-      .collection(this.auctionCollecitonName)
-      .doc('status').set({status: 'pending'});
-  }
-
-  autcionListener(motionId) {
-    this.motionRef.doc(motionId).collection(this.auctionCollecitonName).snapshotChanges().subscribe(
-      snap => {
-        console.log('[UPDATES] == ', snap.values().next());
-        this.auctionRef
-          .doc(motionId)
-          .snapshotChanges().subscribe(next => {
-            console.log('[!!!! CREATOR] ===> ', next);
-           });
-      }
-    );
-  }
-
-  auctionSepListener(aucId, motionId) {
-    return this.auctionRef.doc(motionId).collection('auctionsList').doc(aucId).snapshotChanges();
-  }
-
-
-  getMotion(motionId: string = '2n4RvDMe5TI3DTNBPO90') {
+  getMotion(motionId: string) {
     return this.motionRef.doc(motionId).get();
-  }
-
-
-
-  createRequest(motionId) {
-    const id = this.db.createId();
-    this.auctionRef.doc(motionId).collection(id).doc(this.requestorObj.key).set(this.requestorObj).then(
-      res => {
-        this.auctionRef
-          .doc(motionId)
-          .collection(id)
-          .doc(this.requestorObj.key)
-          .snapshotChanges().subscribe(next => {
-            console.log('[!!!! REQUESTOR] ===> ', next);
-           });
-      });
-    }
-
-
-  //  =======
-    newCreateMotion(motionObject) {
-      const id = this.db.createId();
-      const ownerInfo = this.stateService.user.displayName;
-      const motionObjectSent = Object.assign({}, motionObject, {key: id}, {ownerInfo});
-      this.stateService.newMotionInstance = motionObjectSent;
-
-      this.motionRef.doc(id)
-        .collection(this.auctionCollecitonName)
-        .doc('status').set({status: 'pending'}).then( val => {
-          this.motionRef.doc(id).collection(this.auctionCollecitonName).snapshotChanges().subscribe( () => {
-            console.log('UPDATED CREATOR');
-          });
-        });
-    }
-
-
-
-  //  **************
-
-  testMotionObj(motionId) {
-    return {
-      key: motionId,
-      owner: `test-user-${Math.floor(Math.random() * 100000 )}`,
-      title: `test=title=${Math.floor(Math.random() * 1000)}`,
-      proposal: `test+propposal+${Math.floor(Math.random() * 100)}`,
-      lastCall:  1580205750242
-    };
-  }
-
-  updatedAction() {
-    return {
-
-      bid: '00',
-
-    };
-  }
-
-  testAuctionObj(auctionId): AuctionInstance {
-    return {
-      key: auctionId,
-      owner: `test-user-${Math.floor(Math.random() * 100000 )}`,
-      displayName: `Ted-${Math.floor(Math.random() * 200)}`,
-      requirement: `do this for me --- ${Math.floor(Math.random() * 1000)}`,
-      bid: Math.floor(Math.random() * 100),
-      ask: 0,
-      deal: null
-    };
-  }
-
-  createAuctionInstance(auctionId, {uid, displayName}, {requirement, bid}) {
-    return {
-      key: auctionId,
-      owner: uid,
-      displayName,
-      requirement,
-      bid,
-      ask: null,
-      deal: null
-    };
-  }
-
-  doUpdateBid(motionId, aucitonId, bid) {
-
-      const ref = this.auctionRef.doc(motionId).collection(ApiConsts.relatedAuctions).doc(aucitonId);
-
-      const newRef = firebase.database().ref(`auction/${motionId}/auctionList/${aucitonId}`);
-      newRef.transaction( an => {
-        console.log('look1', an); return this.updatedAction();
-      },
-      onComplete => {console.log('look2 > complete', onComplete); }).then( val => console.log('it is a final coutdouw ', val));
-  }
-
-
-
-  doCreateRequestorMotionAuctionList(motionId, auctionId) {
-    this.motionRef.doc(motionId).collection(ApiConsts.auctionList).doc(auctionId).set({status: 'pending'});
-  }
-
-  createRequestorMotionAuctionList(motionId, auctionId) {
-    return this.motionRef
-                  .doc(motionId)
-                  .collection(ApiConsts.auctionList)
-                  .doc(auctionId)
-                  .set({status: 'pending'});
   }
 
   /**
