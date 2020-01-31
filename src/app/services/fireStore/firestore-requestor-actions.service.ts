@@ -39,14 +39,15 @@ export class FirestoreRequestorActionsService {
   newCreateRequest(motionId: string, auctionForm: AuctionForm) {
     const auctionWithoutKey = this.createRequestObj(auctionForm);
 
-    this.apiService.addAuction(motionId, auctionWithoutKey).subscribe(
-      val => {console.log('that is what you are looking for', val)},
-      err => {console.log('that is what you are looking for with error', err)}
-    );
+    return this.apiService.addAuction(motionId, auctionWithoutKey);
 
   }
 
   updateBid(motionId = '0vMC3VCUbGEmg0qY10lq', aucitonId="W8lXtquuHwSAiFNZ37PZ", bid = 1488){
     this.apiService.doUpdateBid(motionId, aucitonId, bid);
+  }
+
+  updateAuction(motionId, auctionId, obj){
+    return this.apiService.updateAuctionProps(motionId, auctionId, obj);
   }
 }

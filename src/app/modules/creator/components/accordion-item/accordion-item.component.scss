@@ -1,6 +1,18 @@
 .content {
-    &__main, &__actions {
-            display: flex;
-            justify-content: space-around;
-        }
+
+    &__interaction, &__actions {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    &__header {
+        margin-bottom: 2em;
+    }
+
+    &__ask-input {
+        padding-left: .5em;
+        padding-right: .5em;
+        border: 2px solid black;
+    }
 }

@@ -59,9 +59,9 @@ export class InitComponent implements OnInit {
       }
 
       const flag = false;
-      if(updatedAuction.deal){
-        sumSubsciption.unsubscribe();
-      }
+      // if(updatedAuction.deal){
+      //   sumSubsciption.unsubscribe();
+      // }
 
     });
 

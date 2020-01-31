@@ -3,6 +3,8 @@ import { AuctionInstance } from '@models-cust/auction.model';
 
 import { StateService } from '@services-cust/state.service';
 import { FirestoreCreatorActionsService } from '@services-cust/fireStore/firestore-creator-actions.service';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-accordion-item',
@@ -14,8 +16,12 @@ export class AccordionItemComponent implements OnInit {
   @Input() item: AuctionInstance;
   constructor(
     private api: FirestoreCreatorActionsService,
-    private stateService: StateService
-  ) { }
+    private stateService: StateService,
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer,
+  ) {
+
+   }
 
   ngOnInit() {
   }
@@ -45,6 +51,7 @@ export class AccordionItemComponent implements OnInit {
     this.item = Object.assign({}, this.item, {deal : this.item.bid}); //re-rendered
     // this.item.deal = String(this.item.bid);
     console.log('===>', this.item);
+    this.api.updateAsk(this.stateService.newMotionInstance.key, this.item.key, {deal: this.item.bid});
   }
 
 }

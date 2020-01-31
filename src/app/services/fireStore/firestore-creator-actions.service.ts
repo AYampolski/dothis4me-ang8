@@ -39,7 +39,7 @@ export class FirestoreCreatorActionsService {
 
   // motionId: string, auctionId: string, ask: number
   updateAsk(motionId: string, auctionId: string, obj: any) {
-    return this.apiService.updateAuctionAsk(motionId, auctionId, obj);
+    return this.apiService.updateAuctionProps(motionId, auctionId, obj);
   }
 
 

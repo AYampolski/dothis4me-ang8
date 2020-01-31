@@ -12,6 +12,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatExpansionModule} from '@angular/material/expansion';
 
 import { DlDateTimeDateModule, DlDateTimePickerModule } from 'angular-bootstrap-datetimepicker';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 
 import { SharedModule } from '../shared/shared.module';
 import { AccordionComponent } from './components/accordion/accordion.component';
@@ -28,9 +29,11 @@ import { AccordionItemComponent } from './components/accordion-item/accordion-it
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
+    MatIconModule,
     DlDateTimeDateModule,
     DlDateTimePickerModule,
     MatButtonModule
-  ]
+  ],
+  providers: [MatIconRegistry],
 })
 export class CreatorModule { }

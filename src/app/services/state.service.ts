@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MotionAuctionItem, MotionInstance } from '@models-cust/motion.model';
 
 import { User } from '@models-cust/user.model';
+import { AuctionInstance } from '@models-cust/auction.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class StateService {
   auctionsGroup: MotionAuctionItem[];
   userInfo: string;
   motionInfo: any;
+  selectedAuction: AuctionInstance;
   // motionObject: MotionInstance;
   constructor() { }
 

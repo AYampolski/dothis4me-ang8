@@ -223,7 +223,7 @@ export class ApiService {
    * @param { string }auctionId
    * @param { any } ask
    */
-  updateAuctionAsk(motionId: string, auctionId: string, obj: any): Observable<void> {
+  updateAuctionProps(motionId: string, auctionId: string, obj: any): Observable<void> {
     return from(this.auctionRef.doc(motionId).collection(ApiConsts.relatedAuctions).doc<AuctionInstance>(auctionId).update(obj));
   }
 

@@ -16,6 +16,7 @@ export class InitComponent implements OnInit {
   title: string;
   requirement: string;
   bid: number;
+  flag = true;
   constructor(
     public stateService: StateService,
     private api: FirestoreRequestorActionsService
@@ -45,14 +46,36 @@ export class InitComponent implements OnInit {
       console.log('fill the form of auction');
       return;
     }
+    this.flag = false;
     const motionId = this.stateService.newMotionInstance.key;
     const auctionData = this.createAucitonFormInstance(this.requirement, this.bid);
-    this.api.newCreateRequest(motionId, auctionData);
+    this.api.newCreateRequest(motionId, auctionData).subscribe( success => {
+      const recievedData = success.payload.data();
+      console.log('!!!! ', success);
+      if(this.stateService.selectedAuction) {
+        if(this.stateService.selectedAuction.ask !== recievedData.ask){
+          this.flag = true;
+        }
+      }
+      this.stateService.selectedAuction = recievedData;
+    },
+    err => {
+      console.log('!!!!', err);
+    });
   }
 
   updateRequest() {
     console.log('UPDATE BID > ');
     this.api.updateBid();
   }
-
+  onNewBid(bid){
+    console.log('Check bid', bid, this.stateService.newMotionInstance.key, this.stateService.selectedAuction.key);
+    this.api.updateAuction( this.stateService.newMotionInstance.key, this.stateService.selectedAuction.key ,{bid})
+  }
+  onAccept() {
+    this.stateService.selectedAuction.deal = String(this.stateService.selectedAuction.bid);
+    const deal = this.stateService.selectedAuction.ask;
+    console.log('Check accept', this.stateService.selectedAuction.deal, this.stateService.newMotionInstance.key, this.stateService.selectedAuction.key);
+    this.api.updateAuction( this.stateService.newMotionInstance.key, this.stateService.selectedAuction.key ,{deal})
+  }
 }

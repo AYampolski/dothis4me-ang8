@@ -18,8 +18,8 @@ export class MotionInputComponent implements OnInit  {
 
   endSeconds: number;
 
-  coutDown$ = timer(1000, 1000).pipe(
-    map(second => { console.log(second); return  this.endSeconds - second * 1000; }),
+  coutDown$ = timer(0, 1000).pipe(
+    map(second => this.endSeconds - second * 1000 ),
     takeWhile(remain => remain > 0)
   );
 
