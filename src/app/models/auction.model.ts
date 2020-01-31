@@ -11,4 +11,5 @@ export interface AuctionInstance {
     requirement: string;
     ask: number;
     deal: null | string | undefined;
+    isAsked?: boolean;
 }

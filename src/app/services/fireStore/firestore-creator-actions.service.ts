@@ -37,5 +37,10 @@ export class FirestoreCreatorActionsService {
     // this.apiService.createMotion(motionForm);
   }
 
+  // motionId: string, auctionId: string, ask: number
+  updateAsk(motionId: string, auctionId: string, ask: number) {
+    return this.apiService.updateAuctionAsk(motionId, auctionId, ask);
+  }
+
 
 }

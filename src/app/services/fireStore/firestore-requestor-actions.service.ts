@@ -28,6 +28,7 @@ export class FirestoreRequestorActionsService {
       owner: uid,
       displayName,
       bid,
+      isAsked: false,
       requirement,
       ask: null,
       deal: null

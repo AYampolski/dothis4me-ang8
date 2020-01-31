@@ -207,6 +207,26 @@ export class ApiService {
                   .set({status: 'pending'});
   }
 
+  /**
+   * Update standalone auction's ask value for requestor
+   * @param { string } motionId
+   * @param { string } auctionId
+   * @param { number } bid
+   */
+  updateAuctionBid(motionId: string, auctionId: string, bid: number): Observable<void> {
+    return from(this.auctionRef.doc(motionId).collection(ApiConsts.relatedAuctions).doc<AuctionInstance>(auctionId).update({bid}));
+  }
+
+  /**
+   * Update standalone auction's ask value for creator
+   * @param { string } motionId
+   * @param { string }auctionId
+   * @param { number } ask
+   */
+  updateAuctionAsk(motionId: string, auctionId: string, ask: number): Observable<void> {
+    return from(this.auctionRef.doc(motionId).collection(ApiConsts.relatedAuctions).doc<AuctionInstance>(auctionId).update({ask}));
+  }
+
 
   /**
    * Adds event listener to particular auction to determine the changes

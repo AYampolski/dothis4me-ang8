@@ -15,9 +15,10 @@ import { DlDateTimeDateModule, DlDateTimePickerModule } from 'angular-bootstrap-
 
 import { SharedModule } from '../shared/shared.module';
 import { AccordionComponent } from './components/accordion/accordion.component';
+import { AccordionItemComponent } from './components/accordion-item/accordion-item.component';
 
 @NgModule({
-  declarations: [InitComponent, ProcessingComponent, AccordionComponent],
+  declarations: [InitComponent, ProcessingComponent, AccordionComponent, AccordionItemComponent],
   imports: [
     CommonModule,
     FormsModule,
