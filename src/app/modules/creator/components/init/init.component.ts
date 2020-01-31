@@ -47,14 +47,22 @@ export class InitComponent implements OnInit {
         console.log('NO VALUE');
         return ;
       }
-      this.stateService.activeSessionsObjects = this.stateService.activeSessionsObjects.filter( ( auction: AuctionInstance ) => {
-        return auction.key !== updatedAuction.key;
+
+      const changedItem = this.stateService.activeSessionsObjects.findIndex((item: AuctionInstance) => {
+        return item.key === updatedAuction.key;
       });
+
+      if(changedItem > -1) {
+        this.stateService.activeSessionsObjects[changedItem] = updatedAuction;
+      } else {
+        this.stateService.activeSessionsObjects.push(updatedAuction);
+      }
+
       const flag = false;
       if(updatedAuction.deal){
         sumSubsciption.unsubscribe();
       }
-      this.stateService.activeSessionsObjects.push(updatedAuction);
+
     });
 
   }

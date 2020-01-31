@@ -41,24 +41,5 @@ export class AccordionComponent implements OnInit, OnChanges {
 
   identifyer = (index: number, item: any) => item.bid || item.isAsked ;
 
-  onReject(element: AuctionInstance, askForm) {
-    console.log('element === ', element);
-    const motionId = this.stateService.newMotionInstance.key;
-    const {key, ask} = element;
-    // const ask = askForm.value;
-    if(!motionId || !key || !ask ){
-      console.log('can not reject');
-      return;
-    }
-    this.api.updateAsk(motionId, key, ask).subscribe(ex => {
-      console.log('LOOKT AT THIS', element);
-      this.data = this.data.filter(item => {
-        return item.key !== element.key;
-      });
-      element = Object.assign({}, element, {isAisAsked : true});
-      this.data.push(element);
-      // element = {...element, isAsked: true};
-      console.log('after ', element);
-    });
-  }
+
 }

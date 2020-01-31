@@ -1,58 +1,16 @@
 <div class="container">
   <mat-accordion [multi]="true" *ngIf="data">
+    <!-- <mat-expansion-panel *ngFor="let d of data"> -->
     <mat-expansion-panel *ngFor="let d of data; trackBy: identifyer">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <!-- {{title}} -->
           {{ d.displayName }}
         </mat-panel-title>
         <mat-panel-description>
-          <!-- {{icon}} -->
           ert
         </mat-panel-description>
       </mat-expansion-panel-header>
-
-      <div class="content">
-        <div class="content__header">{{ d.requirement }}</div>
-        <div class="content__main">
-          {{ console.log(d.isAsked) }}
-          <ng-template [ngIf]="!d.isAsked">
-            <div class="content__ask">
-              <div class="content__title">I ask</div>
-              <div class="content__ask-input">
-                <mat-form-field class="example-full-width">
-                  <input matInput [value]="d.ask" [(ngModel)]="d.ask" />
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="content__bid">
-              <div class="content__title">
-                Maximum bid
-              </div>
-              <div class="content__bid-value">
-                <!-- {{bid}} -->
-                <input matInput [value]="d.bid" />
-              </div>
-            </div>
-          </ng-template>
-
-          <ng-template [ngIf]="d.isAsked">
-            <h1>CHECK CHECK</h1>
-          </ng-template>
-
-
-        </div>
-        <div class="content__actions">
-          <div class="content__reject">
-            <button mat-raised-button color="warn" (click)="onReject(d, ask)">
-              Reject
-            </button>
-          </div>
-          <div class="content__accept">
-            <button mat-raised-button color="primary">Accept</button>
-          </div>
-        </div>
-      </div>
+        <app-accordion-item [item]="d"></app-accordion-item>
     </mat-expansion-panel>
   </mat-accordion>
 </div>

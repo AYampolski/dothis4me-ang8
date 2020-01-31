@@ -221,10 +221,10 @@ export class ApiService {
    * Update standalone auction's ask value for creator
    * @param { string } motionId
    * @param { string }auctionId
-   * @param { number } ask
+   * @param { any } ask
    */
-  updateAuctionAsk(motionId: string, auctionId: string, ask: number): Observable<void> {
-    return from(this.auctionRef.doc(motionId).collection(ApiConsts.relatedAuctions).doc<AuctionInstance>(auctionId).update({ask}));
+  updateAuctionAsk(motionId: string, auctionId: string, obj: any): Observable<void> {
+    return from(this.auctionRef.doc(motionId).collection(ApiConsts.relatedAuctions).doc<AuctionInstance>(auctionId).update(obj));
   }
 
 

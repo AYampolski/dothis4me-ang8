@@ -1,1 +1,45 @@
-<p>accordion-item works!</p>
+<div class="content">
+  <div class="content__header">{{ item.requirement }}</div>
+  <div class="content__main">
+
+    <ng-template [ngIf]="(!item.isAsked && !item.deal )">
+      <div class="content__ask">
+        <div class="content__title">I ask = {{(!item.isAsked && !item.deal )}}</div>
+        <div class="content__ask-input">
+          <mat-form-field class="example-full-width">
+            <input matInput [value]="item.ask" [(ngModel)]="item.ask" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="content__bid">
+        <div class="content__title">
+          Maximum bid
+        </div>
+        <div class="content__bid-value">
+          <!-- {{bid}} -->
+          <input matInput [value]="item.bid" />
+        </div>
+      </div>
+      <div class="content__actions">
+        <div class="content__reject">
+          <button mat-raised-button color="warn" (click)="onReject(item, ask)">
+            Reject
+          </button>
+        </div>
+        <div class="content__accept">
+          <button mat-raised-button color="primary" (click)="onAccept()" >Accept</button>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template [ngIf]="(item.isAsked && !item.deal)">
+        <div>I ask</div>
+        <div>{{ item.ask }}</div>
+        <div>re-ask?</div>
+    </ng-template>
+    <ng-template [ngIf]="(item.deal)">
+        ACCEPTED
+    </ng-template>
+  </div>
+
+</div>

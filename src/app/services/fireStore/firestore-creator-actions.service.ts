@@ -38,8 +38,8 @@ export class FirestoreCreatorActionsService {
   }
 
   // motionId: string, auctionId: string, ask: number
-  updateAsk(motionId: string, auctionId: string, ask: number) {
-    return this.apiService.updateAuctionAsk(motionId, auctionId, ask);
+  updateAsk(motionId: string, auctionId: string, obj: any) {
+    return this.apiService.updateAuctionAsk(motionId, auctionId, obj);
   }
 
 

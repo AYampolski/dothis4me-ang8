@@ -1,0 +1,6 @@
+.content {
+    &__main, &__actions {
+            display: flex;
+            justify-content: space-around;
+        }
+}
