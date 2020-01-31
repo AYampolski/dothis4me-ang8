@@ -9,7 +9,7 @@
         </mat-panel-title>
         <mat-panel-description>
           <mat-icon
-          svgIcon="pending"
+          [svgIcon]="customIcon"
           aria-hidden="false"
           aria-label="Example thumbs up SVG icon"
         ></mat-icon>
@@ -18,4 +18,5 @@
         <app-accordion-item [item]="d"></app-accordion-item>
     </mat-expansion-panel>
   </mat-accordion>
+  <button (click)="changeIcon()">Change icon</button>
 </div>
