@@ -3,8 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { StateService } from '@services-cust/state.service';
 import { FirestoreRequestorActionsService } from '@services-cust/fireStore/firestore-requestor-actions.service';
 import { AuctionForm } from '@models-cust/auction.model';
-
-// import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-init',
@@ -13,24 +12,34 @@ import { AuctionForm } from '@models-cust/auction.model';
 })
 export class InitComponent implements OnInit {
 
-  title: string;
   requirement: string;
   bid: number;
-  flag = true;
-  auction;
+
+  updateObserver = {
+    next: success => {
+      console.warn('Updated success! Success: ', success);
+    },
+    error: err => {
+      console.warn('Errors witrh updating! ', err);
+    },
+    complete: () => {
+      console.warn('Updated complete! ');
+    }
+  };
+
   constructor(
     public stateService: StateService,
     private api: FirestoreRequestorActionsService
   ) { }
 
   ngOnInit() {
-    console.log('[REQUESTOR MODULE INIT COMPONENT]' , );
   }
 
   /**
    * Creates an instance of auction form;
    * @param { string } requirement
    * @param { number } bid
+   * @param { string } status
    */
   createAucitonFormInstance(requirement: string, bid: number, status: string): AuctionForm {
     return {
@@ -40,46 +49,45 @@ export class InitComponent implements OnInit {
     };
   }
 
-  // HERE!!!
-  createRequest(){
-    console.log('### key= ', this.stateService.motionId);
+  createRequest(): void{
 
     if (!this.requirement || !this.bid) {
       console.log('fill the form of auction');
       return;
     }
-    this.flag = false;
+
     const motionId = this.stateService.newMotionInstance.key;
     const auctionData = this.createAucitonFormInstance(this.requirement, this.bid, 'pending');
-    this.api.newCreateRequest(motionId, auctionData).subscribe( success => {
-      const recievedData = success.payload.data();
-      console.log('!!!! ', success);
-      if(this.stateService.selectedAuction) {
-        if(this.stateService.selectedAuction.ask !== recievedData.ask){
-          // this.flag = true;
-        }
-      }
-      this.stateService.selectedAuction = recievedData;
+
+    this.api.createRequest(motionId, auctionData).subscribe( success => {
+      this.stateService.selectedAuction = success.payload.data();
     },
     err => {
-      console.log('!!!!', err);
+      console.warn('Error inside creation auctin from requestor: ', err);
     });
   }
 
 
-  onNewBid(bid){
-    console.log('Check bid', bid, this.stateService.newMotionInstance.key, this.stateService.selectedAuction.key);
+  onNewBid(bid): void {
     this.stateService.selectedAuction.status = 'pending';
-    this.api.updateAuction( this.stateService.newMotionInstance.key, this.stateService.selectedAuction.key ,{bid, status: 'pending'}).subscribe(res => {
-      console.log('New bid', res);
-    });
+    const updatedProps = {bid, status: 'pending'};
+
+    this.updateAuctionForm(updatedProps).subscribe(this.updateObserver);
   }
-  onAccept() {
+
+  updateAuctionForm(updatedProps): Observable<void> {
+    const motionId = this.stateService.newMotionInstance.key;
+    const aucitonId = this.stateService.selectedAuction.key;
+    return this.api
+      .updateAuction( motionId, aucitonId, updatedProps);
+  }
+
+  onAccept(): void {
     this.stateService.selectedAuction.deal = String(this.stateService.selectedAuction.bid);
     const deal = this.stateService.selectedAuction.ask;
-    console.log('Check accept', this.stateService.selectedAuction.deal, this.stateService.newMotionInstance.key, this.stateService.selectedAuction.key);
-    this.api.updateAuction( this.stateService.newMotionInstance.key, this.stateService.selectedAuction.key ,{deal, status: 'success'}).subscribe(res => {
-
-    })
+    const updatedProps = { deal, status: 'success'};
+    this.updateAuctionForm(updatedProps).subscribe(this.updateObserver);
   }
+
+
 }

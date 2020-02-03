@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ApiService } from '@services-cust/fireStore/api.service';
 import { AuctionForm, AuctionInstance } from '@models-cust/auction.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -36,14 +37,14 @@ export class FirestoreRequestorActionsService {
     };
   }
 
-  newCreateRequest(motionId: string, auctionForm: AuctionForm) {
+  createRequest(motionId: string, auctionForm: AuctionForm) {
     const auctionWithoutKey = this.createRequestObj(auctionForm);
 
     return this.apiService.addAuction(motionId, auctionWithoutKey);
 
   }
 
-  updateAuction(motionId, auctionId, obj){
+  updateAuction(motionId, auctionId, obj): Observable<void> {
     return this.apiService.updateAuctionProps(motionId, auctionId, obj);
   }
 }

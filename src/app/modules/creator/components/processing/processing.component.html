@@ -2,7 +2,7 @@
 <div class="container">
     <app-motion-input></app-motion-input>
     <div *ngIf="this.stateServive.activeSessionsObjects.length; else noOrders">
-            <app-accordion [data]="this.stateServive.activeSessionsObjects"></app-accordion>
+            <app-accordion [auctionList]="this.stateServive.activeSessionsObjects"></app-accordion>
     </div>
     <ng-template #noOrders>There are no orders</ng-template>
 </div>

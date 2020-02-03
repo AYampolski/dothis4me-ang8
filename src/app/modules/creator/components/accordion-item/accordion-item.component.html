@@ -1,14 +1,14 @@
 <div class="content">
-  <div class="content__header">{{ item.requirement }}</div>
+  <div class="content__header">{{ auction.requirement }}</div>
   <div class="content__main">
 
-    <ng-template [ngIf]="this.item.status === 'pending'">
+    <ng-template [ngIf]="this.auction.status === 'pending'">
       <div class="content__interaction">
         <div class="content__ask">
             <div class="content__title">I ask</div>
             <!-- <div class=""> -->
               <mat-form-field class="content__ask-input">
-                <input matInput [value]="item.ask" [(ngModel)]="item.ask" />
+                <input matInput [value]="auction.ask" [(ngModel)]="auction.ask" />
               </mat-form-field>
             <!-- </div> -->
           </div>
@@ -17,7 +17,7 @@
               Maximum bid
             </div>
             <div class="content__bid-value">
-              {{item.bid}}
+              {{auction.bid}}
             </div>
           </div>
       </div>
@@ -34,22 +34,22 @@
       </div>
     </ng-template>
 
-    <ng-template  [ngIf]="this.item.status === 'ask'">
+    <ng-template  [ngIf]="this.auction.status === 'ask'">
         <div class="section-ask">
           <div>I ask</div>
-          <div><span class="info">{{ item.ask }} UAH</span></div>
+          <div><span class="info">{{ auction.ask }} UAH</span></div>
           <div>re-ask?</div>
         </div>
     </ng-template>
 
-    <ng-template [ngIf]="this.item.status === 'success'">
+    <ng-template [ngIf]="this.auction.status === 'success'">
       <div>
         <div class="section-success">
           <div>
             {{'negotiation' | uppercase }}
           </div>
         </div>
-        {{ item.bid }}
+        {{ auction.bid }}
           <div>
         </div>
       </div>

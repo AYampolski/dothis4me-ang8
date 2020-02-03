@@ -1,21 +1,24 @@
 <div class="container">
-  <mat-accordion [multi]="true" *ngIf="data">
-    <!-- <mat-expansion-panel *ngFor="let d of data"> -->
-    <mat-expansion-panel *ngFor="let d of data; trackBy: identifyer">
+  <mat-accordion [multi]="true" *ngIf="auctionList">
+    <mat-expansion-panel
+      *ngFor="let auciton of auctionList; trackBy: identifyer"
+    >
       <mat-expansion-panel-header>
         <mat-panel-title>
-          {{ d.displayName }}
-
+          {{ auciton.displayName }}
         </mat-panel-title>
         <mat-panel-description>
           <mat-icon
-          [svgIcon]="d.status"
-          aria-hidden="false"
-          aria-label="Example thumbs up SVG icon"
-        ></mat-icon>
+            [svgIcon]="auciton.status"
+            aria-hidden="false"
+            aria-label="Example thumbs up SVG icon"
+          ></mat-icon>
         </mat-panel-description>
       </mat-expansion-panel-header>
-        <app-accordion-item [item]="d" (changeIcon)="onChangeIcon($event)"></app-accordion-item>
+      <app-accordion-item
+        [auction]="auciton"
+        (changeIcon)="onChangeIcon($event)"
+      ></app-accordion-item>
     </mat-expansion-panel>
   </mat-accordion>
 </div>
