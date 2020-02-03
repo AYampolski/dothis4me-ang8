@@ -19,33 +19,65 @@
           <input matInput [(ngModel)]="bid" />
         </mat-form-field>
         <div class="bid-actions__btn">
-          <button mat-raised-button color="accent" (click)="createRequest()">
+          <button mat-raised-button color="warn" (click)="createRequest()">
             My bid
           </button>
         </div>
       </div>
     </ng-template>
-    <ng-template #phase2 [ngIf]="!flag && this.stateService.selectedAuction && !this.stateService.selectedAuction.deal">
+    <ng-template
+      #phase2
+      [ngIf]="
+        !flag &&
+        this.stateService.selectedAuction &&
+        !this.stateService.selectedAuction.deal
+      "
+    >
       <div>I bid #phase2</div>
-      <div> {{bid}} </div>
+      <div>{{ bid }}</div>
       <div>re-ask</div>
     </ng-template>
-    <ng-template #phase3 [ngIf]="!flag && this.stateService.selectedAuction && this.stateService.selectedAuction.deal">
+    <ng-template
+      #phase3
+      [ngIf]="
+        !flag &&
+        this.stateService.selectedAuction &&
+        this.stateService.selectedAuction.deal
+      "
+    >
       <div>negotiation</div>
-      <div> {{bid}} </div>
+      <div>{{ bid }}</div>
     </ng-template>
     <ng-template #phase4 [ngIf]="flag && this.stateService.selectedAuction">
       <div class="new-bid">
-        <div>I bid</div>
-        <div>
-          <input type="number" #newBid value="this.stateService.selectedAuction.bid">
+        <div class="new-bid__common">I bid</div>
+        <div class="new-bid__value">
+          <input
+            type="number"
+            #newBid
+            value="this.stateService.selectedAuction.bid"
+          />
         </div>
-        <button (click)="onNewBid(newBid.value)">New bid</button>
+        <button
+          class="new-bid__btn"
+          mat-raised-button
+          (click)="onNewBid(newBid.value)"
+        >
+          New bid
+        </button>
       </div>
       <div class="accept">
-        <div>Ask</div>
-        <div> {{this.stateService.selectedAuction.ask}} </div>
-        <button (click)="onAccept()">Accept</button>
+        <div class="accept__common">Ask</div>
+        <div class="accept__value">
+          {{ this.stateService.selectedAuction.ask }}
+        </div>
+        <button
+          class="accept__btn"
+          mat-raised-button color="primary"
+          (click)="onAccept()"
+        >
+          Accept
+        </button>
       </div>
     </ng-template>
   </mat-card>

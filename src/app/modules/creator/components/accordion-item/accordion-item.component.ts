@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { AuctionInstance } from '@models-cust/auction.model';
 
 import { StateService } from '@services-cust/state.service';
 import { FirestoreCreatorActionsService } from '@services-cust/fireStore/firestore-creator-actions.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-accordion-item',
@@ -14,6 +15,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class AccordionItemComponent implements OnInit {
 
   @Input() item: AuctionInstance;
+  @Output() changeIcon: EventEmitter<string> = new EventEmitter();
+
   constructor(
     private api: FirestoreCreatorActionsService,
     private stateService: StateService,
@@ -38,20 +41,20 @@ export class AccordionItemComponent implements OnInit {
     const obj = {ask, isAsked: true};
 
     this.api.updateAsk(motionId, key, obj).subscribe(ex => {
-      // console.log('LOOKT AT THIS', this.item);
-      // this.item.ask = ask;
 
-      // this.item = Object.assign({}, this.item , {isAsked : true}); //re-rendered
-      // // this.item.isAsked = true;
+      this.changeIcon.emit(this.stateService.iconList.ask);
+
       console.log('after ', this.item );
     });
   }
 
   onAccept(){
-    this.item = Object.assign({}, this.item, {deal : this.item.bid}); //re-rendered
-    // this.item.deal = String(this.item.bid);
-    console.log('===>', this.item);
-    this.api.updateAsk(this.stateService.newMotionInstance.key, this.item.key, {deal: this.item.bid});
+    this.item = Object.assign({}, this.item, {deal : this.item.bid});
+    this.api.updateAsk(this.stateService.newMotionInstance.key, this.item.key, {deal: this.item.bid}).subscribe(
+      res => {
+        this.changeIcon.emit(this.stateService.iconList.success);
+      }
+    );
   }
 
 }

@@ -1,15 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { StateService } from '@services-cust/state.service';
-import { FirestoreCreatorActionsService } from '@services-cust/fireStore/firestore-creator-actions.service';
-import { AuctionInstance } from '@models-cust/auction.model';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 
-enum iconList {
-  success = 'success',
-  ask = 'ask',
-  pending = 'pending'
-}
+import { StateService } from '@services-cust/state.service';
+import { FirestoreCreatorActionsService } from '@services-cust/fireStore/firestore-creator-actions.service';
+
+
 
 @Component({
   selector: 'app-accordion',
@@ -24,14 +20,16 @@ export class AccordionComponent implements OnInit {
   @Input() data;
   console = console;
   title; icon; bid;
-  customIcon = iconList.pending;
+  customIcon;
 
   constructor(
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private stateService: StateService,
+
     private api: FirestoreCreatorActionsService
   ) {
+    this.customIcon = this.stateService.iconList.pending;
     iconRegistry.addSvgIcon(
       'ask',
       sanitizer.bypassSecurityTrustResourceUrl('assets/ask.svg'));
@@ -43,6 +41,8 @@ export class AccordionComponent implements OnInit {
     iconRegistry.addSvgIcon(
       'success',
       sanitizer.bypassSecurityTrustResourceUrl('assets/ready.svg'));
+
+    this.customIcon = this.stateService.iconList.pending;
   }
 
   ngOnInit() {
@@ -51,9 +51,10 @@ export class AccordionComponent implements OnInit {
 
   }
 
+  onChangeIcon($event){
+    console.log('THIS IS EVENT => ', $event);
+    this.customIcon = this.stateService.iconList[$event];
 
-  changeIcon(){
-    this.customIcon = iconList.ask;
   }
 
   identifyer = (index: number, item: any) => item.bid || item.isAsked ;

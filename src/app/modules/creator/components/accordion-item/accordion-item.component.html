@@ -37,7 +37,7 @@
 
     <ng-template [ngIf]="(item.isAsked && !item.deal)">
         <div>I ask</div>
-        <div>{{ item.ask }}</div>
+        <div><span class="info">{{ item.ask }} UAH</span></div>
         <div>re-ask?</div>
     </ng-template>
     <ng-template [ngIf]="(item.deal)">

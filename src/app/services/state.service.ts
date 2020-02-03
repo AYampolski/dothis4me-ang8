@@ -9,8 +9,14 @@ import { AuctionInstance } from '@models-cust/auction.model';
 })
 export class StateService {
 
-  newMotionInstance: MotionInstance;
 
+
+  newMotionInstance: MotionInstance;
+  iconList = {
+    pending: 'pending',
+    success: 'success',
+    ask: 'ask'
+  }
   activeSessionsIds = [];
   activeSessionsObjects = [];
   motion: MotionInstance;

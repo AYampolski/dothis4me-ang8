@@ -15,8 +15,7 @@
         ></mat-icon>
         </mat-panel-description>
       </mat-expansion-panel-header>
-        <app-accordion-item [item]="d"></app-accordion-item>
+        <app-accordion-item [item]="d" (changeIcon)="onChangeIcon($event)"></app-accordion-item>
     </mat-expansion-panel>
   </mat-accordion>
-  <button (click)="changeIcon()">Change icon</button>
 </div>

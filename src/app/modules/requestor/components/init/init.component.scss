@@ -1,3 +1,5 @@
+@import '../../../../shared//variables.scss';
+
 .bid-actions {
     display: flex;
     justify-content: space-between;
@@ -6,4 +8,34 @@
 
 .proposal {
     width: 100%;
+}
+
+.new-bid, .accept {
+    display: flex;
+    justify-content: space-around;
+}
+
+.new-bid {
+
+    margin-bottom: 2em;
+    &__common {
+        flex: 1;
+    }
+    &__btn, &__value {
+        flex: 2;
+    }
+    &__btn {
+        background-color: $infoColor;
+        color: #fff;
+    }
+}
+
+.accept {
+    margin-bottom: 2em;
+    &__common {
+        flex: 1;
+    }
+    &__btn, &__value {
+        flex: 2;
+    }
 }
