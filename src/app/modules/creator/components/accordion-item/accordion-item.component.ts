@@ -16,6 +16,13 @@ export class AccordionItemComponent implements OnInit {
 
   @Input() item: AuctionInstance;
   @Output() changeIcon: EventEmitter<string> = new EventEmitter();
+  aucitonState; // pending | asked | accepted
+  statePending; stateAsked; stateAccepted
+  showPendingState = true;
+  showAskState: boolean;
+  showAcceptedState: boolean;
+  showStatus: string;
+
 
   constructor(
     private api: FirestoreCreatorActionsService,
@@ -23,10 +30,39 @@ export class AccordionItemComponent implements OnInit {
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
   ) {
-
+    // this.aucitonState =
    }
 
   ngOnInit() {
+    this.showStatus = this.item.status;
+  }
+
+  setState(state){
+    this.clearStates();
+    switch(state){
+      case 'pending': {
+        this.showPendingState = true;
+        break;
+      }
+      case 'ask': {
+        this.showAskState = true;
+        break;
+      }
+      case 'success': {
+        this.showAcceptedState = true;
+        break;
+      }
+      default: {
+        console.warn('THERE IS NOT PROP');
+        break;
+      }
+    }
+  }
+
+  clearStates(){
+    this.showPendingState = false;
+    this.showAcceptedState = false;
+    this.showAskState = false;
   }
 
   onReject(element: AuctionInstance, askForm) {
@@ -38,20 +74,23 @@ export class AccordionItemComponent implements OnInit {
       console.log('can not reject');
       return;
     }
-    const obj = {ask, isAsked: true};
+    const obj = {ask, status: 'ask'};
 
     this.api.updateAsk(motionId, key, obj).subscribe(ex => {
-
-      this.changeIcon.emit(this.stateService.iconList.ask);
-
+      // this.setState(this.stateService.iconList.ask);
+      // this.changeIcon.emit(this.stateService.iconList.ask);
+      this.item.status = 'ask';
       console.log('after ', this.item );
     });
   }
 
   onAccept(){
-    this.item = Object.assign({}, this.item, {deal : this.item.bid});
-    this.api.updateAsk(this.stateService.newMotionInstance.key, this.item.key, {deal: this.item.bid}).subscribe(
+    this.item = Object.assign({}, this.item, {deal : this.item.bid, status: 'success'});
+    this.showStatus = 'success';
+    this.api.updateAsk(this.stateService.newMotionInstance.key, this.item.key, {deal: this.item.bid, status: 'success'}).subscribe(
       res => {
+        this.item.status = 'success';
+        // this.setState(this.stateService.iconList.success);
         this.changeIcon.emit(this.stateService.iconList.success);
       }
     );

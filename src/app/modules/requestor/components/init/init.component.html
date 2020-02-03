@@ -10,7 +10,8 @@
         [(ngModel)]="requirement"
       ></textarea>
     </mat-form-field>
-    <ng-template #phase1 [ngIf]="flag && !this.stateService.selectedAuction">
+    <ng-template #phase1 [ngIf]="!this.stateService.selectedAuction">
+      <p>#phase1</p>
       <div class="bid-actions">
         <div class="bid-actions__title">
           I bid #phase1
@@ -27,28 +28,22 @@
     </ng-template>
     <ng-template
       #phase2
-      [ngIf]="
-        !flag &&
-        this.stateService.selectedAuction &&
-        !this.stateService.selectedAuction.deal
-      "
+      [ngIf]="this.stateService.selectedAuction && this.stateService.selectedAuction.status === 'pending'"
     >
       <div>I bid #phase2</div>
-      <div>{{ bid }}</div>
+      <div>{{ this.stateService.selectedAuction.bid }}</div>
       <div>re-ask</div>
     </ng-template>
     <ng-template
       #phase3
-      [ngIf]="
-        !flag &&
-        this.stateService.selectedAuction &&
-        this.stateService.selectedAuction.deal
-      "
+      [ngIf]="this.stateService.selectedAuction && this.stateService.selectedAuction.status === 'success'"
     >
+      <p>#phase3</p>
       <div>negotiation</div>
-      <div>{{ bid }}</div>
+      <div>{{ this.stateService.selectedAuction.bid }}</div>
     </ng-template>
-    <ng-template #phase4 [ngIf]="flag && this.stateService.selectedAuction">
+    <ng-template #phase4  [ngIf]="this.stateService.selectedAuction && this.stateService.selectedAuction.status === 'ask'">
+      <p>#phase4</p>
       <div class="new-bid">
         <div class="new-bid__common">I bid</div>
         <div class="new-bid__value">

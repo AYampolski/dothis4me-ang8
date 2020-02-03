@@ -17,6 +17,13 @@ export class StateService {
     success: 'success',
     ask: 'ask'
   }
+
+  // motionStatus = {
+  //   pending: false,
+  //   success: false,
+  //   ask: false
+  // };
+
   activeSessionsIds = [];
   activeSessionsObjects = [];
   motion: MotionInstance;

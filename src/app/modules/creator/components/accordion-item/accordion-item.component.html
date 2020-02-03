@@ -2,10 +2,10 @@
   <div class="content__header">{{ item.requirement }}</div>
   <div class="content__main">
 
-    <ng-template [ngIf]="(!item.isAsked && !item.deal )">
+    <ng-template [ngIf]="this.item.status === 'pending'">
       <div class="content__interaction">
         <div class="content__ask">
-            <div class="content__title">I ask = {{(!item.isAsked && !item.deal )}}</div>
+            <div class="content__title">I ask</div>
             <!-- <div class=""> -->
               <mat-form-field class="content__ask-input">
                 <input matInput [value]="item.ask" [(ngModel)]="item.ask" />
@@ -17,8 +17,7 @@
               Maximum bid
             </div>
             <div class="content__bid-value">
-              <!-- {{bid}} -->
-              <input matInput [value]="item.bid" />
+              {{item.bid}}
             </div>
           </div>
       </div>
@@ -35,13 +34,26 @@
       </div>
     </ng-template>
 
-    <ng-template [ngIf]="(item.isAsked && !item.deal)">
-        <div>I ask</div>
-        <div><span class="info">{{ item.ask }} UAH</span></div>
-        <div>re-ask?</div>
+    <ng-template  [ngIf]="this.item.status === 'ask'">
+        <div class="section-ask">
+          <div>I ask</div>
+          <div><span class="info">{{ item.ask }} UAH</span></div>
+          <div>re-ask?</div>
+        </div>
     </ng-template>
-    <ng-template [ngIf]="(item.deal)">
-        ACCEPTED
+
+    <ng-template [ngIf]="this.item.status === 'success'">
+      <div>
+        <div class="section-success">
+          <div>
+            {{'negotiation' | uppercase }}
+          </div>
+        </div>
+        {{ item.bid }}
+          <div>
+        </div>
+      </div>
+
     </ng-template>
   </div>
 

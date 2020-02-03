@@ -1,31 +1,34 @@
 @import "../../../../shared/variables.scss";
 
 .content {
+  &__interaction,
+  &__actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
 
-    &__interaction, &__actions {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-    }
+  &__header {
+    margin-bottom: 2em;
+  }
 
-    &__header {
-        margin-bottom: 2em;
-    }
+  &__main {
+    display: flex;
+    flex-direction: column;
+  }
 
-    &__ask-input {
-        padding-left: .5em;
-        padding-right: .5em;
-        border: 2px solid black;
-    }
+  &__ask,
+  &__bid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-    &__main {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
+  &__bid &__title {
+    margin-bottom: 0.84375em;
+  }
 }
 
 .info {
-    color: $infoColor;
+  color: $infoColor;
 }

@@ -21,6 +21,9 @@ export class AccordionComponent implements OnInit {
   console = console;
   title; icon; bid;
   customIcon;
+  showPendingState: boolean;
+  showAcceptedState: boolean;
+  showAskState: boolean;
 
   constructor(
     iconRegistry: MatIconRegistry,
@@ -57,7 +60,9 @@ export class AccordionComponent implements OnInit {
 
   }
 
-  identifyer = (index: number, item: any) => item.bid || item.isAsked ;
+
+
+  identifyer = (index: number, item: any) => item.status ;
 
 
 }

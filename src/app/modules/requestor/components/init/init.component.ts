@@ -17,6 +17,7 @@ export class InitComponent implements OnInit {
   requirement: string;
   bid: number;
   flag = true;
+  auction;
   constructor(
     public stateService: StateService,
     private api: FirestoreRequestorActionsService
@@ -31,10 +32,11 @@ export class InitComponent implements OnInit {
    * @param { string } requirement
    * @param { number } bid
    */
-  createAucitonFormInstance(requirement: string, bid: number): AuctionForm {
+  createAucitonFormInstance(requirement: string, bid: number, status: string): AuctionForm {
     return {
       requirement,
-      bid
+      bid,
+      status
     };
   }
 
@@ -48,13 +50,13 @@ export class InitComponent implements OnInit {
     }
     this.flag = false;
     const motionId = this.stateService.newMotionInstance.key;
-    const auctionData = this.createAucitonFormInstance(this.requirement, this.bid);
+    const auctionData = this.createAucitonFormInstance(this.requirement, this.bid, 'pending');
     this.api.newCreateRequest(motionId, auctionData).subscribe( success => {
       const recievedData = success.payload.data();
       console.log('!!!! ', success);
       if(this.stateService.selectedAuction) {
         if(this.stateService.selectedAuction.ask !== recievedData.ask){
-          this.flag = true;
+          // this.flag = true;
         }
       }
       this.stateService.selectedAuction = recievedData;
@@ -67,12 +69,17 @@ export class InitComponent implements OnInit {
 
   onNewBid(bid){
     console.log('Check bid', bid, this.stateService.newMotionInstance.key, this.stateService.selectedAuction.key);
-    this.api.updateAuction( this.stateService.newMotionInstance.key, this.stateService.selectedAuction.key ,{bid});
+    this.stateService.selectedAuction.status = 'pending';
+    this.api.updateAuction( this.stateService.newMotionInstance.key, this.stateService.selectedAuction.key ,{bid, status: 'pending'}).subscribe(res => {
+      console.log('New bid', res);
+    });
   }
   onAccept() {
     this.stateService.selectedAuction.deal = String(this.stateService.selectedAuction.bid);
     const deal = this.stateService.selectedAuction.ask;
     console.log('Check accept', this.stateService.selectedAuction.deal, this.stateService.newMotionInstance.key, this.stateService.selectedAuction.key);
-    this.api.updateAuction( this.stateService.newMotionInstance.key, this.stateService.selectedAuction.key ,{deal})
+    this.api.updateAuction( this.stateService.newMotionInstance.key, this.stateService.selectedAuction.key ,{deal, status: 'success'}).subscribe(res => {
+
+    })
   }
 }

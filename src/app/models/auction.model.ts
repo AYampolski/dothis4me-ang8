@@ -1,6 +1,7 @@
 export interface AuctionForm {
     requirement: string;
     bid: number;
+    status: string;
 }
 
 export interface AuctionInstance {
@@ -12,4 +13,5 @@ export interface AuctionInstance {
     ask: number;
     deal: null | string | undefined;
     isAsked?: boolean;
+    status?: string;
 }
