@@ -6,6 +6,7 @@ import { FirestoreCreatorActionsService } from '@services-cust/fireStore/firesto
 import { StateService } from '@services-cust/state.service';
 import { MotionForm } from '@models-cust/motion.model';
 import { AuctionInstance } from '@models-cust/auction.model';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-init',
@@ -16,8 +17,7 @@ export class InitComponent implements OnInit {
 
   createMotionForm: FormGroup;
   selectedDate: string;
-  // title: string;
-  // proposal: string;
+
   console = console;
   filledForm: MotionForm;
   controls;
@@ -36,8 +36,7 @@ export class InitComponent implements OnInit {
     }
 
   ngOnInit() {
-    // this.title = 'I plan to motion soon..';
-    // this.proposal = 'What I can do for the people';
+
   }
 
   firestoreCreateMotion() {
@@ -48,28 +47,27 @@ export class InitComponent implements OnInit {
       lastCall: +moment.utc(this.selectedDate).format('x')
     };
 
-    const sumSubsciption = this.firebaseCreatorService.createMotion(this.filledForm).subscribe((updatedAuction: number | AuctionInstance) => {
-      console.log('from component:: ', updatedAuction);
-      if(typeof updatedAuction === 'number') {
-        console.log('NO VALUE');
-        return ;
-      }
+    this.firebaseCreatorService.createMotion(this.filledForm)
+      .pipe(filter( (updatedAuction: number | AuctionInstance) => {
+        return typeof updatedAuction !== 'number';
+      }))
+      .subscribe((updatedAuction: AuctionInstance) => {
 
-      const changedItem = this.stateService.activeSessionsObjects.findIndex((item: AuctionInstance) => {
-        return item.key === updatedAuction.key;
-      });
+        const changedItem = this.stateService.activeSessionsObjects.findIndex((item: AuctionInstance) => {
+          return item.key === updatedAuction.key;
+        });
 
-      if(changedItem > -1) {
-        if(!updatedAuction.deal) {
-          updatedAuction.status = 'pending';
+        if(changedItem > -1) {
+          if(!updatedAuction.deal) {
+            updatedAuction.status = 'pending';
+          } else {
+            updatedAuction.status = 'success';
+          }
+          this.stateService.activeSessionsObjects[changedItem] = updatedAuction;
         } else {
-          updatedAuction.status = 'success';
+          updatedAuction.status = 'pending';
+          this.stateService.activeSessionsObjects.push(updatedAuction);
         }
-        this.stateService.activeSessionsObjects[changedItem] = updatedAuction;
-      } else {
-        updatedAuction.status = 'pending';
-        this.stateService.activeSessionsObjects.push(updatedAuction);
-      }
 
     });
 
