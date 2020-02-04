@@ -119,7 +119,7 @@ export class ApiService {
         console.log('there is some changes');
         return of(changes);
       })
-    )
+    );
   }
 
 

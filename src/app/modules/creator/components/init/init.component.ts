@@ -7,6 +7,8 @@ import { StateService } from '@services-cust/state.service';
 import { MotionForm } from '@models-cust/motion.model';
 import { AuctionInstance } from '@models-cust/auction.model';
 import { filter } from 'rxjs/operators';
+// import { ToastrService } from 'ngx-toastr';
+import { ToastMessagesService } from '@services-cust/toast-messages.service';
 
 @Component({
   selector: 'app-init',
@@ -25,6 +27,7 @@ export class InitComponent implements OnInit {
     public stateService: StateService,
     private firebaseCreatorService: FirestoreCreatorActionsService,
     private formBuilder: FormBuilder,
+    private toastrService: ToastMessagesService,
     ) {
       this.createMotionForm = this.formBuilder.group({
         title: new FormControl('I plan to motion soon..', Validators.required),
@@ -33,11 +36,19 @@ export class InitComponent implements OnInit {
       });
 
       this.controls = this.createMotionForm.controls;
+
     }
 
   ngOnInit() {
 
   }
+
+  // showSuccess(message, message2) {
+  //   this.toastr.success(message, message2);
+  // }
+  // showError(message) {
+  //   this.toastr.error(message);
+  // }
 
   firestoreCreateMotion() {
 
@@ -49,7 +60,12 @@ export class InitComponent implements OnInit {
 
     this.firebaseCreatorService.createMotion(this.filledForm)
       .pipe(filter( (updatedAuction: number | AuctionInstance) => {
-        return typeof updatedAuction !== 'number';
+        const isNewAuction = typeof updatedAuction !== 'number';
+        if (!isNewAuction) {
+          this.toastrService.motionCreated();
+        }
+
+        return isNewAuction;
       }))
       .subscribe((updatedAuction: AuctionInstance) => {
 
@@ -58,14 +74,23 @@ export class InitComponent implements OnInit {
         });
 
         if(changedItem > -1) {
+
+
           if(!updatedAuction.deal) {
             updatedAuction.status = 'pending';
+            this.toastrService.auctionUpdate(updatedAuction.displayName);
+            // this.showSuccess(updatedAuction.displayName, 'UPDATED!!');
           } else {
             updatedAuction.status = 'success';
+            this.toastrService.auctionAccept(updatedAuction.displayName);
+            // this.showSuccess(updatedAuction.displayName, 'ACCEPTED!!');
           }
           this.stateService.activeSessionsObjects[changedItem] = updatedAuction;
         } else {
           updatedAuction.status = 'pending';
+          // this.showSuccess(' You have a new auction from', updatedAuction.displayName);
+          this.toastrService.auctionNew(updatedAuction.displayName)
+          // this.showSuccess(updatedAuction.displayName, 'NEW!!');
           this.stateService.activeSessionsObjects.push(updatedAuction);
         }
 
