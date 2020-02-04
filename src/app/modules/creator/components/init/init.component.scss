@@ -17,3 +17,23 @@
     display: flex;
     justify-content: center;
 }
+
+.error-field {
+  color: red;
+  font-weight: 800;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.field-container {
+  margin-bottom: .8em;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5em;
+}

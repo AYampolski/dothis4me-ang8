@@ -1,6 +1,11 @@
 @import "../../../../shared/variables.scss";
 
+mat-form-field {
+  text-align: center;
+}
+
 .content {
+
   &__interaction,
   &__actions {
     display: flex;
@@ -20,6 +25,7 @@
   &__ask,
   &__bid {
     display: flex;
+    flex: 1;
     flex-direction: column;
     align-items: center;
   }
@@ -31,4 +37,10 @@
 
 .info {
   color: $infoColor;
+}
+
+.section--center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

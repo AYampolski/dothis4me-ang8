@@ -1,25 +1,24 @@
 <div class="content">
   <div class="content__header">{{ auction.requirement }}</div>
   <div class="content__main">
-
     <ng-template [ngIf]="this.auction.status === 'pending'">
       <div class="content__interaction">
         <div class="content__ask">
-            <div class="content__title">I ask</div>
-            <!-- <div class=""> -->
-              <mat-form-field class="content__ask-input">
-                <input matInput [value]="auction.ask" [(ngModel)]="auction.ask" />
-              </mat-form-field>
-            <!-- </div> -->
+          <div class="content__title">I ask</div>
+          <!-- <div class=""> -->
+          <mat-form-field class="content__ask-input">
+            <input matInput [value]="auction.ask" [(ngModel)]="auction.ask" />
+          </mat-form-field>
+          <!-- </div> -->
+        </div>
+        <div class="content__bid">
+          <div class="content__title">
+            Maximum bid
           </div>
-          <div class="content__bid">
-            <div class="content__title">
-              Maximum bid
-            </div>
-            <div class="content__bid-value">
-              {{auction.bid}}
-            </div>
+          <div class="content__bid-value">
+            {{ auction.bid }}
           </div>
+        </div>
       </div>
 
       <div class="content__actions">
@@ -29,32 +28,33 @@
           </button>
         </div>
         <div class="content__accept">
-          <button mat-raised-button color="primary" (click)="onAccept()" >Accept</button>
+          <button mat-raised-button color="primary" (click)="onAccept()">
+            Accept
+          </button>
         </div>
       </div>
     </ng-template>
 
-    <ng-template  [ngIf]="this.auction.status === 'ask'">
-        <div class="section-ask">
-          <div>I ask</div>
-          <div><span class="info">{{ auction.ask }} UAH</span></div>
-          <div>re-ask?</div>
+    <div class="section--center" *ngIf="this.auction.status === 'ask'">
+      <div class="section-ask">
+        <div>I ask</div>
+        <div>
+          <span class="info">{{ auction.ask }} UAH</span>
         </div>
-    </ng-template>
+        <!-- <div>re-ask?</div> -->
+      </div>
+    </div>
 
-    <ng-template [ngIf]="this.auction.status === 'success'">
+    <div class="section--center" *ngIf="this.auction.status === 'success'">
       <div>
         <div class="section-success">
           <div>
-            {{'negotiation' | uppercase }}
+            {{ "negotiation" | uppercase }}
           </div>
         </div>
-        {{ auction.bid }}
-          <div>
-        </div>
+        <span class="success"> {{ auction.bid }} UAH </span>
+        <div></div>
       </div>
-
-    </ng-template>
+    </div>
   </div>
-
 </div>

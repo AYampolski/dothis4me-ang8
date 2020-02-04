@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 import { FirestoreCreatorActionsService } from '@services-cust/fireStore/firestore-creator-actions.service';
 import { StateService } from '@services-cust/state.service';
@@ -13,32 +14,37 @@ import { AuctionInstance } from '@models-cust/auction.model';
 })
 export class InitComponent implements OnInit {
 
+  createMotionForm: FormGroup;
   selectedDate: string;
-  title: string;
-  proposal: string;
+  // title: string;
+  // proposal: string;
+  console = console;
   filledForm: MotionForm;
-
+  controls;
   constructor(
     public stateService: StateService,
-    private firebaseCreatorService: FirestoreCreatorActionsService
-    ) { }
+    private firebaseCreatorService: FirestoreCreatorActionsService,
+    private formBuilder: FormBuilder,
+    ) {
+      this.createMotionForm = this.formBuilder.group({
+        title: new FormControl('I plan to motion soon..', Validators.required),
+        proposal: new FormControl('What I can do for the people', Validators.required),
+        dataPicker: new FormControl('', Validators.required)
+      });
+
+      this.controls = this.createMotionForm.controls;
+    }
 
   ngOnInit() {
-    this.title = 'I plan to motion soon..';
-    this.proposal = 'What I can do for the people';
+    // this.title = 'I plan to motion soon..';
+    // this.proposal = 'What I can do for the people';
   }
 
   firestoreCreateMotion() {
-    if (!this.title || !this.proposal || !this.selectedDate) {
-      console.log('FILL FORM!!!');
-      return;
-    } else {
-      console.log('$$$$$$$');
-    }
 
     this.filledForm = {
-      title: this.title,
-      proposal: this.proposal,
+      title: this.createMotionForm.controls.title.value,
+      proposal: this.createMotionForm.controls.proposal.value,
       lastCall: +moment.utc(this.selectedDate).format('x')
     };
 
@@ -64,11 +70,6 @@ export class InitComponent implements OnInit {
         updatedAuction.status = 'pending';
         this.stateService.activeSessionsObjects.push(updatedAuction);
       }
-
-      const flag = false;
-      // if(updatedAuction.deal){
-      //   sumSubsciption.unsubscribe();
-      // }
 
     });
 

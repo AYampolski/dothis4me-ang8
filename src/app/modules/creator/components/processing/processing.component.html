@@ -1,8 +1,8 @@
 <p>processing works!</p>
 <div class="container">
     <app-motion-input></app-motion-input>
-    <div *ngIf="this.stateServive.activeSessionsObjects.length; else noOrders">
+    <div *ngIf="this.stateServive.activeSessionsObjects.length">
             <app-accordion [auctionList]="this.stateServive.activeSessionsObjects"></app-accordion>
     </div>
-    <ng-template #noOrders>There are no orders</ng-template>
+    <div class="section--center" *ngIf="!this.stateServive.activeSessionsObjects.length"> There are no orders </div>
 </div>

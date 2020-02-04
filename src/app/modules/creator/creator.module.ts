@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreatorRoutingModule } from './creator-routing.module';
 import { InitComponent } from './components/init/init.component';
 import { ProcessingComponent } from './components/processing/processing.component';
@@ -23,6 +23,7 @@ import { AccordionItemComponent } from './components/accordion-item/accordion-it
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     SharedModule,
     MatExpansionModule,
     CreatorRoutingModule,
