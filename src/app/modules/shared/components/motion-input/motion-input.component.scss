@@ -11,6 +11,8 @@
 
   &__icon-container {
     flex: 1;
+    display: flex;
+    justify-content: flex-end;
   }
 
 
@@ -27,6 +29,14 @@
   &__user-info {
     font-weight: 900;
   }
+}
+
+.title, .motion__container {
+  margin-bottom: .3em;
+}
+
+.description {
+  margin-bottom: 1.5em;
 }
 
 .description {

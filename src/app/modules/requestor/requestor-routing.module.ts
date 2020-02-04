@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { InitComponent } from './components/init/init.component';
-import { TestComponent } from './components/test/test.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
@@ -12,16 +12,12 @@ const routes: Routes = [
         path: '',
         component: InitComponent
       },
-      // {
-      //   path: '',
-      //   component: TestComponent
-      // }
     ]
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routes), ReactiveFormsModule, FormsModule],
   exports: [RouterModule]
 })
 export class RequestorRoutingModule { }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 import { StateService } from '@services-cust/state.service';
 import { FirestoreRequestorActionsService } from '@services-cust/fireStore/firestore-requestor-actions.service';
@@ -12,9 +13,9 @@ import { Observable } from 'rxjs';
 })
 export class InitComponent implements OnInit {
 
-  requirement: string;
-  bid: number;
-
+  startBid: FormGroup;
+  controls;
+  isLoading: boolean;
   updateObserver = {
     next: success => {
       console.warn('Updated success! Success: ', success);
@@ -29,10 +30,22 @@ export class InitComponent implements OnInit {
 
   constructor(
     public stateService: StateService,
-    private api: FirestoreRequestorActionsService
-  ) { }
+    private api: FirestoreRequestorActionsService,
+    private formBuilder: FormBuilder
+  ) {
+    this.startBid = this.formBuilder.group({
+      requirement: new FormControl('', Validators.required),
+      bid: new FormControl('', Validators.required)
+    });
+
+    this.controls = this.startBid.controls;
+  }
 
   ngOnInit() {
+  }
+
+  onSubmit(){
+    console.log('[SUBMIT] :' , this.startBid.value);
   }
 
   /**
@@ -50,17 +63,17 @@ export class InitComponent implements OnInit {
   }
 
   createRequest(): void{
-
-    if (!this.requirement || !this.bid) {
-      console.log('fill the form of auction');
-      return;
-    }
+    const controls = this.startBid.controls;
+    const requirement = controls.requirement.value;
+    const bid = controls.bid.value;
 
     const motionId = this.stateService.newMotionInstance.key;
-    const auctionData = this.createAucitonFormInstance(this.requirement, this.bid, 'pending');
+    const auctionData = this.createAucitonFormInstance(requirement, bid, 'pending');
 
+    this.isLoading = true;
     this.api.createRequest(motionId, auctionData).subscribe( success => {
       this.stateService.selectedAuction = success.payload.data();
+      this.isLoading = false;
     },
     err => {
       console.warn('Error inside creation auctin from requestor: ', err);
@@ -71,7 +84,6 @@ export class InitComponent implements OnInit {
   onNewBid(bid): void {
     this.stateService.selectedAuction.status = 'pending';
     const updatedProps = {bid, status: 'pending'};
-
     this.updateAuctionForm(updatedProps).subscribe(this.updateObserver);
   }
 

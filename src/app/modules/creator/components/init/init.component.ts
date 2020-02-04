@@ -24,7 +24,8 @@ export class InitComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-
+    this.title = 'I plan to motion soon..';
+    this.proposal = 'What I can do for the people';
   }
 
   firestoreCreateMotion() {

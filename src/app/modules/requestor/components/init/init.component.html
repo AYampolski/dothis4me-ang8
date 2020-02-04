@@ -1,89 +1,129 @@
 <div class="container-super">
-  <mat-card class="container">
-    <app-motion-input> </app-motion-input>
-
-    <mat-form-field class="proposal">
-      <textarea
-        matInput
-        placeholder="What I can do for the people"
-        rows="5"
-        [(ngModel)]="requirement"
-      ></textarea>
-    </mat-form-field>
-    <ng-template #phase1 [ngIf]="!this.stateService.selectedAuction">
-      <div class="bid-actions">
-        <div class="bid-actions__title">
-          I bid
-        </div>
-        <mat-form-field>
-          <input matInput [(ngModel)]="bid" />
+  <form>
+    <mat-card class="container">
+      <app-motion-input> </app-motion-input>
+      <div class="description-field">
+        <mat-form-field class="proposal" [formGroup]="startBid">
+          <textarea
+            matInput
+            placeholder="What I can do for the people"
+            rows="5"
+            formControlName="requirement"
+          ></textarea>
         </mat-form-field>
-        <div class="bid-actions__btn">
-          <button mat-raised-button color="warn" (click)="createRequest()">
-            My bid
-          </button>
-        </div>
-      </div>
-    </ng-template>
-    <ng-template
-      #phase2
-      [ngIf]="
-        this.stateService.selectedAuction &&
-        this.stateService.selectedAuction.status === 'pending'
-      "
-    >
-      <div>I bid #phase2</div>
-      <div>{{ this.stateService.selectedAuction.bid }}</div>
-      <div>re-ask</div>
-    </ng-template>
-    <ng-template
-      #phase3
-      [ngIf]="
-        this.stateService.selectedAuction &&
-        this.stateService.selectedAuction.status === 'success'
-      "
-    >
-      <div>negotiation</div>
-      <div>{{ this.stateService.selectedAuction.bid }}</div>
-    </ng-template>
-    <ng-template
-      #phase4
-      [ngIf]="
-        this.stateService.selectedAuction &&
-        this.stateService.selectedAuction.status === 'ask'
-      "
-    >
-      <div class="new-bid">
-        <div class="new-bid__common">I bid</div>
-        <div class="new-bid__value">
-          <input
-            type="number"
-            #newBid
-            value="this.stateService.selectedAuction.bid"
-          />
-        </div>
-        <button
-          class="new-bid__btn"
-          mat-raised-button
-          (click)="onNewBid(newBid.value)"
+        <div
+          *ngIf="controls.requirement.touched && controls.requirement.errors"
         >
-          New bid
-        </button>
-      </div>
-      <div class="accept">
-        <div class="accept__common">Ask</div>
-        <div class="accept__value">
-          {{ this.stateService.selectedAuction.ask }}
+          <div *ngIf="controls.requirement.errors.required" class="error-field">
+            Requirements are requred
+          </div>
         </div>
-        <button
-          class="accept__btn"
-          mat-raised-button
-          color="primary"
-          (click)="onAccept()"
-        >
-          Accept
-        </button>
       </div>
-    </ng-template>
-  </mat-card>
+
+      <div class="actions-section">
+        <div class="loading" *ngIf="isLoading">
+          LOADING...
+        </div>
+
+        <ng-template #phase1 [ngIf]="!this.stateService.selectedAuction">
+          <div class="bid-actions">
+            <div class="bid-actions__title">
+              I bid
+            </div>
+            <div class="bid-field">
+              <mat-form-field [formGroup]="startBid">
+                <input
+                  matInput
+                  formControlName="bid"
+                  type="number"
+                  min="0"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                />
+              </mat-form-field>
+              <div
+                *ngIf="controls.bid.touched && controls.bid.errors"
+                class="error-field"
+              >
+                <div *ngIf="controls.bid.errors.required">
+                  Bid is requred
+                </div>
+              </div>
+            </div>
+
+            <div class="bid-actions__btn">
+              <button
+                mat-raised-button
+                color="warn"
+                [disabled]="!startBid.valid"
+                (click)="createRequest()"
+              >
+                My bid
+              </button>
+            </div>
+          </div>
+        </ng-template>
+        <div
+          class="section--center"
+          *ngIf="
+            this.stateService.selectedAuction &&
+            this.stateService.selectedAuction.status === 'pending'
+          "
+        >
+          <div>I bid</div>
+          <div> <span class="pending">{{ this.stateService.selectedAuction.bid }} UAH </span></div>
+          <!-- <div>re-ask</div> -->
+        </div>
+        <div
+          class="section--center"
+          *ngIf="
+            this.stateService.selectedAuction &&
+            this.stateService.selectedAuction.status === 'success'
+          "
+        >
+          <div>{{'negotiation' | titlecase}}</div>
+          <div> <span class="success"> {{ this.stateService.selectedAuction.bid }} UAH </span></div>
+        </div>
+        <ng-template
+          #phase4
+          [ngIf]="
+            this.stateService.selectedAuction &&
+            this.stateService.selectedAuction.status === 'ask'
+          "
+        >
+          <div class="new-bid">
+            <div class="new-bid__common">I bid</div>
+            <div class="new-bid__value">
+              <input
+                type="number"
+                #newBid
+                value="this.stateService.selectedAuction.bid"
+              />
+            </div>
+            <button
+              class="new-bid__btn"
+              mat-raised-button
+              (click)="onNewBid(newBid.value)"
+            >
+              New bid
+            </button>
+          </div>
+          <div class="accept">
+            <div class="accept__common">Ask</div>
+            <div class="accept__value">
+              {{ this.stateService.selectedAuction.ask }}
+            </div>
+            <button
+              class="accept__btn"
+              mat-raised-button
+              color="primary"
+              (click)="onAccept()"
+            >
+              Accept
+            </button>
+          </div>
+        </ng-template>
+      </div>
+    </mat-card>
+  </form>
 </div>

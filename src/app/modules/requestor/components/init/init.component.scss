@@ -1,41 +1,85 @@
-@import '../../../../shared//variables.scss';
+@import "../../../../shared//variables.scss";
 
 .bid-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .proposal {
-    width: 100%;
+  width: 100%;
 }
 
-.new-bid, .accept {
-    display: flex;
-    justify-content: space-around;
+.new-bid,
+.accept {
+  display: flex;
+  justify-content: space-around;
 }
 
 .new-bid {
-
-    margin-bottom: 2em;
-    &__common {
-        flex: 1;
-    }
-    &__btn, &__value {
-        flex: 2;
-    }
-    &__btn {
-        background-color: $infoColor;
-        color: #fff;
-    }
+  margin-bottom: 2em;
+  &__common {
+    flex: 1;
+  }
+  &__btn,
+  &__value {
+    flex: 2;
+  }
+  &__btn {
+    background-color: $infoColor;
+    color: #fff;
+  }
 }
 
 .accept {
-    margin-bottom: 2em;
-    &__common {
-        flex: 1;
-    }
-    &__btn, &__value {
-        flex: 2;
-    }
+  margin-bottom: 2em;
+  &__common {
+    flex: 1;
+  }
+  &__btn,
+  &__value {
+    flex: 2;
+  }
+}
+
+.error-field {
+  color: #f44336;
+  font-weight: 800;
+}
+
+.actions-section {
+  position: relative;
+  //   display: flex;
+  //   flex-direction: column;
+  //   justify-content: center;
+  //   align-items: center;
+}
+
+.loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(231, 226, 226);
+}
+
+.section--center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.success {
+    color: $primaryColor;
+}
+
+.pending {
+    color: $infoColor;
 }
