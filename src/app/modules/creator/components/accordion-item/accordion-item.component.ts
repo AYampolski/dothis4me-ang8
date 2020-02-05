@@ -14,8 +14,8 @@ export class AccordionItemComponent {
   @Input() auction: AuctionInstance;
 
   constructor(
+    public stateService: StateService,
     private api: FirestoreCreatorActionsService,
-    private stateService: StateService,
   ) { }
 
   onReject() {

@@ -11,6 +11,7 @@ export interface MotionInstance {
   proposal: string;
   lastCall: number;
   ownerInfo?: string;
+  displayName?: string;
 }
 
 export interface MotionAuctionItem {
