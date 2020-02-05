@@ -13,12 +13,11 @@ import { FirestoreCreatorActionsService } from '@services-cust/fireStore/firesto
 export class AccordionItemComponent implements OnInit {
 
   @Input() auction: AuctionInstance;
-  @Output() changeIcon: EventEmitter<string> = new EventEmitter();
 
   showPendingState = true;
   showAskState: boolean;
   showAcceptedState: boolean;
-  showStatus: string;
+
 
 
   constructor(
@@ -27,31 +26,25 @@ export class AccordionItemComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.showStatus = this.auction.status;
+
   }
 
-  onReject(element: AuctionInstance, askForm) {
+  onReject() {
     const motionId = this.stateService.newMotionInstance.key;
     const {key, ask} = this.auction;
 
-    if(!motionId || !key || !ask ){
-      console.log('can not reject');
-      return;
-    }
-    const obj = {ask, status: 'ask'};
+    const updatedPartial = {ask, status: 'ask'};
 
-    this.api.updateAsk(motionId, key, obj).subscribe(ex => {
-      this.auction.status = 'ask';
+    this.api.updateAsk(motionId, key, updatedPartial).subscribe(res => {
+
     });
   }
 
   onAccept(){
-    this.auction = Object.assign({}, this.auction, {deal : this.auction.bid, status: 'success'});
-    this.showStatus = 'success';
-    this.api.updateAsk(this.stateService.newMotionInstance.key, this.auction.key, {deal: this.auction.bid, status: 'success'}).subscribe(
+    const updatedPartial = { deal: String(this.auction.bid), status: 'success' };
+    this.api.updateAsk(this.stateService.newMotionInstance.key, this.auction.key, updatedPartial ).subscribe(
       res => {
-        this.auction.status = 'success';
-        this.changeIcon.emit(this.stateService.iconList.success);
+
       }
     );
   }

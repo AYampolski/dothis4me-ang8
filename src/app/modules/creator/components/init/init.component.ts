@@ -43,13 +43,6 @@ export class InitComponent implements OnInit {
     this.stateService.clearAuctionMotionData();
   }
 
-  // showSuccess(message, message2) {
-  //   this.toastr.success(message, message2);
-  // }
-  // showError(message) {
-  //   this.toastr.error(message);
-  // }
-
   firestoreCreateMotion() {
 
     this.filledForm = {
@@ -59,15 +52,8 @@ export class InitComponent implements OnInit {
     };
 
     this.firebaseCreatorService.createMotion(this.filledForm)
-      .pipe(filter( (updatedAuction: number | AuctionInstance) => {
-        const isNewAuction = typeof updatedAuction !== 'number';
-        if (!isNewAuction) {
-          this.toastrService.motionCreated();
-        }
-        return isNewAuction;
-      }))
-      .subscribe((updatedAuction: AuctionInstance) => {
-
+      .subscribe((updatedAuctionSnapshot) => {
+        const updatedAuction = updatedAuctionSnapshot.payload.data();
         const changedItem = this.stateService.activeSessionsObjects.findIndex((item: AuctionInstance) => {
           return item.key === updatedAuction.key;
         });
@@ -77,7 +63,7 @@ export class InitComponent implements OnInit {
             updatedAuction.status = 'pending';
             this.toastrService.auctionUpdate(updatedAuction.displayName);
           } else {
-            updatedAuction.status = 'success';
+            // updatedAuction.status = 'success';
             this.toastrService.auctionAccept(updatedAuction.displayName);
           }
           this.stateService.activeSessionsObjects[changedItem] = updatedAuction;

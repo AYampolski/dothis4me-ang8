@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -10,11 +10,10 @@ import { StateService } from '@services-cust/state.service';
   styleUrls: ['./accordion.component.scss']
 })
 
-export class AccordionComponent implements OnInit {
+export class AccordionComponent {
 
   @Input() auctionList;
   customIcon: string;
-
 
   constructor(
     iconRegistry: MatIconRegistry,
@@ -35,15 +34,6 @@ export class AccordionComponent implements OnInit {
 
     this.customIcon = this.stateService.iconList.pending;
   }
-
-  ngOnInit() {
-
-  }
-
-  onChangeIcon($event): void {
-    this.customIcon = this.stateService.iconList[$event];
-  }
-
 
   identifyer = (index: number, item: any) => item.status;
 }
