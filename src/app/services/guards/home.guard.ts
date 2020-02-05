@@ -15,9 +15,8 @@ export class HomeGuard implements CanActivate {
     public afAuth: AngularFireAuth,
     private authService: AuthService,
     private router: Router
-    ){
+    ) { }
 
-  }
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
@@ -25,15 +24,14 @@ export class HomeGuard implements CanActivate {
     return this.afAuth.authState.pipe(
       take(1),
       map(user => {
-        console.log('[HOME_GUARD] User exists', user);
-        return !!user
+        return !!user;
       }),
-      tap(some => {
-        console.log(some);
-        if(!some){
-          this.router.navigate(['/login'])
-        }
-      })
+      // tap(some => {
+      //   console.log(some);
+      //   if(!some){
+      //     this.router.navigate(['/login'])
+      //   }
+      // })
     )
   }
 

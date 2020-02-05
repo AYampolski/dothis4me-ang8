@@ -197,7 +197,7 @@ export class ApiService {
       proposal,
       lastCall
     };
-    this.stateService.newMotionInstance = motionObj;
+    this.stateService.motionInstance = motionObj;
     return motionObj;
   }
 

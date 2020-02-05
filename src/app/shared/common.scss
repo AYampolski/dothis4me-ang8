@@ -1,0 +1,14 @@
+@import "./variables.scss";
+
+.info {
+  color: $infoColor;
+}
+
+.success {
+  color: $primaryColor;
+}
+
+.error-field {
+  color: red;
+  font-weight: 800;
+}

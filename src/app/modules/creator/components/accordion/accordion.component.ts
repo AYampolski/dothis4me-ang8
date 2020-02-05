@@ -21,15 +21,15 @@ export class AccordionComponent {
     private stateService: StateService,
   ) {
     iconRegistry.addSvgIcon(
-      'ask',
+      this.stateService.iconList.ask,
       sanitizer.bypassSecurityTrustResourceUrl('assets/ask.svg'));
 
     iconRegistry.addSvgIcon(
-      'pending',
+      this.stateService.iconList.pending,
       sanitizer.bypassSecurityTrustResourceUrl('assets/deal-success.svg'));
 
     iconRegistry.addSvgIcon(
-      'success',
+      this.stateService.iconList.success,
       sanitizer.bypassSecurityTrustResourceUrl('assets/ready.svg'));
 
     this.customIcon = this.stateService.iconList.pending;

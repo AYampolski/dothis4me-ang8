@@ -23,7 +23,7 @@ export class ShellComponent implements OnInit {
     this.authService.logOut();
   }
 
-  checkJoin( ) {
+  joinToMotion( ) {
     this.router.navigate(['/requestor', this.motionId]);
     this.stateService.motionId = this.motionId;
   }

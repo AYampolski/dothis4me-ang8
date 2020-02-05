@@ -67,18 +67,18 @@
           class="section--center"
           *ngIf="
             this.stateService.selectedAuction &&
-            this.stateService.selectedAuction.status === 'pending'
+            this.stateService.selectedAuction.status === this.stateService.iconList.pending
           "
         >
           <div>I bid</div>
-          <div> <span class="pending">{{ this.stateService.selectedAuction.bid }} UAH </span></div>
+          <div> <span class="info">{{ this.stateService.selectedAuction.bid }} UAH </span></div>
           <!-- <div>re-ask</div> -->
         </div>
         <div
           class="section--center"
           *ngIf="
             this.stateService.selectedAuction &&
-            this.stateService.selectedAuction.status === 'success'
+            this.stateService.selectedAuction.status === this.stateService.iconList.success
           "
         >
           <div>{{'negotiation' | titlecase}}</div>
@@ -88,7 +88,7 @@
           #phase4
           [ngIf]="
             this.stateService.selectedAuction &&
-            this.stateService.selectedAuction.status === 'ask'
+            this.stateService.selectedAuction.status === this.stateService.iconList.ask
           "
         >
           <div class="new-bid">

@@ -15,7 +15,7 @@ export class FirestoreCommonActionsService {
   ) { }
 
   setMotionToState(motion: MotionInstance) {
-    this.stateService.newMotionInstance = motion;
+    this.stateService.motionInstance = motion;
   }
 
   getMotionById(id: string) {

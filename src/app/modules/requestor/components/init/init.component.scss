@@ -1,4 +1,4 @@
-@import "../../../../shared//variables.scss";
+@import "../../../../shared/variables.scss";
 
 .bid-actions {
   display: flex;
@@ -42,17 +42,8 @@
   }
 }
 
-.error-field {
-  color: #f44336;
-  font-weight: 800;
-}
-
 .actions-section {
   position: relative;
-  //   display: flex;
-  //   flex-direction: column;
-  //   justify-content: center;
-  //   align-items: center;
 }
 
 .loading {
@@ -74,12 +65,4 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.success {
-    color: $primaryColor;
-}
-
-.pending {
-    color: $infoColor;
 }

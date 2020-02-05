@@ -7,12 +7,12 @@
       #userinput
       matInput
       [readonly]="true"
-      [value]="this.stateService.newMotionInstance.key"
+      [value]="this.stateService.motionInstance.key"
     />
 
     <div class="motion__icon-container">
       <mat-icon
-        svgIcon="thumbs-up"
+        svgIcon="copy-it"
         aria-hidden="false"
         aria-label="Example thumbs up SVG icon"
         class="motion__icon"
@@ -23,7 +23,7 @@
 
   <div class="title">
     <span class="title__user-info">
-      {{ this.stateService.newMotionInstance.displayName }}
+      {{ this.stateService.motionInstance.displayName }}
     </span>
 
     <span class="title__common">
@@ -33,7 +33,7 @@
 
   <div class="description">
     <div class="description__text">
-      {{ this.stateService.newMotionInstance.proposal }}
+      {{ this.stateService.motionInstance.proposal }}
     </div>
     <div class="description__timer">
       {{ coutDown$ | async | date: "H:mm:ss":"UTC" }}

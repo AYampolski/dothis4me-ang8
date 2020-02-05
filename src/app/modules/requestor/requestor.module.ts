@@ -12,8 +12,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 
 import { SharedModule } from '../shared/shared.module';
 
-
-
 @NgModule({
   declarations: [InitComponent],
   imports: [

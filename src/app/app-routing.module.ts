@@ -29,7 +29,7 @@ const routes: Routes = [
   },
   {
     path: 'motion',
-    loadChildren: () => import('./modules/creator/creator.module').then( mod => { console.log('lazy loading'); return mod.CreatorModule;})
+    loadChildren: () => import('./modules/creator/creator.module').then( mod => mod.CreatorModule)
   },
   {
     path: 'requestor/:id',

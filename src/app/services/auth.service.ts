@@ -29,7 +29,6 @@ enum AuthConsts {
   providedIn: 'root'
 })
 export class AuthService {
-  currentUser;
 
   constructor(
     public afAuth: AngularFireAuth,
@@ -62,10 +61,6 @@ export class AuthService {
     }, () => {console.log(AuthConsts.name, ' check it . it is complete'); });
   }
 
-  getCurrentUser() {
-    return this.currentUser;
-  }
-
   createUserObject(user: firebase.User, name?: string): User {
     const { email, uid, emailVerified } = user;
     let { displayName } = user;
@@ -82,7 +77,6 @@ export class AuthService {
         if (userResponse.additionalUserInfo.isNewUser) {
           return this.apiService.addUserToDb(this.createUserObject(userResponse.user));
         }
-        // need Observable<void>; this.apiService.addUserToDb return undefined
         return of(undefined);
       }),
       catchError( e => {

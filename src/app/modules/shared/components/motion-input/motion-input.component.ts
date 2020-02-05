@@ -29,12 +29,12 @@ export class MotionInputComponent implements OnInit  {
     public stateService: StateService
     ) {
     iconRegistry.addSvgIcon(
-      'thumbs-up',
+      'copy-it',
       sanitizer.bypassSecurityTrustResourceUrl('assets/copy.svg'));
   }
 
   ngOnInit() {
-    this.endSeconds = this.stateService.newMotionInstance.lastCall - Number(moment.utc(new Date()).format('x'));
+    this.endSeconds = this.stateService.motionInstance.lastCall - Number(moment.utc(new Date()).format('x'));
   }
 
   copyInputMessage(inputElement): void {

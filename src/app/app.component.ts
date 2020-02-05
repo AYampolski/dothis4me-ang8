@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-
-
-import { AuthService } from '@services-cust/auth.service';
+import { Component } from '@angular/core';
 import { RouterEvent, NavigationStart, NavigationCancel, NavigationEnd, NavigationError, Router } from '@angular/router';
 
+import { AuthService } from '@services-cust/auth.service';
 import { StateService } from '@services-cust/state.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'dothis4me-ang8';
   loading = false;
+
   constructor(
     public stateService: StateService,
     private authService: AuthService,
@@ -24,11 +24,6 @@ export class AppComponent implements OnInit {
     });
     this.authService.checkUserStatus();
   }
-
-  ngOnInit() {
-    console.log('this user>',this.stateService.user)
-  }
-
 
   logOut() {
     this.authService.logOut();

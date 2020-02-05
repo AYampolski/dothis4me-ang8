@@ -60,15 +60,14 @@ export class InitComponent implements OnInit {
 
         if (changedItem > -1) {
           if (!updatedAuction.deal) {
-            updatedAuction.status = 'pending';
+            updatedAuction.status = this.stateService.iconList.pending;
             this.toastrService.auctionUpdate(updatedAuction.displayName);
           } else {
-            // updatedAuction.status = 'success';
             this.toastrService.auctionAccept(updatedAuction.displayName);
           }
           this.stateService.activeSessionsObjects[changedItem] = updatedAuction;
         } else {
-          updatedAuction.status = 'pending';
+          updatedAuction.status = this.stateService.iconList.pending;
           this.toastrService.auctionNew(updatedAuction.displayName);
           this.stateService.activeSessionsObjects.push(updatedAuction);
         }

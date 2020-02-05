@@ -18,7 +18,7 @@ export class CanDeactivateCreatorProcessingService implements CanDeactivate<Proc
   ): Observable<boolean>|Promise<boolean>|boolean {
     return of(window.confirm('Do you want create a new motion?'))
     .pipe(tap(userResponse => {
-      if(userResponse) {
+      if (userResponse) {
         this.stateService.clearAuctionMotionData();
       }
     }));

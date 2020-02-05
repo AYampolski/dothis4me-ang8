@@ -19,7 +19,7 @@ export class CanDeactivateRequestorAuctionService implements CanDeactivate<InitC
 
     return of(window.confirm('Do you want to delete this auction and create a new one?'))
       .pipe(tap(userResponse => {
-        if(userResponse) {
+        if (userResponse) {
           this.stateService.clearAuctionMotionData();
         }
       }));

@@ -1,15 +1,15 @@
 <div class="content">
   <div class="content__header">{{ auction.requirement }}</div>
   <div class="content__main">
-    <ng-template [ngIf]="this.auction.status === 'pending'">
+    <ng-template
+      [ngIf]="this.auction.status === this.stateService.iconList.pending"
+    >
       <div class="content__interaction">
         <div class="content__ask">
           <div class="content__title">I ask</div>
-          <!-- <div class=""> -->
           <mat-form-field class="content__ask-input">
             <input matInput [value]="auction.ask" [(ngModel)]="auction.ask" />
           </mat-form-field>
-          <!-- </div> -->
         </div>
         <div class="content__bid">
           <div class="content__title">
@@ -23,7 +23,7 @@
 
       <div class="content__actions">
         <div class="content__reject">
-          <button mat-raised-button color="warn" (click)="onReject(item, ask)">
+          <button mat-raised-button color="warn" (click)="onReject()">
             Reject
           </button>
         </div>
@@ -35,7 +35,10 @@
       </div>
     </ng-template>
 
-    <div class="section--center" *ngIf="this.auction.status === 'ask'">
+    <div
+      class="section--center"
+      *ngIf="this.auction.status === this.stateService.iconList.ask"
+    >
       <div class="section-ask">
         <div>I ask</div>
         <div>
@@ -45,7 +48,10 @@
       </div>
     </div>
 
-    <div class="section--center" *ngIf="this.auction.status === 'success'">
+    <div
+      class="section--center"
+      *ngIf="this.auction.status === this.stateService.iconList.success"
+    >
       <div>
         <div class="section-success">
           <div>

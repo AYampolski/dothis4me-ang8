@@ -1,21 +1,12 @@
-.example-container {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .example-container > * {
-    width: 100%;
-  }
-
 .container {
-    width: 80%;
-    display: flex;
-    flex-direction: column;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
 }
 
 .container-super {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .error-field {
@@ -28,7 +19,7 @@ mat-form-field {
 }
 
 .field-container {
-  margin-bottom: .8em;
+  margin-bottom: 0.8em;
 }
 
 .btn-container {
