@@ -16,48 +16,37 @@ export class StateService {
     pending: 'pending',
     success: 'success',
     ask: 'ask'
-  }
+  };
 
-  // motionStatus = {
-  //   pending: false,
-  //   success: false,
-  //   ask: false
-  // };
+  user: User;
+  userInfo: string;
+
+  motionId: string;
+  motionInfo: any;
 
   activeSessionsIds = [];
-  activeSessionsObjects = [];
-  motion: MotionInstance;
-  auction: MotionAuctionItem;
-  motionId: string;
-  user: User;
-  auctionsGroup: MotionAuctionItem[];
-  userInfo: string;
-  motionInfo: any;
   selectedAuction: AuctionInstance;
-  // motionObject: MotionInstance;
+  activeSessionsObjects = [];
+  auctionsGroup: MotionAuctionItem[];
+
+
   constructor() { }
 
-  setMotion(motion: MotionInstance) {
-    console.log('motion set');
-    this.motion = motion;
+  clearAuctionMotionData(): void {
+    this.clearMotion();
+    this.clearSelectedAuction();
   }
 
-  setMotionId(id) {
-    this.motionId = id;
+  clearSelectedAuction(): void {
+    this.selectedAuction = null;
+    this.activeSessionsIds = [];
+    this.activeSessionsObjects = [];
+    this.auctionsGroup = null;
   }
 
-  getMotionId() {
-    return this.motionId;
-  }
-  setAuction(auction: MotionAuctionItem) {
-    this.auction = auction;
+  clearMotion(): void {
+    this.motionId = null;
+    this.motionId = null;
   }
 
-  addAuction(auction: MotionAuctionItem) {
-    this.auctionsGroup.push(auction);
-  }
-
-  clearAuction() {
-    this.auctionsGroup = [];
-  }
 }

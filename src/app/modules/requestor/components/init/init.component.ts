@@ -1,22 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 import { StateService } from '@services-cust/state.service';
 import { FirestoreRequestorActionsService } from '@services-cust/fireStore/firestore-requestor-actions.service';
 import { ToastMessagesService } from '@services-cust/toast-messages.service';
 import { AuctionForm, AuctionInstance } from '@models-cust/auction.model';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Action, DocumentSnapshot } from '@angular/fire/firestore';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-init',
   templateUrl: './init.component.html',
   styleUrls: ['./init.component.scss']
 })
-export class InitComponent implements OnInit {
+export class InitComponent implements OnInit, OnDestroy {
 
   startBid: FormGroup;
   controls;
+  destroy$: Subject<boolean> = new Subject<boolean>();
   isLoading: boolean;
 
 
@@ -42,6 +44,7 @@ export class InitComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('check init');
   }
 
   /**
@@ -67,31 +70,33 @@ export class InitComponent implements OnInit {
     const auctionData = this.createAucitonFormInstance(requirement, bid, 'pending');
 
     this.isLoading = true;
-    this.api.createRequest(motionId, auctionData).subscribe( (updatedAuction: Action<DocumentSnapshot<AuctionInstance>>) => {
-      const data = updatedAuction.payload.data();
+    this.api.createRequest(motionId, auctionData)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe( (updatedAuction: Action<DocumentSnapshot<AuctionInstance>>) => {
+        const data = updatedAuction.payload.data();
 
-      switch (data.status) {
-        case 'pending': {
-          console.warn('status == pending');
-          this.toastService.auctionUpdate('You');
-          break;
+        switch (data.status) {
+          case 'pending': {
+            console.warn('status == pending');
+            this.toastService.auctionUpdate('You');
+            break;
+          }
+          case 'ask': {
+            console.warn('status == ask');
+            this.toastService.auctionUpdate('By auciton owner');
+            break;
+          }
+          case 'success': {
+            console.warn('status == success');
+            this.toastService.auctionAccept('GRATS');
+          }
         }
-        case 'ask': {
-          console.warn('status == ask');
-          this.toastService.auctionUpdate('By auciton owner');
-          break;
-        }
-        case 'success': {
-          console.warn('status == success');
-          this.toastService.auctionAccept('GRATS');
-        }
-      }
-      this.stateService.selectedAuction = updatedAuction.payload.data();
-      this.isLoading = false;
-    },
-    err => {
-      console.warn('Error inside creation auctin from requestor: ', err);
-    });
+        this.stateService.selectedAuction = updatedAuction.payload.data();
+        this.isLoading = false;
+      },
+      err => {
+        console.warn('Error inside creation auctin from requestor: ', err);
+      });
   }
 
 
@@ -113,6 +118,11 @@ export class InitComponent implements OnInit {
     const deal = this.stateService.selectedAuction.ask;
     const updatedProps = { deal, status: 'success'};
     this.updateAuctionForm(updatedProps).subscribe(this.updateObserver);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
 

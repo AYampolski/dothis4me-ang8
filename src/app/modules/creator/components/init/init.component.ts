@@ -40,7 +40,7 @@ export class InitComponent implements OnInit {
     }
 
   ngOnInit() {
-
+    this.stateService.clearAuctionMotionData();
   }
 
   // showSuccess(message, message2) {
@@ -64,7 +64,6 @@ export class InitComponent implements OnInit {
         if (!isNewAuction) {
           this.toastrService.motionCreated();
         }
-
         return isNewAuction;
       }))
       .subscribe((updatedAuction: AuctionInstance) => {
@@ -73,24 +72,18 @@ export class InitComponent implements OnInit {
           return item.key === updatedAuction.key;
         });
 
-        if(changedItem > -1) {
-
-
-          if(!updatedAuction.deal) {
+        if (changedItem > -1) {
+          if (!updatedAuction.deal) {
             updatedAuction.status = 'pending';
             this.toastrService.auctionUpdate(updatedAuction.displayName);
-            // this.showSuccess(updatedAuction.displayName, 'UPDATED!!');
           } else {
             updatedAuction.status = 'success';
             this.toastrService.auctionAccept(updatedAuction.displayName);
-            // this.showSuccess(updatedAuction.displayName, 'ACCEPTED!!');
           }
           this.stateService.activeSessionsObjects[changedItem] = updatedAuction;
         } else {
           updatedAuction.status = 'pending';
-          // this.showSuccess(' You have a new auction from', updatedAuction.displayName);
-          this.toastrService.auctionNew(updatedAuction.displayName)
-          // this.showSuccess(updatedAuction.displayName, 'NEW!!');
+          this.toastrService.auctionNew(updatedAuction.displayName);
           this.stateService.activeSessionsObjects.push(updatedAuction);
         }
 
