@@ -5,21 +5,38 @@ import { tap } from 'rxjs/operators';
 
 import { ProcessingComponent } from '../../modules/creator/components/processing/processing.component';
 import { StateService } from '@services-cust/state.service';
+import { AuthService } from '@services-cust/auth.service';
+
 
 @Injectable({providedIn: 'root'})
 export class CanDeactivateCreatorProcessingService implements CanDeactivate<ProcessingComponent> {
 
-  constructor(private stateService: StateService){}
+  constructor(
+    private stateService: StateService,
+    private auth: AuthService
+    ) {}
 
   canDeactivate(
     component: ProcessingComponent,
     currentRoute: ActivatedRouteSnapshot,
-    currentState: RouterStateSnapshot
+    currentState: RouterStateSnapshot,
+    nextState: RouterStateSnapshot
   ): Observable<boolean>|Promise<boolean>|boolean {
-    return of(window.confirm('Do you want create a new motion?'))
+
+    let message = 'Do you want create a new motion?';
+
+    if (nextState.url.includes('/login?logout=true')) {
+      message = 'Do you want to log out?';
+    }
+
+    return of(window.confirm(message))
     .pipe(tap(userResponse => {
       if (userResponse) {
         this.stateService.clearAuctionMotionData();
+
+        // if (nextState.url.includes('/login?logout=true')) {
+        //   this.auth.logOut();
+        // }
       }
     }));
   }

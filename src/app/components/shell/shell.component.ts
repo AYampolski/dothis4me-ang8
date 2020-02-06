@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '@services-cust/auth.service';
+import { Component } from '@angular/core';
 import { StateService } from '@services-cust/state.service';
 import { Router } from '@angular/router';
 
@@ -8,20 +7,13 @@ import { Router } from '@angular/router';
   templateUrl: './shell.component.html',
   styleUrls: ['./shell.component.scss']
 })
-export class ShellComponent implements OnInit {
+export class ShellComponent {
   motionId;
   constructor(
-    private authService: AuthService,
     private stateService: StateService,
     private router: Router
   ) { }
 
-  ngOnInit() {
-  }
-
-  logOut() {
-    this.authService.logOut();
-  }
 
   joinToMotion( ) {
     this.router.navigate(['/requestor', this.motionId]);

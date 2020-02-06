@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
   login1Email() {
     this.authService.emailPasswordLogin(this.email, this.password)
     .subscribe( next => {
-      console.log('!???!?!?!?!?', next);
+
     },
     err => {
       console.log('EROR ....', err);
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
   login2Email() {
     this.authService.emailPasswordLogin(this.email2, this.password2)
     .subscribe( next => {
-      console.log('!???!?!?!?!?', next);
+
     },
     err => {
       console.log('EROR ....', err);
@@ -75,7 +75,7 @@ export class LoginComponent implements OnInit {
 
   logup1Email() {
     this.authService.emailPasswordLogup(this.email, this.password, this.displayName).subscribe( next => {
-      console.log('!???!?!?!?!?', next);
+
     },
     err => {
       console.log('EROR ....', err);
@@ -84,7 +84,7 @@ export class LoginComponent implements OnInit {
 
   logup2Email() {
     this.authService.emailPasswordLogup(this.email2, this.password2, this.displayName2).subscribe( next => {
-      console.log('!???!?!?!?!?', next);
+
     },
     err => {
       console.log('EROR ....', err);

@@ -26,7 +26,9 @@ export class AppComponent {
   }
 
   logOut() {
-    this.authService.logOut();
+    // this.router.navigate(['/login/page']);
+    this.router.navigate(['/login'], { queryParams: { logout: true } });
+    //this.authService.logOut();
   }
 
   checkRouterEvent(routerEvent: RouterEvent): void {

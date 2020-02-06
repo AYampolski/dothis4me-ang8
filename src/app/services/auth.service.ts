@@ -110,11 +110,16 @@ export class AuthService {
 
   logOut(): void {
     this.afAuth.auth.signOut().then( logResponse => {
+      this.stateService.user = null;
       console.warn(`${AuthConsts.name} | ${AuthConsts.logOutSuccess} | ${logResponse}`);
     })
     .catch( err => {
       console.warn(`${AuthConsts.name} | ${AuthConsts.logOutError} | ${err}`);
     });
+  }
+
+  logOutWithActionsPromise(): Promise<void> {
+    return this.afAuth.auth.signOut();
   }
 
   googleAuthLogin(): Observable<void> {
