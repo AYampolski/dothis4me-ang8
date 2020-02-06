@@ -6,14 +6,12 @@ import { FirestoreCreatorActionsService } from '@services-cust/fireStore/firesto
 import { StateService } from '@services-cust/state.service';
 import { MotionForm } from '@models-cust/motion.model';
 import { AuctionInstance } from '@models-cust/auction.model';
-import { filter } from 'rxjs/operators';
-// import { ToastrService } from 'ngx-toastr';
 import { ToastMessagesService } from '@services-cust/toast-messages.service';
 
 @Component({
   selector: 'app-init',
   templateUrl: './init.component.html',
-  styleUrls: ['./init.component.scss']
+  styleUrls: ['./init.component.scss', '../../../../shared/common.scss']
 })
 export class InitComponent implements OnInit {
 
@@ -43,7 +41,7 @@ export class InitComponent implements OnInit {
     this.stateService.clearAuctionMotionData();
   }
 
-  firestoreCreateMotion() {
+  firestoreCreateMotion(): void {
 
     this.filledForm = {
       title: this.createMotionForm.controls.title.value,
@@ -54,26 +52,33 @@ export class InitComponent implements OnInit {
     this.firebaseCreatorService.createMotion(this.filledForm)
       .subscribe((updatedAuctionSnapshot) => {
         const updatedAuction = updatedAuctionSnapshot.payload.data();
-        const changedItem = this.stateService.activeSessionsObjects.findIndex((item: AuctionInstance) => {
+        const changedIndex = this.stateService.activeSessionsObjects.findIndex((item: AuctionInstance) => {
           return item.key === updatedAuction.key;
         });
-
-        if (changedItem > -1) {
-          if (!updatedAuction.deal) {
-            updatedAuction.status = this.stateService.iconList.pending;
-            this.toastrService.auctionUpdate(updatedAuction.displayName);
-          } else {
-            this.toastrService.auctionAccept(updatedAuction.displayName);
-          }
-          this.stateService.activeSessionsObjects[changedItem] = updatedAuction;
+        if (changedIndex > -1) {
+          this.updatedAuctionReceive(updatedAuction, changedIndex);
         } else {
-          updatedAuction.status = this.stateService.iconList.pending;
-          this.toastrService.auctionNew(updatedAuction.displayName);
-          this.stateService.activeSessionsObjects.push(updatedAuction);
+          this.newAuctionReceive(updatedAuction);
         }
 
     });
+  }
 
+  updatedAuctionReceive(updatedAuction, index): void {
+    if (!updatedAuction.deal) {
+      const { iconList } = this.stateService;
+      updatedAuction.status = this.stateService.activeSessionsObjects[index].bid === updatedAuction.bid ? iconList.ask : iconList.pending;
+      this.toastrService.auctionUpdate(updatedAuction.displayName);
+    } else {
+      this.toastrService.auctionAccept(updatedAuction.displayName);
+    }
+    this.stateService.activeSessionsObjects[index] = updatedAuction;
+  }
+
+  newAuctionReceive(updatedAuction): void {
+    updatedAuction.status = this.stateService.iconList.pending;
+    this.toastrService.auctionNew(updatedAuction.displayName);
+    this.stateService.activeSessionsObjects.push(updatedAuction);
   }
 
 }
