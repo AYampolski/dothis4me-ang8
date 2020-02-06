@@ -4,6 +4,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 5px;
+  &__title {
+    flex: 1 1 auto;
+  }
+
+  &__btn, &__field {
+    flex: 2 1 auto;
+  }
 }
 
 .proposal {
@@ -34,11 +42,11 @@
 .accept {
   margin-bottom: 2em;
   &__common {
-    flex: 1;
+    flex: 1 1 auto;
   }
   &__btn,
   &__value {
-    flex: 2;
+    flex: 2 1 auto;
   }
 }
 
