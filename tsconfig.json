@@ -3,9 +3,9 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@services-cust/*": ["src/app/services/*"],
-      "@models-cust/*": ["src/app/models/*"],
-      "@shared-cust/*": ["src/app/shared/*"],
+      "@services-app/*": ["src/app/services/*"],
+      "@models-app/*": ["src/app/models/*"],
+      "@shared-app/*": ["src/app/shared/*"],
     },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,

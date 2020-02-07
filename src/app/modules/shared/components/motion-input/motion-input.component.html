@@ -4,7 +4,7 @@
 
     <input
       class="motion__input"
-      #userinput
+      #userInput
       matInput
       [readonly]="true"
       [value]="this.stateService.motionInstance.key"
@@ -16,7 +16,7 @@
         aria-hidden="false"
         aria-label="Example thumbs up SVG icon"
         class="motion__icon"
-        (click)="copyInputMessage(userinput)"
+        (click)="copyInputMessage(userInput)"
       ></mat-icon>
     </div>
   </div>
@@ -36,7 +36,7 @@
       {{ this.stateService.motionInstance.proposal }}
     </div>
     <div class="description__timer">
-      {{ coutDown$ | async | date: "H:mm:ss":"UTC" }}
+      {{ countDown$ | async | date: "H:mm:ss":"UTC" }}
     </div>
   </div>
 </div>

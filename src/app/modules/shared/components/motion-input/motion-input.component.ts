@@ -6,7 +6,7 @@ import { timer } from 'rxjs';
 import * as moment from 'moment';
 import { map, takeWhile } from 'rxjs/operators';
 
-import { StateService } from '@services-cust/state.service';
+import { StateService } from '@services-app/state.service';
 
 @Component({
   selector: 'app-motion-input',
@@ -18,7 +18,7 @@ export class MotionInputComponent implements OnInit  {
 
   endSeconds: number;
 
-  coutDown$ = timer(0, 1000).pipe(
+  countDown$ = timer(0, 1000).pipe(
     map(second => this.endSeconds - second * 1000 ),
     takeWhile(remain => remain > 0)
   );
@@ -37,7 +37,7 @@ export class MotionInputComponent implements OnInit  {
     this.endSeconds = this.stateService.motionInstance.lastCall - Number(moment.utc(new Date()).format('x'));
   }
 
-  copyInputMessage(inputElement): void {
+  copyInputMessage(inputElement: HTMLInputElement): void {
     inputElement.select();
     document.execCommand('copy');
     inputElement.setSelectionRange(0, 0);

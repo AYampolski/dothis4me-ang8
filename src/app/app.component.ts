@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterEvent, NavigationStart, NavigationCancel, NavigationEnd, NavigationError, Router } from '@angular/router';
 
-import { AuthService } from '@services-cust/auth.service';
-import { StateService } from '@services-cust/state.service';
+import { AuthService } from '@services-app/auth.service';
+import { StateService } from '@services-app/state.service';
 
 @Component({
   selector: 'app-root',
@@ -26,9 +26,8 @@ export class AppComponent {
   }
 
   logOut() {
-    // this.router.navigate(['/login/page']);
     this.router.navigate(['/login'], { queryParams: { logout: true } });
-    //this.authService.logOut();
+
   }
 
   checkRouterEvent(routerEvent: RouterEvent): void {

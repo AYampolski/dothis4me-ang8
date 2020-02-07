@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { ApiService } from '@services-cust/fireStore/api.service';
-import { AuctionForm, AuctionInstance } from '@models-cust/auction.model';
+import { ApiService } from '@services-app/fireStore/api.service';
+import { AuctionForm, AuctionInstance } from '@models-app/auction.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -29,7 +29,6 @@ export class FirestoreRequestorActionsService {
       owner: uid,
       displayName,
       bid,
-      isAsked: false,
       status,
       requirement,
       ask: null,

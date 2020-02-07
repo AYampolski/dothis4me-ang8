@@ -6,21 +6,21 @@ import { from, Observable, throwError, of } from 'rxjs';
 import { switchMap, catchError, tap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 
-import { StateService } from '@services-cust/state.service';
-import { ApiService } from '@services-cust/fireStore/api.service';
-import { User } from '@models-cust/user.model';
+import { StateService } from '@services-app/state.service';
+import { ApiService } from '@services-app/fireStore/api.service';
+import { User } from '@models-app/user.model';
 
 
-enum AuthConsts {
+enum AuthConst {
   name = '[AUTH_SERVICE]',
   logOutError = 'Sign out with error',
-  logOutSuccess = 'Sign out successed!',
-  emailSignUpSuccessed = 'Sign up email successed',
+  logOutSuccess = 'Sign out successfully!',
+  emailSignUpSuccessfully = 'Sign up email successfully',
   emailSignUpError = 'Sign up email error',
-  emailSignInSuccessed = 'Sign in email successed',
+  emailSignInSuccessfully = 'Sign in email successfully',
   emailSignInError = 'Sign in email error',
   logInSuccess = 'Sign in success',
-  logInError = 'Sign in erorr',
+  logInError = 'Sign in error',
   loggedInUserPath = '/home',
   loggedOutPath = '/login'
 }
@@ -50,15 +50,15 @@ export class AuthService {
       if (user) {
         this.stateService.user = this.createUserObject(user);
         this.showSuccess('You are logged in!');
-        this.router.navigate([AuthConsts.loggedInUserPath]);
+        this.router.navigate([AuthConst.loggedInUserPath]);
       } else {
         this.showSuccess('You are logged out!');
         this.stateService.user = null;
-        this.router.navigate([AuthConsts.loggedOutPath]);
+        this.router.navigate([AuthConst.loggedOutPath]);
       }
     }, err => {
-      console.log(`${AuthConsts.name} check err => ${err}`);
-    }, () => {console.log(AuthConsts.name, ' check it . it is complete'); });
+      console.log(`${AuthConst.name} check err => ${err}`);
+    }, () => {console.log(AuthConst.name, ' check it . it is complete'); });
   }
 
   createUserObject(user: firebase.User, name?: string): User {
@@ -86,7 +86,7 @@ export class AuthService {
     );
   }
 
-  emailPasswordLogup(email, password, displayName): Observable<void> {
+  emailPasswordLogUp(email, password, displayName): Observable<void> {
     return from(this.afAuth.auth.createUserWithEmailAndPassword(email, password)).pipe(
       tap( (userResponse: auth.UserCredential) => { userResponse.user.updateProfile({displayName}); }),
       switchMap( (userResponse: auth.UserCredential) => {
@@ -101,7 +101,7 @@ export class AuthService {
   emailPasswordLogin(email, password): Observable<auth.UserCredential> {
     return from(this.afAuth.auth.signInWithEmailAndPassword(email, password)).pipe(
       tap( (logResponse) => {
-        console.warn(`${AuthConsts.name} | ${AuthConsts.emailSignInSuccessed} | ${logResponse}`);
+        console.warn(`${AuthConst.name} | ${AuthConst.emailSignInSuccessfully} | ${logResponse}`);
       }),
       catchError(e => {
         return throwError(e);
@@ -112,10 +112,10 @@ export class AuthService {
   logOut(): void {
     this.afAuth.auth.signOut().then( logResponse => {
       this.stateService.user = null;
-      console.warn(`${AuthConsts.name} | ${AuthConsts.logOutSuccess} | ${logResponse}`);
+      console.warn(`${AuthConst.name} | ${AuthConst.logOutSuccess} | ${logResponse}`);
     })
     .catch( err => {
-      console.warn(`${AuthConsts.name} | ${AuthConsts.logOutError} | ${err}`);
+      console.warn(`${AuthConst.name} | ${AuthConst.logOutError} | ${err}`);
     });
   }
 

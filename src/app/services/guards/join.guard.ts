@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { FirestoreCommonActionsService } from '@services-cust/fireStore/firestore-common-actions.service';
+import { FirestoreCommonActionsService } from '@services-app/fireStore/firestore-common-actions.service';
 
 @Injectable({
   providedIn: 'root'

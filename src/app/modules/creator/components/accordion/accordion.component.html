@@ -1,17 +1,17 @@
 <mat-accordion [multi]="true" *ngIf="auctionList">
-  <mat-expansion-panel *ngFor="let auciton of auctionList; trackBy: identifyer">
+  <mat-expansion-panel *ngFor="let auction of auctionList; trackBy: identifyer">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        {{ auciton.displayName }}
+        {{ auction.displayName }}
       </mat-panel-title>
       <mat-panel-description>
         <mat-icon
-          [svgIcon]="auciton.status"
+          [svgIcon]="auction.status"
           aria-hidden="false"
           aria-label="Example thumbs up SVG icon"
         ></mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <app-accordion-item [auction]="auciton"></app-accordion-item>
+    <app-accordion-item [auction]="auction"></app-accordion-item>
   </mat-expansion-panel>
 </mat-accordion>

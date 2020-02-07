@@ -6,9 +6,9 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
 
 import { LoginComponent } from './components/login/login.component';
 
-import { LogedInGuard } from '@services-cust/guards/loged-in.guard';
-import { HomeGuard } from '@services-cust/guards/home.guard';
-import { JoinGuard } from '@services-cust/guards/join.guard';
+import { LoggedInGuard } from '@services-app/guards/logged-in.guard';
+import { HomeGuard } from '@services-app/guards/home.guard';
+import { JoinGuard } from '@services-app/guards/join.guard';
 
 const routes: Routes = [
   {
@@ -18,7 +18,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    canActivate: [LogedInGuard],
+    canActivate: [LoggedInGuard],
     component: LoginComponent,
 
   },

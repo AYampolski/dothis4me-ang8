@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { InitComponent } from './components/init/init.component';
 import { ProcessingComponent } from './components/processing/processing.component';
-import { CanDeactivateCreatorProcessingService } from '@services-cust/guards/can-deactivate-creator-processing.service';
+import { CanDeactivateCreatorProcessingService } from '@services-app/guards/can-deactivate-creator-processing.service';
 
 const routes: Routes = [
   {

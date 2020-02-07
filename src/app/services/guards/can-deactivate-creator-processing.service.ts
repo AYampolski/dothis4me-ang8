@@ -4,8 +4,8 @@ import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { ProcessingComponent } from '../../modules/creator/components/processing/processing.component';
-import { StateService } from '@services-cust/state.service';
-import { AuthService } from '@services-cust/auth.service';
+import { StateService } from '@services-app/state.service';
+import { AuthService } from '@services-app/auth.service';
 
 
 @Injectable({providedIn: 'root'})

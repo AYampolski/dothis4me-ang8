@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { ApiService } from '@services-cust/fireStore/api.service';
-import { StateService } from '@services-cust/state.service';
+import { ApiService } from '@services-app/fireStore/api.service';
+import { StateService } from '@services-app/state.service';
 import { map } from 'rxjs/operators';
-import { MotionInstance } from '@models-cust/motion.model';
+import { MotionInstance } from '@models-app/motion.model';
 @Injectable({
   providedIn: 'root'
 })

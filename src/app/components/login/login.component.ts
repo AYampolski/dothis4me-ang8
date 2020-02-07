@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { AuthService } from '@services-cust/auth.service';
+import { AuthService } from '@services-app/auth.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -96,7 +96,7 @@ export class LoginComponent implements OnInit {
   }
 
   logupWithEmail(email, password, displayName){
-    this.authService.emailPasswordLogup(email, password, displayName).subscribe( next => {
+    this.authService.emailPasswordLogUp(email, password, displayName).subscribe( next => {
 
     },
     err => {
@@ -127,7 +127,7 @@ export class LoginComponent implements OnInit {
   }
 
   logup1Email() {
-    this.authService.emailPasswordLogup(this.email, this.password, this.displayName).subscribe( next => {
+    this.authService.emailPasswordLogUp(this.email, this.password, this.displayName).subscribe( next => {
 
     },
     err => {
@@ -136,7 +136,7 @@ export class LoginComponent implements OnInit {
   }
 
   logup2Email() {
-    this.authService.emailPasswordLogup(this.email2, this.password2, this.displayName2).subscribe( next => {
+    this.authService.emailPasswordLogUp(this.email2, this.password2, this.displayName2).subscribe( next => {
 
     },
     err => {

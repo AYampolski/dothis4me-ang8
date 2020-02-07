@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { StateService } from '@services-cust/state.service';
+import { StateService } from '@services-app/state.service';
 
 @Component({
   selector: 'app-processing',
@@ -10,7 +10,7 @@ import { StateService } from '@services-cust/state.service';
 export class ProcessingComponent {
 
   constructor(
-    public stateServive: StateService
+    public stateService: StateService
   ) { }
 
 }

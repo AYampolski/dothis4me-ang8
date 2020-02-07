@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { StateService } from '@services-cust/state.service';
+import { StateService } from '@services-app/state.service';
 
 @Component({
   selector: 'app-accordion',

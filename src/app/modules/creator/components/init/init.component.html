@@ -11,7 +11,7 @@
 
       <div *ngIf="controls.title.touched && controls.title.errors">
         <div *ngIf="controls.title.errors.required" class="error-field">
-          Title is requred
+          Title is required
         </div>
       </div>
     </div>
@@ -27,7 +27,7 @@
 
       <div *ngIf="controls.proposal.touched && controls.proposal.errors">
         <div *ngIf="controls.proposal.errors.required" class="error-field">
-          Proposal is requred
+          Proposal is required
         </div>
       </div>
     </div>
@@ -35,7 +35,7 @@
     <div [formGroup]="createMotionForm">
       <dl-date-time-picker
         startView="day"
-        maxView="year"
+        maxView="day"
         formControlName="dataPicker"
         minView="minute"
         minuteStep="5"

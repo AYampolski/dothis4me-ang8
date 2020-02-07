@@ -19,7 +19,7 @@
     justify-content: center;
 }
 
-.requestor, .creator, .sub-info, .devider, .intro {
+.requestor, .creator, .sub-info, .divider, .intro {
     display: flex;
     justify-content: center;
 }
@@ -32,10 +32,6 @@
     }
 }
 
-.requestor, .devider, .creator, .intro {
+.requestor, .divider, .creator, .intro {
     margin-bottom: 1.2em;
-}
-
-.creator {
-
 }

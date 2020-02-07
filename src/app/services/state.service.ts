@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { MotionAuctionItem, MotionInstance } from '@models-cust/motion.model';
+import { MotionAuctionItem, MotionInstance } from '@models-app/motion.model';
 
-import { User } from '@models-cust/user.model';
-import { AuctionInstance } from '@models-cust/auction.model';
+import { User } from '@models-app/user.model';
+import { AuctionInstance } from '@models-app/auction.model';
 
 @Injectable({
   providedIn: 'root'

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { StateService } from '@services-cust/state.service';
+import { StateService } from '@services-app/state.service';
 import { Router } from '@angular/router';
 
 @Component({

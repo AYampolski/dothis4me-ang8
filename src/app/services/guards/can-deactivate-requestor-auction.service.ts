@@ -3,9 +3,9 @@ import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot, ActivatedRo
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { StateService } from '@services-cust/state.service';
+import { StateService } from '@services-app/state.service';
 import { InitComponent } from '../../modules/requestor/components/init/init.component';
-import { AuthService } from '@services-cust/auth.service';
+import { AuthService } from '@services-app/auth.service';
 
 @Injectable({providedIn: 'root'})
 export class CanDeactivateRequestorAuctionService implements CanDeactivate<InitComponent> {

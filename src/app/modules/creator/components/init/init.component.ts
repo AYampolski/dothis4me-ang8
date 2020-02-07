@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
-import { FirestoreCreatorActionsService } from '@services-cust/fireStore/firestore-creator-actions.service';
-import { StateService } from '@services-cust/state.service';
-import { MotionForm } from '@models-cust/motion.model';
-import { AuctionInstance } from '@models-cust/auction.model';
-import { ToastMessagesService } from '@services-cust/toast-messages.service';
+import { FirestoreCreatorActionsService } from '@services-app/fireStore/firestore-creator-actions.service';
+import { StateService } from '@services-app/state.service';
+import { MotionForm } from '@models-app/motion.model';
+import { AuctionInstance } from '@models-app/auction.model';
+import { ToastMessagesService } from '@services-app/toast-messages.service';
 
 @Component({
   selector: 'app-init',

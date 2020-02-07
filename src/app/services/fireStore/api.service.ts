@@ -3,20 +3,19 @@ import { AngularFirestore, Action, DocumentSnapshot, DocumentChangeAction } from
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
-// import * as firebase from 'firebase';
 import { switchMap, catchError, mergeMap } from 'rxjs/operators';
 import { from, Observable, of } from 'rxjs';
 import { throwError } from 'rxjs';
 
-import { MotionInstance, MotionForm } from '@models-cust/motion.model';
-import { User } from '@models-cust/user.model';
-import { StateService } from '@services-cust/state.service';
-import { AuctionInstance } from '@models-cust/auction.model';
+import { MotionInstance, MotionForm } from '@models-app/motion.model';
+import { User } from '@models-app/user.model';
+import { StateService } from '@services-app/state.service';
+import { AuctionInstance } from '@models-app/auction.model';
 
-enum ApiConsts {
+enum ApiConst {
   name = '[API_SERVICE]',
-  addToDbError = 'Error User alredy registered',
-  addMotionSuccessed = 'Add motions successed',
+  addToDbError = 'Error User already registered',
+  addMotionSuccessfully = 'Add motions successfully',
   addMotionError = 'Add motions with error',
   addMotionStart = 'Add motion starts',
   auctionList = 'auctions',
@@ -31,10 +30,10 @@ export class ApiService {
 
   private readonly motionCollectionName = 'motions';
   private readonly usersCollectionName = 'users';
-  private readonly auctionCollecitonName = 'auction';
+  private readonly auctionCollectionName = 'auction';
   private readonly usersRef =  this.db.collection(this.usersCollectionName);
   private readonly motionRef = this.db.collection(this.motionCollectionName);
-  private readonly auctionRef = this.db.collection(this.auctionCollecitonName);
+  private readonly auctionRef = this.db.collection(this.auctionCollectionName);
 
   constructor(
     private db: AngularFirestore,
@@ -47,7 +46,7 @@ export class ApiService {
     return from(this.usersRef.doc(user.uid).get()).pipe(
      switchMap(userResponse => {
        if (userResponse.exists) {
-        return throwError(`${ApiConsts.name} | ${ApiConsts.addToDbError}`);
+        return throwError(`${ApiConst.name} | ${ApiConst.addToDbError}`);
        } else {
         return from(this.usersRef.doc(user.uid).set(user));
        }
@@ -70,7 +69,7 @@ export class ApiService {
    * @param { number } bid
    */
   updateAuctionBid(motionId: string, auctionId: string, bid: number): Observable<void> {
-    return from(this.auctionRef.doc(motionId).collection(ApiConsts.relatedAuctions).doc<AuctionInstance>(auctionId).update({bid}));
+    return from(this.auctionRef.doc(motionId).collection(ApiConst.relatedAuctions).doc<AuctionInstance>(auctionId).update({bid}));
   }
 
   /**
@@ -80,7 +79,7 @@ export class ApiService {
    * @param { any } ask
    */
   updateAuctionProps(motionId: string, auctionId: string, obj: Partial<AuctionInstance>) {
-    return from(this.auctionRef.doc(motionId).collection(ApiConsts.relatedAuctions).doc<AuctionInstance>(auctionId).update(obj));
+    return from(this.auctionRef.doc(motionId).collection(ApiConst.relatedAuctions).doc<AuctionInstance>(auctionId).update(obj));
   }
 
 
@@ -90,7 +89,7 @@ export class ApiService {
    * @param { string } auctionId
    */
   listenerUpdatedAuction(motionId: string, auctionId: string): Observable<Action<DocumentSnapshot<AuctionInstance>>> {
-    return this.auctionRef.doc(motionId).collection(ApiConsts.relatedAuctions).doc<AuctionInstance>(auctionId).snapshotChanges();
+    return this.auctionRef.doc(motionId).collection(ApiConst.relatedAuctions).doc<AuctionInstance>(auctionId).snapshotChanges();
   }
 
 
@@ -128,7 +127,7 @@ export class ApiService {
    * @param { AuctionInstance } auctionObj
    */
   addAuctionCommon(motionId: string, auctionObj: AuctionInstance): Observable<void> {
-    return from(this.auctionRef.doc(motionId).collection(ApiConsts.relatedAuctions).doc(auctionObj.key).set(auctionObj));
+    return from(this.auctionRef.doc(motionId).collection(ApiConst.relatedAuctions).doc(auctionObj.key).set(auctionObj));
   }
 
   /**
@@ -136,7 +135,7 @@ export class ApiService {
    * contains a list of all motions were created.
    * @param { MotionForm } motionForm Partial of MotionInstance object
    */
-  createMotionRefacted(motionForm: MotionForm): Observable<Action<DocumentSnapshot<AuctionInstance>>> {
+  createMotion(motionForm: MotionForm): Observable<Action<DocumentSnapshot<AuctionInstance>>> {
 
     const motionObj = this.createMotionInstance(motionForm);
     const motionId = motionObj.key;
@@ -169,7 +168,7 @@ export class ApiService {
    * @param { string } auctionId
    */
   addAuctionIdToList(motionId: string, auctionId: string) {
-    return from(this.motionRef.doc(motionId).collection(ApiConsts.auctionList).doc(auctionId).set({auctionId: true}));
+    return from(this.motionRef.doc(motionId).collection(ApiConst.auctionList).doc(auctionId).set({auctionId: true}));
   }
 
   /**
@@ -178,7 +177,7 @@ export class ApiService {
    * @param {string} motionId
    */
   createMotionAuctionList(motionId: string): Observable<void> {
-    return from(this.motionRef.doc(motionId).collection(ApiConsts.auctionList).doc('status').set({status: ApiConsts.defaultStatus }));
+    return from(this.motionRef.doc(motionId).collection(ApiConst.auctionList).doc('status').set({status: ApiConst.defaultStatus }));
   }
 
 
@@ -214,7 +213,7 @@ export class ApiService {
    * @param { string } motionId
    */
   listenerForAddedActions(motionId: string): Observable<DocumentChangeAction<firebase.firestore.DocumentData>[]> {
-    return this.motionRef.doc(motionId).collection(ApiConsts.auctionList).snapshotChanges();
+    return this.motionRef.doc(motionId).collection(ApiConst.auctionList).snapshotChanges();
   }
 
   /**

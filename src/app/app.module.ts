@@ -12,23 +12,18 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
-
-import { FormsModule } from '@angular/forms';
-import {MatInputModule} from '@angular/material';
-import {MatButtonModule} from '@angular/material/button';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatMenuModule} from '@angular/material/menu';
-import { environment } from '../environments/environment';
-import { LoginComponent } from './components/login/login.component';
-
-
 import { ReactiveFormsModule } from '@angular/forms';
-
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import { MatMenuModule } from '@angular/material/menu';
+import { environment } from '../environments/environment';
+
+import { LoginComponent } from './components/login/login.component';
 import { LoadingComponent } from './components/loading/loading.component';
-
-
 
 @NgModule({
   declarations: [
