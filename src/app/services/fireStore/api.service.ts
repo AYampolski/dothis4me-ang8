@@ -3,7 +3,7 @@ import { AngularFirestore, Action, DocumentSnapshot, DocumentChangeAction } from
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
-import * as firebase from 'firebase';
+// import * as firebase from 'firebase';
 import { switchMap, catchError, mergeMap } from 'rxjs/operators';
 import { from, Observable, of } from 'rxjs';
 import { throwError } from 'rxjs';
