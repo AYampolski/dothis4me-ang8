@@ -23,7 +23,7 @@ export class FirestoreRequestorActionsService {
 
   createRequestObj(auctionForm: AuctionForm): AuctionInstance {
     const { bid, requirement, status } = auctionForm;
-    const {displayName, uid} = this.getUserInfo();
+    const { displayName, uid } = this.getUserInfo();
     return {
       key: null,
       owner: uid,

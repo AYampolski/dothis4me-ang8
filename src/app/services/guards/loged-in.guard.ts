@@ -16,21 +16,18 @@ export class LogedInGuard implements CanActivate {
     public afAuth: AngularFireAuth,
     private authService: AuthService,
     private stateService: StateService,
-    ){
-
-  }
+    ) { }
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    if(next.queryParams && next.queryParams.logout ) {
+    if (next.queryParams && next.queryParams.logout ) {
       this.authService.logOutWithActionsPromise().then( () => {
         this.stateService.user = null;
-      })
+      });
     }
     return this.afAuth.authState.pipe(
       map(user => {
-        console.log(user);
         return !user
       })
     )

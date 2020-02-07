@@ -16,7 +16,6 @@ export class JoinGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     const motionId = next.paramMap.get('id');
-    console.log('[JOIN GUARD] motionId', motionId);
     return this.commonActions.getMotionById(motionId);
 
   }

@@ -72,7 +72,8 @@ export class AuthService {
   }
 
   authLogin(provider): Observable<void> {
-    return from(this.afAuth.auth.signInWithPopup(provider)).pipe(
+    return from(this.afAuth.auth
+      .signInWithPopup(provider)).pipe(
       switchMap( (userResponse: auth.UserCredential) => {
         if (userResponse.additionalUserInfo.isNewUser) {
           return this.apiService.addUserToDb(this.createUserObject(userResponse.user));

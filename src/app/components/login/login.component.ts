@@ -15,11 +15,19 @@ export class LoginComponent implements OnInit {
 
   email = '03email@winemail.net';
   email2 = 'bigYolo@winemail.net';
+  email3 = 'test3@winemail.net';
+  email4 = 'test4@winemail.net';
+  email5 = 'test5@winemail.net';
   password = '111111';
   displayName = 'John Sina';
 
   password2 = '111111';
-  displayName2 = 'Andrew Jackman';
+  displayName2 = 'Andrew Jackson';
+  displayName3 = 'Peter Parker';
+  displayName4 = 'Ivan Ivanov';
+  displayName5 = 'Some Guy';
+
+
 
   constructor(
     private authService: AuthService,
@@ -53,6 +61,51 @@ export class LoginComponent implements OnInit {
 
   login1Email() {
     this.authService.emailPasswordLogin(this.email, this.password)
+    .subscribe( next => {
+
+    },
+    err => {
+      console.log('EROR ....', err);
+    });
+
+  }
+
+
+  logup4Email(){
+    this.logupWithEmail(this.email4, this.password, this.displayName4);
+  }
+
+  logup3Email(){
+    this.logupWithEmail(this.email3, this.password, this.displayName3);
+  }
+
+  logup5Email(){
+    this.logupWithEmail(this.email5, this.password, this.displayName5);
+  }
+
+  login5Email(){
+    this.loginWithEmail(this.email5, this.password);
+  }
+
+  login4Email(){
+    this.loginWithEmail(this.email4, this.password);
+  }
+
+  login3Email(){
+    this.loginWithEmail(this.email3, this.password);
+  }
+
+  logupWithEmail(email, password, displayName){
+    this.authService.emailPasswordLogup(email, password, displayName).subscribe( next => {
+
+    },
+    err => {
+      console.log('EROR ....', err);
+    });
+  }
+
+  loginWithEmail(email, password) {
+    this.authService.emailPasswordLogin(email, password)
     .subscribe( next => {
 
     },

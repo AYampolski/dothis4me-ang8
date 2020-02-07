@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { ApiService } from '@services-cust/fireStore/api.service';
 import { MotionForm } from '@models-cust/motion.model';
 import { AuctionInstance } from '@models-cust/auction.model';
 import { Action, DocumentSnapshot } from '@angular/fire/firestore';
-import { map, filter } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 
 
 @Injectable({
@@ -22,7 +22,7 @@ export class FirestoreCreatorActionsService {
     return this.apiService.createMotionRefacted(motionForm)
     .pipe(filter( res => {
       return res !== undefined;
-    }))
+    }));
   }
 
   updateAsk(motionId: string, auctionId: string, obj: Partial<AuctionInstance> ): Observable<void> {

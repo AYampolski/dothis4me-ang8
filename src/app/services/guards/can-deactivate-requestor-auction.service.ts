@@ -31,14 +31,11 @@ export class CanDeactivateRequestorAuctionService implements CanDeactivate<InitC
 
 
     return of(window.confirm(message))
-      .pipe(tap(userResponse => {
-        if (userResponse) {
-          this.stateService.clearAuctionMotionData();
-
-          // if (nextState.url.includes('/login?logout=true')) {
-          //   this.auth.logOut();
-          // }
-        }
-      }));
+            .pipe(tap(userResponse => {
+              if (userResponse) {
+                this.stateService.clearAuctionMotionData();
+              }
+            }));
   }
+
 }
