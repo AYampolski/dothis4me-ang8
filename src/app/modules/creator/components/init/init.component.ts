@@ -44,6 +44,6 @@ export class InitComponent {
       key: motionId,
     };
 
-    this.router.navigateByUrl(`/motion/${motionId}`, {state : this.filledForm});
+    this.router.navigateByUrl(`/motion/${motionId}`, {state : {formInstance: this.filledForm }});
   }
 }

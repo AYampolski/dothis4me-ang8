@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { ApiService } from '@services-app/fireStore/api.service';
 import { AuctionInstance } from '@models-app/auction.model';
@@ -27,12 +27,12 @@ export class FirestoreCreatorActionsService {
   }
 
   refreshConnection(motionId: string) {
-    return this.apiService.refreshMotion(motionId).pipe( filter(snapshot => {
-      return snapshot !== undefined;
-    }),
+    return this.apiService.refreshMotion(motionId).pipe(
     map( (item) => {
-      const data = item.payload.data();
-      return  (data) ;
+      if(item){
+        return  item.payload.data();
+      }
+      return of(undefined)
     }));
   }
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ApiService } from '@services-app/fireStore/api.service';
 import { StateService } from '@services-app/state.service';
-import { AuctionForm, AuctionInstance } from '@models-app/auction.model';
+import { AuctionInstance } from '@models-app/auction.model';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
 
@@ -24,14 +24,14 @@ export class FirestoreRequestorActionsService {
     return {displayName, uid, email, emailVerified};
   }
 
-  createRequestObj(auctionForm: AuctionForm): AuctionInstance {
+  createRequestObj(auctionForm: Partial<AuctionInstance>): AuctionInstance {
     const lastCall = moment().valueOf();
     const type = 'auction';
-    const { bid, requirement, status } = auctionForm;
+    const { bid, requirement, status, key } = auctionForm;
     const { displayName, uid } = this.getUserInfo();
     return {
       type,
-      key: null,
+      key,
       owner: uid,
       displayName,
       bid,
@@ -43,11 +43,15 @@ export class FirestoreRequestorActionsService {
     };
   }
 
-  createRequest(motionId: string, auctionForm: AuctionForm) {
+  createRequest(motionId: string, auctionForm: Partial<AuctionInstance>) {
     const auctionWithoutKey = this.createRequestObj(auctionForm);
 
     return this.apiService.createAuction(motionId, auctionWithoutKey, this.stateService.user.uid);
 
+  }
+
+  refreshAuctionConnection(motionId, auctionId) {
+    return this.apiService.refreshAuction(motionId, auctionId);
   }
 
   updateAuction(motionId, auctionId, obj): Observable<void> {

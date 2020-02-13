@@ -1,4 +1,4 @@
-<form>
+<form *ngIf="motionInstance">
   <app-motion-input [motionInstance]='motionInstance'> </app-motion-input>
   <div class="description-field">
     <mat-form-field class="proposal" [formGroup]="startBid">

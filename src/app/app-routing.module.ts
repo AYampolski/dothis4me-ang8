@@ -33,7 +33,7 @@ const routes: Routes = [
   },
   {
     path: 'requestor/:id',
-    canActivate: [JoinGuard],
+    // canActivate: [JoinGuard],
     loadChildren: () => import('./modules/requestor/requestor.module').then( mod => mod.RequestorModule)
   },
   {

@@ -169,6 +169,19 @@ export class ApiService {
                           .doc<AuctionInstance>(auctionId).snapshotChanges();
   }
 
+  /**
+   * Refresh connection to auction, its listener
+   * @param motionId
+   * @param auctionId
+   */
+  refreshAuction(motionId,auctionId) {
+    return this.getChangeableAuction(motionId,auctionId).pipe(
+      switchMap( (motion) => {
+        console.log('[Check = check ]', motion);
+        return this.listenerUpdatedAuction(motionId, auctionId);
+      }),
+    )
+  }
 
   /**
    * Add an auction to root level of db.
@@ -177,8 +190,8 @@ export class ApiService {
    * @param { AuctionInstance } auctionObj
    */
   createAuction(motionId: string, auctionObj: AuctionInstance, userId: string): Observable<Action<DocumentSnapshot<AuctionInstance>>> {
-    const auctionId = this.db.createId();
-    auctionObj.key = auctionId;
+    // const auctionId = this.db.createId();
+    // auctionObj.key = auctionId;
 
     return combineLatest([
       this.addAuctionCollection(motionId, auctionObj),
@@ -187,7 +200,7 @@ export class ApiService {
       this.addActiveItems(auctionObj, 'auction'),
     ]).pipe(
       switchMap( () => {
-        return this.listenerUpdatedAuction(motionId, auctionId);
+        return this.listenerUpdatedAuction(motionId, auctionObj.key);
       }),
     );
   }
@@ -247,6 +260,10 @@ export class ApiService {
             );
   }
 
+  getChangeableAuction(motionId: string, auctionId: string) {
+    return this.auctionRef.doc(motionId).collection('relatedAuctions').doc(auctionId).get();
+  }
+
   getMotionsAuctions(motionId: string) {
     return this.auctionRef.doc(motionId).collection('relatedAuctions').get();
   }
@@ -286,13 +303,19 @@ export class ApiService {
           return [newAuction];
         }
       }),
-      mergeMap( (activeIds: string[]) =>
-        from(activeIds).pipe(
+      mergeMap( (activeIds: string[]) => {
+        if(activeIds.length === 0){
+          return of(undefined);
+        }
+        return from(activeIds).pipe(
           mergeMap (
               id =>  this.listenerUpdatedAuction(this.stateService.motionInstance.key, id)
             ),
           // map( item => (item))
         )
+
+      }
+
       ),
     );
   }

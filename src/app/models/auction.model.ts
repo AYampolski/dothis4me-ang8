@@ -1,9 +1,3 @@
-export interface AuctionForm {
-  requirement: string;
-  bid: number;
-  status: string;
-}
-
 export interface AuctionInstance {
   key: string | null;
   owner: string;

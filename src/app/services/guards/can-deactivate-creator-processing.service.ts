@@ -23,6 +23,8 @@ export class CanDeactivateCreatorProcessingService implements CanDeactivate<Proc
     nextState: RouterStateSnapshot
   ): Observable<boolean>|Promise<boolean>|boolean {
 
+
+
     let message = 'Do you want create a new motion?';
 
     if (nextState.url.includes('/login?logout=true')) {

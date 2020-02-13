@@ -6,9 +6,10 @@ import { takeUntil, map } from 'rxjs/operators';
 
 import { StateService } from '@services-app/state.service';
 import { FirestoreRequestorActionsService } from '@services-app/fireStore/firestore-requestor-actions.service';
+import { FirestoreCommonActionsService } from '@services-app/fireStore/firestore-common-actions.service';
 import { ToastMessagesService } from '@services-app/toast-messages.service';
-import { AuctionForm, AuctionInstance } from '@models-app/auction.model';
-import { ActivatedRoute } from '@angular/router';
+import { AuctionInstance } from '@models-app/auction.model';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MotionInstance } from '@models-app/motion.model';
 
 @Component({
@@ -20,6 +21,7 @@ export class InitComponent implements OnInit, OnDestroy {
 
   startBid: FormGroup;
   controls;
+  auctionId: string;
   motionInstance: MotionInstance;
   destroy$: Subject<boolean> = new Subject<boolean>();
   isLoading: boolean;
@@ -36,8 +38,10 @@ export class InitComponent implements OnInit, OnDestroy {
     public stateService: StateService,
     private api: FirestoreRequestorActionsService,
     private formBuilder: FormBuilder,
+    private router: Router,
     private toastService: ToastMessagesService,
     private activatedRoute: ActivatedRoute,
+    private frCommon: FirestoreCommonActionsService,
   ) {
     this.startBid = this.formBuilder.group({
       requirement: new FormControl('', Validators.required),
@@ -45,14 +49,41 @@ export class InitComponent implements OnInit, OnDestroy {
     });
 
     this.controls = this.startBid.controls;
+
+    if(!this.stateService.motionId && !this.stateService.motionInstance) {
+      const [motionId, auctionId ] = this.router.url.split('/requestor/')[1].split('/');
+
+      this.frCommon.getMotionInstance(motionId).subscribe((motion: MotionInstance) => {
+        console.log('[REquestor, motion instance] ', motion);
+        this.motionInstance = motion;
+        this.stateService.motionInstance = motion;
+        this.stateService.motionId = motion.key;
+      })
+
+      this.api.refreshAuctionConnection(motionId, auctionId)
+        .subscribe(updatedAuction => {
+          console.log('HERE WE ARE, auction instance', updatedAuction);
+          const {requirement, bid} = updatedAuction.payload.data();
+          this.startBid.controls['requirement'].setValue( requirement );
+          this.startBid.controls['bid'].setValue( bid );
+
+          this.stateService.selectedAuction = updatedAuction.payload.data();
+        })
+    }
   }
 
   ngOnInit() {
     this.activatedRoute.paramMap.pipe(
       takeUntil(this.destroy$),
       map( () => window.history.state ),
-    ).subscribe( motion => {
+    ).subscribe( ({motion, auctionId}) => {
+      if(!motion && !auctionId){
+        return;
+      }
       this.motionInstance = motion;
+      this.stateService.motionInstance = motion;
+      this.stateService.motionId = motion.key;
+      this.auctionId = auctionId;
       console.log('receive motion ', motion);
     },
     err => {
@@ -60,8 +91,10 @@ export class InitComponent implements OnInit, OnDestroy {
     }, () => { console.log('getting motion completed')})
   }
 
-  createAuctionFormInstance(): AuctionForm {
+  createAuctionFormInstance(): Partial<AuctionInstance> {
+    const key = this.auctionId;
     return {
+      key,
       requirement: this.startBid.controls.requirement.value,
       bid: this.startBid.controls.bid.value,
       status: this.stateService.iconList.pending

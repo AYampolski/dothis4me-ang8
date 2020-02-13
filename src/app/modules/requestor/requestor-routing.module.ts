@@ -7,7 +7,7 @@ import { CanDeactivateRequestorAuctionService } from '@services-app/guards/can-d
 
 const routes: Routes = [
   {
-        path: '',
+        path: ':id',
         component: InitComponent,
         canDeactivate: [CanDeactivateRequestorAuctionService]
   }

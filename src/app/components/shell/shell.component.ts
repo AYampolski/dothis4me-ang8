@@ -24,8 +24,9 @@ export class ShellComponent implements OnDestroy {
     this.frCommon.getMotionInstance(this.motionId)
     .pipe(takeUntil(this.destroy$))
     .subscribe((motion) => {
+      const auctionId = this.frCommon.createId();
       this.stateService.motionId = this.motionId;
-      this.router.navigateByUrl(`/requestor/${this.motionId}`,  {state : motion});
+      this.router.navigateByUrl(`/requestor/${this.motionId}/${auctionId}`,  {state : {motion, auctionId}});
     });
   }
 

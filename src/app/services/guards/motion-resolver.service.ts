@@ -20,7 +20,9 @@ export class MotionResolverService implements Resolve<any>  {
 
 
     if (!this.stateService.motionId && !this.stateService.motionInstance) {
-      return  this.frCreator.getMotionsAuctions(motionId).pipe(first());
+      return  this.frCreator.getMotionsAuctions(motionId).pipe(
+        first()
+        );
     } else {
       return null;
     }

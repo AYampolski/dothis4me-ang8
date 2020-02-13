@@ -17,6 +17,7 @@ const routes: Routes = [
       },
       {
         path: ':id',
+        canDeactivate: [CanDeactivateCreatorProcessingService],
         component: ProcessingComponent,
         resolve: {
           data: MotionResolverService,
