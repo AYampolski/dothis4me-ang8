@@ -2,12 +2,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Action, DocumentSnapshot } from '@angular/fire/firestore';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, map } from 'rxjs/operators';
 
 import { StateService } from '@services-app/state.service';
 import { FirestoreRequestorActionsService } from '@services-app/fireStore/firestore-requestor-actions.service';
 import { ToastMessagesService } from '@services-app/toast-messages.service';
 import { AuctionForm, AuctionInstance } from '@models-app/auction.model';
+import { ActivatedRoute } from '@angular/router';
+import { MotionInstance } from '@models-app/motion.model';
 
 @Component({
   selector: 'app-init',
@@ -18,6 +20,7 @@ export class InitComponent implements OnInit, OnDestroy {
 
   startBid: FormGroup;
   controls;
+  motionInstance: MotionInstance;
   destroy$: Subject<boolean> = new Subject<boolean>();
   isLoading: boolean;
 
@@ -34,6 +37,7 @@ export class InitComponent implements OnInit, OnDestroy {
     private api: FirestoreRequestorActionsService,
     private formBuilder: FormBuilder,
     private toastService: ToastMessagesService,
+    private activatedRoute: ActivatedRoute,
   ) {
     this.startBid = this.formBuilder.group({
       requirement: new FormControl('', Validators.required),
@@ -44,7 +48,16 @@ export class InitComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('check init');
+    this.activatedRoute.paramMap.pipe(
+      takeUntil(this.destroy$),
+      map( () => window.history.state ),
+    ).subscribe( motion => {
+      this.motionInstance = motion;
+      console.log('receive motion ', motion);
+    },
+    err => {
+      console.warn('Get motion error ', err);
+    }, () => { console.log('getting motion completed')})
   }
 
   createAuctionFormInstance(): AuctionForm {
@@ -89,7 +102,9 @@ export class InitComponent implements OnInit, OnDestroy {
   onNewBid(bid): void {
     this.stateService.selectedAuction.status = this.stateService.iconList.pending;
     const updatedProps = {bid, status: this.stateService.iconList.pending};
-    this.updateAuctionForm(updatedProps).subscribe(this.updateObserver);
+    this.updateAuctionForm(updatedProps)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(this.updateObserver);
   }
 
   updateAuctionForm(updatedProps): Observable<void> {
@@ -103,7 +118,9 @@ export class InitComponent implements OnInit, OnDestroy {
     this.stateService.selectedAuction.deal = String(this.stateService.selectedAuction.bid);
     const deal = this.stateService.selectedAuction.ask;
     const updatedProps = { deal, status: this.stateService.iconList.success};
-    this.updateAuctionForm(updatedProps).subscribe(this.updateObserver);
+    this.updateAuctionForm(updatedProps)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(this.updateObserver);
   }
 
   ngOnDestroy() {

@@ -40,6 +40,14 @@ export class FirestoreCommonActionsService {
     );
   }
 
+  getMotionInstance(id: string) {
+    return this.apiService.getMotion(id).pipe(
+      map((motion: firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData>) => {
+        return motion.data();
+      })
+    );
+  }
+
    updatedAuctionReceive(updatedAuction, index): void {
     if (!updatedAuction.deal) {
       const { iconList } = this.stateService;
@@ -68,5 +76,9 @@ export class FirestoreCommonActionsService {
     } else {
       this.newAuctionReceive(updatedAuction);
     }
+  }
+
+  createId(): string{
+    return this.apiService.createUniqueId();
   }
 }

@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { StateService } from '@services-app/state.service';
 import { FirestoreCreatorActionsService } from '@services-app/fireStore/firestore-creator-actions.service';
 import { FirestoreCommonActionsService } from '@services-app/fireStore/firestore-common-actions.service';
 import { MotionInstance } from '@models-app/motion.model';
+import { Observable, Subject } from 'rxjs';
+import { map, switchMap, tap, takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -12,8 +14,9 @@ import { MotionInstance } from '@models-app/motion.model';
   templateUrl: './processing.component.html',
   styleUrls: ['./processing.component.scss']
 })
-export class ProcessingComponent {
-
+export class ProcessingComponent implements OnInit, OnDestroy {
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  state$: Observable<any>;
   motionInstance: MotionInstance;
 
   constructor(
@@ -31,11 +34,38 @@ export class ProcessingComponent {
     const url = this.router.url.split('/motion/')[1];
 
     if(!this.stateService.motionId && !this.stateService.motionInstance) {
-      const test = this.frCreator.refreshConnection(url).subscribe( (updatedAuctionSnapshot) => {
-        this.motionInstance = this.stateService.motionInstance;
-        this.frCommon.handleAuctions(updatedAuctionSnapshot);
+      this.frCreator.refreshConnection(url)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe( (updatedAuctionSnapshot) => {
+          this.motionInstance = this.motionInstance || this.stateService.motionInstance;
+          this.frCommon.handleAuctions(updatedAuctionSnapshot);
+        }, err => {console.log(err); }, () => {console.log('complete!!'); });
+    } else {
 
-      }, err => {console.log(err); }, () => {console.log('complete!!'); });
     }
+  }
+
+  ngOnInit() {
+    this.activatedRoute.paramMap
+      .pipe(
+        takeUntil(this.destroy$),
+        map( () => window.history.state ),
+        switchMap( (formInstance: Partial<MotionInstance>) => {
+          return this.frCreator.createMotion(formInstance, this.stateService.user.uid);
+        }),
+        tap( () => {
+          this.motionInstance = this.motionInstance || this.stateService.motionInstance;
+          console.log('[TAP');
+        }),
+      )
+      .subscribe((updatedAuctionSnapshot) => {
+        this.frCommon.handleAuctions(updatedAuctionSnapshot);
+      }
+  );
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

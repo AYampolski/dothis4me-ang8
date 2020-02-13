@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import * as moment from 'moment';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
-import { FirestoreCreatorActionsService } from '@services-app/fireStore/firestore-creator-actions.service';
 import { StateService } from '@services-app/state.service';
-import { MotionForm } from '@models-app/motion.model';
 import { FirestoreCommonActionsService } from '@services-app/fireStore/firestore-common-actions.service';
+import { MotionInstance } from '@models-app/motion.model';
 
 @Component({
   selector: 'app-init',
@@ -17,14 +17,13 @@ export class InitComponent {
   createMotionForm: FormGroup;
   selectedDate: string;
 
-  console = console;
-  filledForm: MotionForm;
+  filledForm: Partial<MotionInstance>;
   controls;
   constructor(
     public stateService: StateService,
-    private firebaseCreatorService: FirestoreCreatorActionsService,
     private formBuilder: FormBuilder,
     private frCommon: FirestoreCommonActionsService,
+    private router: Router,
 
     ) {
       this.createMotionForm = this.formBuilder.group({
@@ -37,16 +36,14 @@ export class InitComponent {
 
   firestoreCreateMotion(): void {
 
+    const motionId = this.frCommon.createId();
     this.filledForm = {
       title: this.createMotionForm.controls.title.value,
       proposal: this.createMotionForm.controls.proposal.value,
-      lastCall: +moment.utc(this.selectedDate).format('x')
+      lastCall: +moment.utc(this.selectedDate).format('x'),
+      key: motionId,
     };
 
-    this.firebaseCreatorService.createMotion(this.filledForm, this.stateService.user.uid )
-      .subscribe((updatedAuctionSnapshot) => {
-        this.frCommon.handleAuctions(updatedAuctionSnapshot);
-
-    });
+    this.router.navigateByUrl(`/motion/${motionId}`, {state : this.filledForm});
   }
 }

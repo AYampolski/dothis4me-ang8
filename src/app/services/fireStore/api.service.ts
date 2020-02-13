@@ -3,12 +3,12 @@ import { AngularFirestore, Action, DocumentSnapshot, DocumentChangeAction, Angul
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
-import { switchMap, catchError, mergeMap, map, toArray, tap } from 'rxjs/operators';
-import { from, Observable, of, throwError, combineLatest, merge } from 'rxjs';
+import { switchMap, catchError, mergeMap, map } from 'rxjs/operators';
+import { from, Observable, of, throwError, combineLatest } from 'rxjs';
 import * as moment from 'moment';
 
 
-import { MotionInstance, MotionForm } from '@models-app/motion.model';
+import { MotionInstance } from '@models-app/motion.model';
 import { User } from '@models-app/user.model';
 import { StateService } from '@services-app/state.service';
 import { AuctionInstance } from '@models-app/auction.model';
@@ -67,6 +67,10 @@ export class ApiService {
                         .collection(this.itemsCollectionName)
                         .doc(item.key)
                         .set(Object.assign({}, item, type));
+  }
+
+  createUniqueId(): string{
+    return this.db.createId();
   }
 
   /**
@@ -207,12 +211,13 @@ export class ApiService {
    * contains a list of all motions were created.
    * @param { MotionForm } motionForm Partial of MotionInstance object
    */
-  createMotion(motionForm: MotionForm, userId: string): Observable<Action<DocumentSnapshot<AuctionInstance>>> {
+  createMotion(motionForm: Partial<MotionInstance>, userId: string): Observable<Action<DocumentSnapshot<AuctionInstance>>> {
 
     const motionObj = this.createMotionInstance(motionForm);
+    this.stateService.motionInstance = motionObj;
     const motionId = motionObj.key;
 
-    this.router.navigate([`/motion/${motionId}`]);
+    // this.router.navigate([`/motion/${motionId}`]);
 
 
     return combineLatest([
@@ -316,11 +321,10 @@ export class ApiService {
    * Creates a common MotionInstance ready to be send
    * @param { MotionForm } param0
    */
-  createMotionInstance({title, proposal, lastCall }: MotionForm): MotionInstance {
-    const motionId = this.db.createId();
+  createMotionInstance({title, proposal, lastCall, key }: Partial<MotionInstance>): MotionInstance {
     const { displayName, uid } = this.auth.auth.currentUser;
     const motionObj = {
-      key: motionId,
+      key,
       owner: uid,
       displayName,
       title,
