@@ -1,7 +1,8 @@
-<div>
-    <app-motion-input></app-motion-input>
-    <div *ngIf="this.stateService.activeSessionsObjects.length">
+<div *ngIf="motionInstance">
+    <app-motion-input [motionInstance]="motionInstance"></app-motion-input>
+    <div *ngIf="this.stateService.activeSessionsObjects && this.stateService.activeSessionsObjects.length > 0">
             <app-accordion [auctionList]="this.stateService.activeSessionsObjects"></app-accordion>
     </div>
-    <div class="section--center" *ngIf="!this.stateService.activeSessionsObjects.length"> There are no orders </div>
+    <div class="section--center" *ngIf="!this.stateService.activeSessionsObjects"> There are no orders </div>
 </div>
+<app-loading [loading]="!motionInstance"></app-loading>

@@ -13,4 +13,6 @@ export interface AuctionInstance {
   ask: number;
   deal: null | string | undefined;
   status?: string;
+  type: string;
+  lastCall: number;
 }

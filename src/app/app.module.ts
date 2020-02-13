@@ -23,7 +23,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { environment } from '../environments/environment';
 
 import { LoginComponent } from './components/login/login.component';
-import { LoadingComponent } from './components/loading/loading.component';
+
+import { SharedModule } from './modules/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,6 @@ import { LoadingComponent } from './components/loading/loading.component';
     ShellComponent,
     NotfoundComponent,
     LoginComponent,
-    LoadingComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +50,8 @@ import { LoadingComponent } from './components/loading/loading.component';
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

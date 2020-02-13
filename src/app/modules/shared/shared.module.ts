@@ -8,11 +8,11 @@ import { MatInputModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
-
+import { LoadingComponent } from './components/loading/loading.component';
 
 
 @NgModule({
-  declarations: [MotionInputComponent],
+  declarations: [MotionInputComponent, LoadingComponent],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -23,6 +23,6 @@ import { FormsModule } from '@angular/forms';
     MatFormFieldModule
   ],
   providers: [MatIconRegistry],
-  exports: [MotionInputComponent]
+  exports: [MotionInputComponent, LoadingComponent]
 })
 export class SharedModule { }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material/icon';
@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { map, takeWhile } from 'rxjs/operators';
 
 import { StateService } from '@services-app/state.service';
+import { MotionInstance } from '@models-app/motion.model';
 
 @Component({
   selector: 'app-motion-input',
@@ -15,7 +16,7 @@ import { StateService } from '@services-app/state.service';
 })
 export class MotionInputComponent implements OnInit  {
 
-
+  @Input() motionInstance: MotionInstance;
   endSeconds: number;
 
   countDown$ = timer(0, 1000).pipe(
@@ -34,7 +35,7 @@ export class MotionInputComponent implements OnInit  {
   }
 
   ngOnInit() {
-    this.endSeconds = this.stateService.motionInstance.lastCall - Number(moment.utc(new Date()).format('x'));
+      this.endSeconds = this.motionInstance.lastCall - Number(moment.utc(new Date()).format('x'));
   }
 
   copyInputMessage(inputElement: HTMLInputElement): void {

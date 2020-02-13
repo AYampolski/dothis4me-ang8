@@ -7,7 +7,7 @@
       #userInput
       matInput
       [readonly]="true"
-      [value]="this.stateService.motionInstance.key"
+      [value]="motionInstance.key"
     />
 
     <div class="motion__icon-container">
@@ -23,7 +23,7 @@
 
   <div class="title">
     <span class="title__user-info">
-      {{ this.stateService.motionInstance.displayName }}
+      {{ motionInstance.displayName }}
     </span>
 
     <span class="title__common">
@@ -33,7 +33,7 @@
 
   <div class="description">
     <div class="description__text">
-      {{ this.stateService.motionInstance.proposal }}
+      {{ motionInstance.proposal }}
     </div>
     <div class="description__timer">
       {{ countDown$ | async | date: "H:mm:ss":"UTC" }}

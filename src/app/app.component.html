@@ -11,6 +11,10 @@
         <div mat-menu-item class="not-active">
           User Email: <span>{{ this.stateService.user.email }}</span>
         </div>
+        <div mat-menu-item class="not-active">
+          Your active motions: <span> {{this.stateService.activeMotions.length}} </span>
+        </div>
+
         <button mat-menu-item (click)="logOut()">Log out</button>
       </mat-menu>
     </div>

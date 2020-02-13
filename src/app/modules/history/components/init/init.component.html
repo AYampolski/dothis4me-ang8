@@ -1,0 +1,8 @@
+<div class="history-container">
+  <div *ngIf="this.stateService.activeMotions">
+    You have <span>{{ this.stateService.activeMotions.length }}</span> motion(s)
+  </div>
+  <div *ngIf="this.stateService.activeAuctions">
+    You have <span>{{ this.stateService.activeAuctions.length }}</span> auction(s)
+  </div>
+</div>

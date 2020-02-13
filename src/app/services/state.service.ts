@@ -9,8 +9,11 @@ import { AuctionInstance } from '@models-app/auction.model';
 })
 export class StateService {
 
+  refreshedConnections: number;
   motionInstance: MotionInstance;
-
+  activeItems;
+  activeMotions = [];
+  activeAuctions = [];
   iconList = {
     pending: 'pending',
     success: 'success',
@@ -28,23 +31,20 @@ export class StateService {
   auctionsGroup: MotionAuctionItem[];
 
 
-  constructor() { }
-
-  clearAuctionMotionData(): void {
-    this.clearMotion();
-    this.clearSelectedAuction();
-  }
-
-  clearSelectedAuction(): void {
-    this.selectedAuction = null;
+  constructor() {
     this.activeSessionsIds = [];
     this.activeSessionsObjects = [];
-    this.auctionsGroup = null;
+    this.auctionsGroup = [];
   }
 
-  clearMotion(): void {
-    this.motionId = null;
-    this.motionId = null;
+  setActiveItems(activeItems){
+    this.activeItems = activeItems;
+    this.sortActiveItems(this.activeItems);
+  }
+
+  sortActiveItems(activeItems) {
+    this.activeMotions = activeItems.filter( item => item.type === 'motion');
+    this.activeAuctions = activeItems.filter( item => item.type === 'auction');
   }
 
 }

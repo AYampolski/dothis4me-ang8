@@ -37,13 +37,17 @@ const routes: Routes = [
     loadChildren: () => import('./modules/requestor/requestor.module').then( mod => mod.RequestorModule)
   },
   {
+    path: 'history',
+    loadChildren: () => import('./modules/history/history.module').then( mod => mod.HistoryModule)
+  },
+  {
     path: '**',
     component: NotfoundComponent
   }
  ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

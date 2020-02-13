@@ -12,6 +12,8 @@ export interface MotionInstance {
   lastCall: number;
   ownerInfo?: string;
   displayName?: string;
+  type?: string;
+  status: number; //0 - started; 1 - completed ; 2 - rejected
 }
 
 export interface MotionAuctionItem {

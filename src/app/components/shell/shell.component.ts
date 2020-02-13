@@ -16,14 +16,13 @@ export class ShellComponent {
 
 
   joinToMotion( ) {
-    this.router.navigate(['/requestor', this.motionId]);
     this.stateService.motionId = this.motionId;
+    this.router.navigate(['/requestor', this.motionId]);
   }
 
-  clearAllMotionInfo(): void {
-    this.stateService.clearAuctionMotionData();
+  createMotion() {
+    this.stateService.motionId = this.motionId;
+    this.router.navigate(['/motion']);
   }
-
-
 
 }

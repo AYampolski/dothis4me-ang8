@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ApiService } from '@services-app/fireStore/api.service';
+import { StateService } from '@services-app/state.service';
 import { AuctionForm, AuctionInstance } from '@models-app/auction.model';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +14,7 @@ export class FirestoreRequestorActionsService {
   constructor(
     private apiService: ApiService,
     private firebaseAuth: AngularFireAuth,
+    public stateService: StateService,
   ) { }
 
 
@@ -22,9 +25,12 @@ export class FirestoreRequestorActionsService {
   }
 
   createRequestObj(auctionForm: AuctionForm): AuctionInstance {
+    const lastCall = moment().valueOf();
+    const type = 'auction';
     const { bid, requirement, status } = auctionForm;
     const { displayName, uid } = this.getUserInfo();
     return {
+      type,
       key: null,
       owner: uid,
       displayName,
@@ -32,14 +38,15 @@ export class FirestoreRequestorActionsService {
       status,
       requirement,
       ask: null,
-      deal: null
+      deal: null,
+      lastCall
     };
   }
 
   createRequest(motionId: string, auctionForm: AuctionForm) {
     const auctionWithoutKey = this.createRequestObj(auctionForm);
 
-    return this.apiService.addAuction(motionId, auctionWithoutKey);
+    return this.apiService.createAuction(motionId, auctionWithoutKey, this.stateService.user.uid);
 
   }
 
