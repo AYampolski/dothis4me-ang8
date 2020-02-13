@@ -18,8 +18,6 @@ const routes: Routes = [
       {
         path: ':id',
         component: ProcessingComponent,
-        // canDeactivate: [CanDeactivateCreatorProcessingService]
-        // canActivate: [MotionProcessingGuard]
         resolve: {
           data: MotionResolverService
         }
