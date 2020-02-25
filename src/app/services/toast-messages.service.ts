@@ -23,4 +23,8 @@ export class ToastMessagesService {
   motionCreated(): void {
     this.toastr.success('You create a motion!', 'Success');
   }
+
+  errorNoMotion(): void {
+    this.toastr.error('There is no motion', 'Error');
+  }
 }

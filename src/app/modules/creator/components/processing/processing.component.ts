@@ -61,7 +61,6 @@ export class ProcessingComponent implements OnInit, OnDestroy {
         }),
         tap( () => {
           this.motionInstance = this.motionInstance || this.stateService.motionInstance;
-          console.log('[TAP');
         }),
       )
       .subscribe((updatedAuctionSnapshot) => {
@@ -69,7 +68,7 @@ export class ProcessingComponent implements OnInit, OnDestroy {
           this.frCommon.handleAuctions(updatedAuctionSnapshot);
         }
       }, err => {
-        console.log('in ngonint error', err)
+        console.log('in ngonint error', err);
       }
   );
   }

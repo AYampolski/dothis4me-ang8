@@ -31,7 +31,7 @@ export class ApiService {
 
   private readonly motionCollectionName = 'motions';
   private readonly usersCollectionName = 'users';
-  private readonly auctionCollectionName = 'auction';
+  private readonly auctionCollectionName = 'auctionsInteraction';
   private readonly itemsCollectionName = 'items';
   private readonly usersRef =  this.db.collection(this.usersCollectionName);
   private readonly motionRef = this.db.collection(this.motionCollectionName);
@@ -59,7 +59,16 @@ export class ApiService {
     );
   }
   getMotion(motionId: string) {
-    return this.motionRef.doc(motionId).get();
+    return this.motionRef.doc(motionId).get().pipe(
+      map(item => {
+        if(item.data()) {
+          return item.data() as MotionInstance;
+        } else {
+          return this.createMotionError('There is no motion with this id');
+        }
+      }),
+      // catchError( () => of('caught'))
+    );
   }
 
   addActiveItems(item: MotionInstance | AuctionInstance, type: string) {
@@ -272,13 +281,11 @@ export class ApiService {
   refreshMotion(motionId: string) {
     return this.getMotion(motionId).pipe(
       map(motion => {
-        console.log('[!!!!Motion instance]', motion);
-        const motions =  motion.data() as MotionInstance;
-        this.stateService.motionInstance = motions;
-        return motions;
+        this.stateService.motionInstance = motion;
+        return motion;
       }),
       mergeMap(motions => {
-        return this.listenerAddedActions(motions.key);
+        return motions.key ? this.listenerAddedActions(motions.key) : of([]);
       }),
       map(ids => {
         const activeSnapshots = ids.filter( aucId => {
@@ -358,6 +365,19 @@ export class ApiService {
     this.stateService.motionInstance = motionObj;
     this.stateService.motionId = motionObj.key;
     return motionObj;
+  }
+
+
+  createMotionError(error) {
+    return {
+      key: null,
+      owner: null,
+      displayName: null,
+      title: null,
+      proposal: null,
+      lastCall: null,
+      status: error
+    };
   }
 
   /**

@@ -1,9 +1,11 @@
 import { Component, OnDestroy } from '@angular/core';
-import { StateService } from '@services-app/state.service';
-import { FirestoreCommonActionsService } from '@services-app/fireStore/firestore-common-actions.service';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { StateService } from '@services-app/state.service';
+import { FirestoreCommonActionsService } from '@services-app/fireStore/firestore-common-actions.service';
+import { ToastMessagesService } from '@services-app/toast-messages.service';
 
 @Component({
   selector: 'app-shell',
@@ -17,6 +19,7 @@ export class ShellComponent implements OnDestroy {
     private stateService: StateService,
     private frCommon: FirestoreCommonActionsService,
     private router: Router,
+    private toastMessage: ToastMessagesService,
   ) { }
 
 
@@ -25,8 +28,17 @@ export class ShellComponent implements OnDestroy {
     .pipe(takeUntil(this.destroy$))
     .subscribe((motion) => {
       const auctionId = this.frCommon.createId();
+      console.log('motion => ');
+      if (!motion.key) {
+        this.toastMessage.errorNoMotion();
+        return;
+      }
       this.stateService.motionId = this.motionId;
       this.router.navigateByUrl(`/requestor/${this.motionId}/${auctionId}`,  {state : {motion, auctionId}});
+    },
+    err => {
+      console.log('errr');
+      console.log(err);
     });
   }
 
@@ -35,7 +47,7 @@ export class ShellComponent implements OnDestroy {
     this.router.navigate(['/motion']);
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

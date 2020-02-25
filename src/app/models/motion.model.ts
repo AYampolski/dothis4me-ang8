@@ -7,7 +7,7 @@ export interface MotionInstance {
   ownerInfo?: string;
   displayName?: string;
   type?: string;
-  status: number; //0 - started; 1 - completed ; 2 - rejected
+  status: number;
 }
 
 export interface MotionAuctionItem {

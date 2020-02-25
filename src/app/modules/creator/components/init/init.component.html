@@ -19,6 +19,7 @@
     <div class="field-container">
       <mat-form-field [formGroup]="createMotionForm">
         <textarea
+          class="proposal"
           matInput
           placeholder="What I can do for the people"
           formControlName="proposal"
@@ -33,15 +34,18 @@
     </div>
 
     <div [formGroup]="createMotionForm">
+
       <dl-date-time-picker
-        startView="day"
-        maxView="day"
-        formControlName="dataPicker"
-        minView="minute"
-        minuteStep="5"
-        [(ngModel)]="selectedDate"
-      >
-      </dl-date-time-picker>
+      startView="hour"
+      [selectFilter]="selectFilter"
+      maxView="day"
+      formControlName="dataPicker"
+      minView="minute"
+      minuteStep="5"
+      (click)="$event.stopPropagation()"
+      [(ngModel)]="selectedDate"
+    >
+    </dl-date-time-picker>
     </div>
 
     <div class="btn-container">
@@ -57,5 +61,5 @@
   </form>
   <h4>last call time until user can bid</h4>
 
-  <h3>Date: {{ selectedDate | date: "short" }}</h3>
+  <h3>Date: {{ selectedDate | date: "HH:mm dd/LLL/yyyy" }}</h3>
 </div>

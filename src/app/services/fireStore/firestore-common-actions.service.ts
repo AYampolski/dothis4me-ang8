@@ -29,9 +29,9 @@ export class FirestoreCommonActionsService {
 
   getMotionById(id: string) {
     return this.apiService.getMotion(id).pipe(
-      map(res => {
-        if (res.exists) {
-          this.setMotionToState(res.data() as MotionInstance);
+      map(motion => {
+        if (motion.owner) {
+          this.setMotionToState(motion);
           return true;
         } else {
           return false;
@@ -41,11 +41,7 @@ export class FirestoreCommonActionsService {
   }
 
   getMotionInstance(id: string) {
-    return this.apiService.getMotion(id).pipe(
-      map((motion: firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData>) => {
-        return motion.data();
-      })
-    );
+    return this.apiService.getMotion(id);
   }
 
    updatedAuctionReceive(updatedAuction, index): void {

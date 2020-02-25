@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { StateService } from '@services-app/state.service';
 import { FirestoreCommonActionsService } from '@services-app/fireStore/firestore-common-actions.service';
 import { MotionInstance } from '@models-app/motion.model';
+import { DateButton } from 'angular-bootstrap-datetimepicker';
 
 @Component({
   selector: 'app-init',
@@ -17,6 +18,8 @@ export class InitComponent {
   createMotionForm: FormGroup;
   selectedDate: string;
 
+  maxDate = +moment().endOf('day');
+  testValue = 2;
   filledForm: Partial<MotionInstance>;
   controls;
   constructor(
@@ -46,4 +49,16 @@ export class InitComponent {
 
     this.router.navigateByUrl(`/motion/${motionId}`, {state : {formInstance: this.filledForm }});
   }
+
+  selectFilter(dateButton: DateButton, viewName: string): boolean {
+    let minDate;
+
+    if (viewName === 'hour') {
+      minDate = +moment().startOf('hour');
+    } else {
+      minDate = +moment.utc().format('x');
+    }
+    return dateButton.value >= minDate && dateButton.value <= +moment().endOf('day');
+
+ }
 }

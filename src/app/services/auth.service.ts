@@ -55,8 +55,10 @@ export class AuthService {
     this.afAuth.auth.onAuthStateChanged(user => {
       if (user) {
         this.stateService.user = this.createUserObject(user);
+        this.router.navigate(['/home']);
       } else {
         this.stateService.user = null;
+        this.router.navigate(['/login'])
       }
     }, err => {
       console.log(`${AuthConst.name} check err => ${err}`);
