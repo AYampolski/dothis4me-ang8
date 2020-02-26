@@ -9,7 +9,6 @@ import { AuctionInstance } from '@models-app/auction.model';
 })
 export class StateService {
 
-  refreshedConnections: number;
   motionInstance: MotionInstance;
   activeItems;
   activeMotions = [];
@@ -45,6 +44,18 @@ export class StateService {
   sortActiveItems(activeItems) {
     this.activeMotions = activeItems.filter( item => item.type === 'motion');
     this.activeAuctions = activeItems.filter( item => item.type === 'auction');
+  }
+
+  clearStates(): void {
+    this.activeSessionsIds = [];
+    this.activeSessionsObjects = [];
+    this.activeAuctions = [];
+    this.activeMotions = [];
+    this.activeItems = null;
+    this.auctionsGroup = [];
+    this.motionInstance = null;
+    this.motionId = null;
+    this.selectedAuction = null;
   }
 
 }

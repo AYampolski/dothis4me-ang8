@@ -34,7 +34,7 @@ export class CanDeactivateCreatorProcessingService implements CanDeactivate<Proc
     return of(window.confirm(message))
             .pipe(tap(userResponse => {
               if (userResponse) {
-                // this.stateService.clearAuctionMotionData();
+                this.stateService.clearStates();
               }
             }));
   }

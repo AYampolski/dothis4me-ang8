@@ -237,6 +237,7 @@ export class ApiService {
 
     const motionObj = this.createMotionInstance(motionForm);
     this.stateService.motionInstance = motionObj;
+    this.stateService.motionId = motionObj.key;
     const motionId = motionObj.key;
 
     // this.router.navigate([`/motion/${motionId}`]);
@@ -293,15 +294,12 @@ export class ApiService {
             return item;
           }
         );
-
-        // this.stateService.refreshedConnections = ids.length;
-
         return activeSnapshots.map( snapshot => {
           return snapshot.payload.doc.data().auctionId;
-        })
+        });
       }),
       map(ids => {
-        if(this.stateService.activeSessionsIds.length === 0){
+        if (this.stateService.activeSessionsIds.length === 0) {
           this.addAuctionRefreshed(ids);
           return ids;
         }  else {
@@ -311,19 +309,15 @@ export class ApiService {
         }
       }),
       mergeMap( (activeIds: string[]) => {
-        if(activeIds.length === 0){
+        if (activeIds.length === 0) {
           return of(undefined);
         }
         return from(activeIds).pipe(
           mergeMap (
               id =>  this.listenerUpdatedAuction(this.stateService.motionInstance.key, id)
             ),
-          // map( item => (item))
-        )
-
-      }
-
-      ),
+        );
+      }),
     );
   }
 
@@ -415,7 +409,9 @@ export class ApiService {
       }
     }
     return auctionList.find( auction => {
-      return !(auction.auctionId === 'status') && this.stateService.activeSessionsIds && !this.stateService.activeSessionsIds.includes(auction.auctionId);
+      return !(auction.auctionId === 'status') &&
+            this.stateService.activeSessionsIds &&
+            !this.stateService.activeSessionsIds.includes(auction.auctionId);
     });
   }
 

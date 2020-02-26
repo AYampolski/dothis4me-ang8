@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { ApiService } from '@services-app/fireStore/api.service';
 import { AuctionInstance } from '@models-app/auction.model';
 import { Action, DocumentSnapshot } from '@angular/fire/firestore';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { MotionInstance } from '@models-app/motion.model';
 
 
@@ -19,20 +19,16 @@ export class FirestoreCreatorActionsService {
 
 
   createMotion(motionForm: Partial<MotionInstance>, userId: string): Observable<Action<DocumentSnapshot<AuctionInstance>>> {
-    return this.apiService.createMotion(motionForm, userId)
-
-    // .pipe(filter( res => {
-    //   return res !== undefined;
-    // }));
+    return this.apiService.createMotion(motionForm, userId);
   }
 
   refreshConnection(motionId: string) {
     return this.apiService.refreshMotion(motionId).pipe(
     map( (item) => {
-      if(item){
+      if (item) {
         return  item.payload.data();
       }
-      return of(undefined)
+      return of(undefined);
     }));
   }
 

@@ -1,7 +1,7 @@
 
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
-import { Observable } from 'rxjs';
+import { from } from 'rxjs';
 
 import { FirestoreCreatorActionsService } from '@services-app/fireStore/firestore-creator-actions.service';
 import { StateService } from '@services-app/state.service';
@@ -24,7 +24,7 @@ export class MotionResolverService implements Resolve<any>  {
         first()
         );
     } else {
-      return null;
+      return from(null);
     }
 
   }

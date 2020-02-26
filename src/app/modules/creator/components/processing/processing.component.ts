@@ -5,8 +5,9 @@ import { StateService } from '@services-app/state.service';
 import { FirestoreCreatorActionsService } from '@services-app/fireStore/firestore-creator-actions.service';
 import { FirestoreCommonActionsService } from '@services-app/fireStore/firestore-common-actions.service';
 import { MotionInstance } from '@models-app/motion.model';
-import { Observable, Subject, of } from 'rxjs';
+import { Observable, Subject, isObservable } from 'rxjs';
 import { map, switchMap, tap, takeUntil } from 'rxjs/operators';
+
 
 
 @Component({
@@ -18,6 +19,7 @@ export class ProcessingComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   state$: Observable<any>;
   motionInstance: MotionInstance;
+  url: string;
 
   constructor(
     public stateService: StateService,
@@ -27,24 +29,7 @@ export class ProcessingComponent implements OnInit, OnDestroy {
     private frCommon: FirestoreCommonActionsService
 
   ) {
-    const someData = this.activatedRoute.snapshot.data['data'];
-    if(someData) {
-      this.activatedRoute.snapshot.data['data'].docChanges();
-    }
-    const url = this.router.url.split('/motion/')[1];
-
-    if(!this.stateService.motionId && !this.stateService.motionInstance) {
-      this.frCreator.refreshConnection(url)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe( (updatedAuctionSnapshot) => {
-          this.motionInstance = this.motionInstance || this.stateService.motionInstance;
-          if(updatedAuctionSnapshot.owner){
-            this.frCommon.handleAuctions(updatedAuctionSnapshot);
-          }
-        }, err => {console.log('refresh connection error', err); }, () => {console.log('complete!!'); });
-    } else {
-
-    }
+    this.url = this.router.url.split('/motion/')[1];
   }
 
   ngOnInit() {
@@ -53,10 +38,10 @@ export class ProcessingComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         map( () => window.history.state ),
         switchMap( ({formInstance}) => {
-          if(formInstance){
+          if (formInstance) {
             return this.frCreator.createMotion(formInstance, this.stateService.user.uid);
           } else {
-            return of(undefined);
+              return this.frCreator.refreshConnection(this.url);
           }
         }),
         tap( () => {
@@ -64,8 +49,9 @@ export class ProcessingComponent implements OnInit, OnDestroy {
         }),
       )
       .subscribe((updatedAuctionSnapshot) => {
-        if(updatedAuctionSnapshot){
-          this.frCommon.handleAuctions(updatedAuctionSnapshot);
+        if (updatedAuctionSnapshot && !isObservable(updatedAuctionSnapshot)) {
+          const data = updatedAuctionSnapshot.payload ? updatedAuctionSnapshot.payload.data() : updatedAuctionSnapshot;
+          this.frCommon.handleAuctions(data);
         }
       }, err => {
         console.log('in ngonint error', err);

@@ -61,8 +61,10 @@ export class FirestoreCommonActionsService {
     this.stateService.activeSessionsObjects.push(updatedAuction);
   }
 
-  handleAuctions(updatedAuctionSnapshot){
-    if(!updatedAuctionSnapshot) return;
+  handleAuctions(updatedAuctionSnapshot) {
+    if (!updatedAuctionSnapshot) {
+      return;
+    }
     const updatedAuction = updatedAuctionSnapshot.payload ? updatedAuctionSnapshot.payload.data() : updatedAuctionSnapshot;
     const changedIndex = this.stateService.activeSessionsObjects.findIndex((item: AuctionInstance) => {
       return item.key === updatedAuction.key;
@@ -74,7 +76,7 @@ export class FirestoreCommonActionsService {
     }
   }
 
-  createId(): string{
+  createId(): string {
     return this.apiService.createUniqueId();
   }
 }
