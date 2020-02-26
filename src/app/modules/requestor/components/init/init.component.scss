@@ -27,26 +27,30 @@
 .new-bid {
   margin-bottom: 2em;
   &__common {
-    flex: 1;
+    flex: 1 1 20%;
   }
   &__btn,
   &__value {
-    flex: 2;
+    flex: 2 1 35%;
   }
   &__btn {
     background-color: $infoColor;
     color: #fff;
+  }
+
+  &__input {
+    width: 80%;
   }
 }
 
 .accept {
   margin-bottom: 2em;
   &__common {
-    flex: 1 1 auto;
+    flex: 1 1 20%;
   }
   &__btn,
   &__value {
-    flex: 2 1 auto;
+    flex: 2 1 35%;
   }
 }
 
