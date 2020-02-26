@@ -1,4 +1,5 @@
-<div class="container">
+<div class="container test">
+    Test Credentials
     <div class="row">
         <div><button (click)="login1Email()">Log1In </button></div>
         <div><button (click)="logup1Email()">Log1Up </button></div>
@@ -20,8 +21,20 @@
         <div><button (click)="logup5Email()">Log5Up </button></div>
     </div>
 </div>
-
-<button (click)="loginGoogle()">Login Gmail</button>
+<div class="container">
+    <div id="gSignInWrapper">
+        <div id="customBtn" class="customGPlusSignIn" (click)="loginGoogle()">
+          <span class="icon icon--google"></span>
+          <span class="buttonText">Sign in with Google</span>
+        </div>
+      </div>
+      <!-- <div id="fSignInWrapper" disabled="true">
+        <div id="customBtn" class="customGPlusSignIn" (click)="loginFacebook()">
+          <span class="icon icon--facebook"></span>
+          <span class="buttonText btn--facebook">Sign in with Facebook</span>
+        </div>
+      </div> -->
+</div>
 
 
 

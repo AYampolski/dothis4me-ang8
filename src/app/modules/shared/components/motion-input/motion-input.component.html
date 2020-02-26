@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="motionInstance.owner">
   <div class="motion__container">
     <div class="motion__common-text">motion #</div>
 
@@ -39,4 +39,7 @@
       {{ countDown$ | async | date: "H:mm:ss":"UTC" }}
     </div>
   </div>
+</div>
+<div class="container" *ngIf="!motionInstance.owner">
+  {{motionInstance.status}}
 </div>

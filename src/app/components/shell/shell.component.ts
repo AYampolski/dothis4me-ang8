@@ -14,7 +14,7 @@ import { ToastMessagesService } from '@services-app/toast-messages.service';
 })
 export class ShellComponent implements OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
-  motionId;
+  motionId: string;
   constructor(
     private stateService: StateService,
     private frCommon: FirestoreCommonActionsService,

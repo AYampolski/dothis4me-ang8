@@ -12,7 +12,7 @@
     <mat-form-field>
       <input matInput placeholder="Enter motion id..." [(ngModel)]="motionId" />
     </mat-form-field>
-    <button (click)="joinToMotion()" class="btn btn--info">Join</button>
+    <button (click)="joinToMotion()" [disabled]="!motionId" class="btn btn--info">Join</button>
   </div>
   <div class="divider">
     - or -

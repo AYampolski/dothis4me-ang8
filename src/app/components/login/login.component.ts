@@ -59,6 +59,10 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  loginFacebook() {
+    return;
+  }
+
   login1Email() {
     this.authService.emailPasswordLogin(this.email, this.password)
     .subscribe( next => {
