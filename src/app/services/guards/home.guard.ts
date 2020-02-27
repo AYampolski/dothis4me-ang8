@@ -27,19 +27,19 @@ export class HomeGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-
+    //ActiveItems = motions and auctions related to a certain user. Not implemented
     return this.afAuth.authState.pipe(
       switchMap(user => {
         if(user) {
-          return combineLatest([of(user), this.firestoreCommon.getActiveItems(user.uid)]);
+          return combineLatest([of(user), of(null)]);
         } else {
           return combineLatest([of(null), of(null)]);
         }
       }),
       map(([user, activeItems]) => {
-        if ( user && activeItems ) {
+        if ( user ) {
           this.stateService.user = this.createUserObject(user);
-          this.stateService.activeItems = activeItems.map(item => item.payload.doc.data());
+          // this.stateService.activeItems = activeItems.map(item => item.payload.doc.data());
         } else {
           this.router.navigate(['/login']);
         }

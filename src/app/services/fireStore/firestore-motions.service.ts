@@ -1,20 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { ApiService } from '@services-app/fireStore/api.service';
+import { ApiMotionService } from '@services-app/fireStore/api/api-motion.service';
 import { AuctionInstance } from '@models-app/auction.model';
 import { Action, DocumentSnapshot } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
 import { MotionInstance } from '@models-app/motion.model';
+import { ApiCommonService } from '@services-app/fireStore/api/api-common.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class FirestoreCreatorActionsService {
+export class FirestoreMotionsService {
 
   constructor(
-    private apiService: ApiService,
+    private apiService: ApiMotionService,
+    private apiCommon: ApiCommonService
     ) { }
 
 
@@ -33,7 +35,7 @@ export class FirestoreCreatorActionsService {
   }
 
   updateAsk(motionId: string, auctionId: string, obj: Partial<AuctionInstance> ): Observable<void> {
-    return this.apiService.updateAuctionProps(motionId, auctionId, obj);
+    return this.apiCommon.updateAuctionProps(motionId, auctionId, obj);
   }
 
   getMotionsAuctions(motionId: string) {

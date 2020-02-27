@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy } from '@angular/core';
 
 import { AuctionInstance } from '@models-app/auction.model';
 import { StateService } from '@services-app/state.service';
-import { FirestoreCreatorActionsService } from '@services-app/fireStore/firestore-creator-actions.service';
+import { FirestoreMotionsService } from '@services-app/fireStore/firestore-motions.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -17,7 +17,7 @@ export class AccordionItemComponent implements OnDestroy {
 
   constructor(
     public stateService: StateService,
-    private api: FirestoreCreatorActionsService,
+    private api: FirestoreMotionsService,
   ) { }
 
   onReject(): void {
@@ -42,7 +42,7 @@ export class AccordionItemComponent implements OnDestroy {
       );
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

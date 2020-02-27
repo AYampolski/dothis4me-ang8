@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FirestoreCommonActionsService } from '@services-app/fireStore/firestore-common-actions.service';
 
 import { StateService } from '@services-app/state.service';
-import { ApiService } from '@services-app/fireStore/api.service';
+import { ApiCommonService } from '@services-app/fireStore/api/api-common.service';
 import { User } from '@models-app/user.model';
 
 
@@ -35,9 +35,8 @@ export class AuthService {
     public afAuth: AngularFireAuth,
     private router: Router,
     private stateService: StateService,
-    private apiService: ApiService,
+    private apiService: ApiCommonService,
     private toastr: ToastrService,
-    private frCommon: FirestoreCommonActionsService,
   ) { }
 
   showSuccess(message) {
@@ -58,7 +57,7 @@ export class AuthService {
         this.router.navigate(['/home']);
       } else {
         this.stateService.user = null;
-        this.router.navigate(['/login'])
+        this.router.navigate(['/login']);
       }
     }, err => {
       console.log(`${AuthConst.name} check err => ${err}`);

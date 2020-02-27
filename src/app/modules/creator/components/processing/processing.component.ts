@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { StateService } from '@services-app/state.service';
-import { FirestoreCreatorActionsService } from '@services-app/fireStore/firestore-creator-actions.service';
+import { FirestoreMotionsService } from '@services-app/fireStore/firestore-motions.service';
 import { FirestoreCommonActionsService } from '@services-app/fireStore/firestore-common-actions.service';
 import { MotionInstance } from '@models-app/motion.model';
 import { Observable, Subject, isObservable } from 'rxjs';
@@ -24,7 +24,7 @@ export class ProcessingComponent implements OnInit, OnDestroy {
   constructor(
     public stateService: StateService,
     private router: Router,
-    private frCreator: FirestoreCreatorActionsService,
+    private frCreator: FirestoreMotionsService,
     private activatedRoute: ActivatedRoute,
     private frCommon: FirestoreCommonActionsService
 

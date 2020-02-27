@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { ApiService } from '@services-app/fireStore/api.service';
+import { ApiMotionService } from '@services-app/fireStore/api/api-motion.service';
+import { ApiCommonService } from '@services-app/fireStore/api/api-common.service';
 import { StateService } from '@services-app/state.service';
 import { map } from 'rxjs/operators';
 import { MotionInstance } from '@models-app/motion.model';
@@ -15,17 +16,18 @@ export class FirestoreCommonActionsService {
 
   constructor(
     public stateService: StateService,
-    private apiService: ApiService,
-    private toastrService: ToastMessagesService
+    private apiService: ApiMotionService,
+    private toastrService: ToastMessagesService,
+    private apiCommon: ApiCommonService,
   ) { }
 
   setMotionToState(motion: MotionInstance) {
     this.stateService.motionInstance = motion;
   }
 
-  getActiveItems(userId: string) {
-    return this.apiService.getActiveItems(userId);
-  }
+  // getActiveItems(userId: string) {
+  //   return this.apiService.getActiveItems(userId);
+  // }
 
   getMotionById(id: string) {
     return this.apiService.getMotion(id).pipe(
@@ -56,7 +58,6 @@ export class FirestoreCommonActionsService {
   }
 
   newAuctionReceive(updatedAuction): void {
-    // updatedAuction.status = this.stateService.iconList.pending;
     this.toastrService.auctionNew(updatedAuction.displayName);
     this.stateService.activeSessionsObjects.push(updatedAuction);
   }
@@ -77,6 +78,6 @@ export class FirestoreCommonActionsService {
   }
 
   createId(): string {
-    return this.apiService.createUniqueId();
+    return this.apiCommon.createUniqueId();
   }
 }

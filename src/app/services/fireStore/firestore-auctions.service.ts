@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { ApiService } from '@services-app/fireStore/api.service';
+import { ApiAuctionService } from '@services-app/fireStore/api/api-auction.service';
 import { StateService } from '@services-app/state.service';
 import { AuctionInstance } from '@models-app/auction.model';
 import { Observable } from 'rxjs';
+import { ApiCommonService } from '@services-app/fireStore/api/api-common.service';
 import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FirestoreRequestorActionsService {
+export class FirestoreAuctionsService {
 
   constructor(
-    private apiService: ApiService,
+    private apiService: ApiAuctionService,
+    private apiCommon: ApiCommonService,
     private firebaseAuth: AngularFireAuth,
     public stateService: StateService,
   ) { }
@@ -55,6 +57,6 @@ export class FirestoreRequestorActionsService {
   }
 
   updateAuction(motionId, auctionId, obj): Observable<void> {
-    return this.apiService.updateAuctionProps(motionId, auctionId, obj);
+    return this.apiCommon.updateAuctionProps(motionId, auctionId, obj);
   }
 }

@@ -5,7 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
 
 import { StateService } from '@services-app/state.service';
-import { FirestoreRequestorActionsService } from '@services-app/fireStore/firestore-requestor-actions.service';
+import { FirestoreAuctionsService } from '@services-app/fireStore/firestore-auctions.service';
 import { FirestoreCommonActionsService } from '@services-app/fireStore/firestore-common-actions.service';
 import { ToastMessagesService } from '@services-app/toast-messages.service';
 import { AuctionInstance } from '@models-app/auction.model';
@@ -36,7 +36,7 @@ export class InitComponent implements OnInit, OnDestroy {
 
   constructor(
     public stateService: StateService,
-    private api: FirestoreRequestorActionsService,
+    private api: FirestoreAuctionsService,
     private formBuilder: FormBuilder,
     private router: Router,
     private toastService: ToastMessagesService,

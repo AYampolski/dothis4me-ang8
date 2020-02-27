@@ -3,7 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } fro
 import { Observable } from 'rxjs';
 
 import { StateService } from '@services-app/state.service';
-import { FirestoreCreatorActionsService } from '@services-app/fireStore/firestore-creator-actions.service';
+import { FirestoreMotionsService } from '@services-app/fireStore/firestore-motions.service';
 import { map, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class MotionProcessingGuard implements CanActivate {
 
   constructor(
     private stateService: StateService,
-    private frCreator: FirestoreCreatorActionsService
+    private frCreator: FirestoreMotionsService
 
     ) {
 
