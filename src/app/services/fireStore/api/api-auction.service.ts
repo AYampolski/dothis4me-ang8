@@ -67,19 +67,6 @@ export class ApiAuctionService {
   }
 
   /**
-   * Update standalone auction's ask value for requestor
-   * @param { string } motionId
-   * @param { string } auctionId
-   * @param { number } bid
-   */
-  updateAuctionBid(motionId: string, auctionId: string, bid: number): Observable<void> {
-    return from(this.apiCommon.auctionRef.doc(motionId)
-                               .collection(ApiConst.relatedAuctions)
-                               .doc<AuctionInstance>(auctionId)
-                               .update({bid}));
-  }
-
-  /**
    * Get active auction with changeable properties
    * @param { string } motionId
    * @param { string } auctionId

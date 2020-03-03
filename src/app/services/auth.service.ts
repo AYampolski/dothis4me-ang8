@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { from, Observable, throwError, of } from 'rxjs';
 import { switchMap, catchError, tap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
-import { FirestoreCommonActionsService } from '@services-app/fireStore/firestore-common-actions.service';
 
 import { StateService } from '@services-app/state.service';
 import { ApiCommonService } from '@services-app/fireStore/api/api-common.service';
@@ -39,12 +38,6 @@ export class AuthService {
     private toastr: ToastrService,
   ) { }
 
-  showSuccess(message) {
-    this.toastr.success(message);
-  }
-  showError(message) {
-    this.toastr.error(message);
-  }
 
   getUser(): firebase.User {
     return this.afAuth.auth.currentUser;

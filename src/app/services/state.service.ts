@@ -36,16 +36,6 @@ export class StateService {
     this.auctionsGroup = [];
   }
 
-  setActiveItems(activeItems){
-    this.activeItems = activeItems;
-    this.sortActiveItems(this.activeItems);
-  }
-
-  sortActiveItems(activeItems) {
-    this.activeMotions = activeItems.filter( item => item.type === 'motion');
-    this.activeAuctions = activeItems.filter( item => item.type === 'auction');
-  }
-
   clearStates(): void {
     this.activeSessionsIds = [];
     this.activeSessionsObjects = [];

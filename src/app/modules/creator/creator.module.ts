@@ -4,6 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreatorRoutingModule } from './creator-routing.module';
 import { InitComponent } from './components/init/init.component';
 import { ProcessingComponent } from './components/processing/processing.component';
+import { AccordionComponent } from './components/accordion/accordion.component';
+import { AccordionItemComponent } from './components/accordion-item/accordion-item.component';
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material';
@@ -15,8 +17,6 @@ import { DlDateTimeDateModule, DlDateTimePickerModule } from 'angular-bootstrap-
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 
 import { SharedModule } from '../shared/shared.module';
-import { AccordionComponent } from './components/accordion/accordion.component';
-import { AccordionItemComponent } from './components/accordion-item/accordion-item.component';
 
 @NgModule({
   declarations: [InitComponent, ProcessingComponent, AccordionComponent, AccordionItemComponent],

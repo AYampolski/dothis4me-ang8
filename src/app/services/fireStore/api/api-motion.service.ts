@@ -6,7 +6,7 @@ import { from, Observable, combineLatest, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
 import { StateService } from '@services-app/state.service';
-import { MotionInstance, errorMotionInstance, formMotionInstance } from '@models-app/motion.model';
+import { MotionInstance } from '@models-app/motion.model';
 import { ApiCommonService, ApiConst } from '@services-app/fireStore/api/api-common.service';
 
 enum ErrorMessages  {
@@ -54,7 +54,7 @@ export class ApiMotionService {
         if (item.data()) {
           return item.data() as MotionInstance;
         } else {
-          return errorMotionInstance(ErrorMessages.noId);
+          return new MotionInstance(ErrorMessages.noId);
         }
       }),
     );
@@ -113,9 +113,10 @@ export class ApiMotionService {
   createMotionInstance(motionForm: Partial<MotionInstance>): MotionInstance {
     const { displayName, uid } = this.auth.auth.currentUser;
     const form = Object.assign({}, motionForm, {displayName, owner: uid});
-    const motionObj = formMotionInstance(form);
+    let motionObj = new MotionInstance(form);
     this.stateService.motionInstance = motionObj;
     this.stateService.motionId = motionObj.key;
+    motionObj = Object.assign({}, motionObj);
     return motionObj;
   }
 
